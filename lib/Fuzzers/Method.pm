@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-package MethodFuzzer;
+package Fuzzers::Method;
 
 use HTTP::Request;
 use LWP::UserAgent;

@@ -4,7 +4,10 @@ use 5.018;
 use strict;
 use warnings;
 use lib "./lib/";
-use MethodFuzzer;
+use Fuzzers::Param;
+use Fuzzers::Method;
+use Fuzzers::ContentType;
+
 
 sub main {
     my $target   = $ARGV[0];
@@ -16,7 +19,7 @@ sub main {
         while (<$file>) {
             chomp ($_);
         
-            my $fuzzMethod = MethodFuzzer -> new("$target/$_");
+            my $fuzzMethod = Fuzzers::Method -> new("$target/$_");
         }
 
         close ($file);
