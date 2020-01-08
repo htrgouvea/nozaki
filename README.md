@@ -22,7 +22,7 @@
 ### How to use
 
 ```bash
-    $ perl berck.pl <target> <wordlist>
+    $ perl berck.pl <target> <wordlist> >> <output.txt>
 ```
 
 ### Docker image
