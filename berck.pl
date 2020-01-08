@@ -17,13 +17,10 @@ sub main {
             chomp ($_);
         
             my $fuzzMethod = MethodFuzzer -> new("$target/$_");
-            
-            # print $fuzzMethod;
         }
 
         close ($file);
     }
-
 }
 
 main();

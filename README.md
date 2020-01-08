@@ -16,8 +16,13 @@
 ### Download & Install
 
 ```bash 
-    git clone https://github.com/GouveaHeitor/berck
-    cd berck
+    $ git clone https://github.com/GouveaHeitor/berck
+    $ cd berck
+```
+### How to use
+
+```bash
+    $ perl berck.pl <target> <wordlist>
 ```
 
 ### Docker image
