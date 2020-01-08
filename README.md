@@ -22,6 +22,10 @@
 ### How to use
 
 ```bash
+    # print output in screen
+    $ perl berck.pl <target> <wordlist>
+
+    # save output in a file
     $ perl berck.pl <target> <wordlist> >> <output.txt>
 ```
 

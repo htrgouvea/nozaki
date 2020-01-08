@@ -8,10 +8,13 @@ use Fuzzers::Param;
 use Fuzzers::Method;
 use Fuzzers::ContentType;
 
-
 sub main {
     my $target   = $ARGV[0];
-    my $wordlist = "wordlists/default.txt";
+    my $wordlist = $ARGV[1];
+
+    if (!$wordlist) {
+        $wordlist = "wordlists/default.txt";
+    }
 
     if ($target) {
         open (my $file, "<", $wordlist);
