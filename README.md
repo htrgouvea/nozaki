@@ -1,5 +1,5 @@
 <p align="center">
-  <h3 align="center"><b>Berck</b></h3>
+  <h3 align="center"><b>Fukon</b></h3>
   <p align="center">A simple and complete HTTP fuzzer</p>
   <p align="center">
     <a href="https://github.com/GouveaHeitor/security-spellbook/blob/master/LICENSE.md">
@@ -16,36 +16,46 @@
 ### Download & Install
 
 ```bash 
-    $ git clone https://github.com/GouveaHeitor/berck
-    $ cd berck
+    $ git clone https://github.com/GouveaHeitor/fukon
+    $ cd fukon
 ```
 ### How to use
 
 ```bash
-    # print output in screen
-    $ perl berck.pl <target> <wordlist>
+    $ perl fukon.pl --help
 
-    # save output in a file
-    $ perl berck.pl <target> <wordlist> >> <output.txt>
+    Fukon v0.0.1
+    Core Commands
+    ==============
+        Command       Description
+        -------       -----------
+        --url         Define the target
+        --wordlist    Define the wordlist
+        --help        See this screen
+
+      Copyright Fukon (c) 2019 - 2020 | Heitor Gouvêa
+
+    # Examples
+    $ perl fukon.pl -u https://heitorgouvea.me -w personal-wordlist.txt -t 5
 ```
 
 ### Docker image
 
 ```bash
     # building image
-    $ docker build --rm --squash -t berck .
+    $ docker build --rm --squash -t fukon .
 
     # stop container
-    $ docker stop berck
+    $ docker stop fukon
 
     # remove container
-    $ docker rm berck
+    $ docker rm fukon
 ```
 
 ### Contribution
 
-- Your contributions and suggestions are heartily ♥ welcome. [**See here the contribution guidelines.**](/.github/CONTRIBUTING.md) Please, report bugs via [**issues page.**](https://github.com/GouveaHeitor/berck/issues) See here the [**security policy.**](./github/SECURITY.md) (✿ ◕‿◕) 
+- Your contributions and suggestions are heartily ♥ welcome. [**See here the contribution guidelines.**](/.github/CONTRIBUTING.md) Please, report bugs via [**issues page.**](https://github.com/GouveaHeitor/fukon/issues) See here the [**security policy.**](./github/SECURITY.md) (✿ ◕‿◕) 
 
 ### License
 
-- This work is licensed under [**MIT License.**](https://github.com/GouveaHeitor/berck/blob/master/LICENSE.md)
+- This work is licensed under [**MIT License.**](https://github.com/GouveaHeitor/fukon/blob/master/LICENSE.md)
