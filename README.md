@@ -18,6 +18,7 @@
 ```bash 
     $ git clone https://github.com/GouveaHeitor/fukon
     $ cd fukon
+    $ cpan install Getopt::Long LWP::UserAgent HTTP::Request
 ```
 ### How to use
 
@@ -37,6 +38,20 @@
 
     # Examples
     $ perl fukon.pl -u https://heitorgouvea.me -w personal-wordlist.txt -t 5
+
+    ...
+    [-] -> [400] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [CONNECT] - Bad Request
+    [-] -> [405] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [TRACE] - Not Allowed
+    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [PATCH] - Forbidden
+    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [SUBSCRIBE] - Forbidden
+    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [MOVE] - Forbidden
+    ...
+    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [NOTIFY] - Forbidden
+    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [SEARCH] - Forbidden
+    [-] -> [400] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [1337] - Bad Request
+    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [JEFF] - Forbidden
+    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [CATS] - Forbidden
+    [-] -> [400] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [*] - Bad Request
 ```
 
 ### Docker image
