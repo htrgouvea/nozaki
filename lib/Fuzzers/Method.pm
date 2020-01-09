@@ -6,7 +6,7 @@ use HTTP::Request;
 use LWP::UserAgent;
 
 sub new {
-    my ($self, $endpoint) = @_;
+    my ($self, $endpoint, @filters) = @_;
 
     my $userAgent = LWP::UserAgent -> new();
     
@@ -28,7 +28,17 @@ sub new {
         my $httpCode    = $response -> code();
         my $httpMessage = $response -> message();
 
-        print "[-] -> [$httpCode] | $endpoint \t [$verb] - $httpMessage\n";
+        if (@filters) {
+            foreach my $filter (@filters) {
+                if ($httpCode eq $filter) {
+                    print "[-] -> [$httpCode] | $endpoint \t [$verb] - $httpMessage\n";
+                }
+            }
+        }
+
+        else { 
+            print "[-] -> [$httpCode] | $endpoint \t [$verb] - $httpMessage\n";
+        }
     }
 
     return true;

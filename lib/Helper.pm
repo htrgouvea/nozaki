@@ -3,16 +3,20 @@
 package Helper;
 
 sub new {
+	# \r\t--theards     Define number of theards, default is 3
+	# \r\t--verbose     Set the verbose mode
+
+	# --return
+	# --exclude
+
     print "
-        \r\Fukon v0.0.1
-		\r\Core Commands
+        \rFukon v0.0.1
+		\rCore Commands
 		\r==============
 		\r\tCommand       Description
 		\r\t-------       -----------
-		\r\t--url         Define the target
-		\r\t--theards     Define number of theards, default is 3
-		\r\t--wordlist    Define the wordlist
-		\r\t--verbose     Set the verbose mode
+		\r\t--url         Define target
+		\r\t--wordlist    Define wordlist
         \r\t--help        See this screen
 
 		\rCopyright Fukon (c) 2019 - 2020 | Heitor Gouvêa\n\n";

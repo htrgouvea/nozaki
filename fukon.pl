@@ -11,15 +11,17 @@ use Fuzzers::Method;
 use Fuzzers::ContentType;
 
 sub main {
-    my ($threads, $target, $wordlist, $verbose, $help);
+    my ($target, $wordlist, $return, $threads, $verbose, $help);
 
     GetOptions (
-        "--threads=i"  => \$threads,
         "--url=s"      => \$target,
         "--wordlist=s" => \$wordlist,
-        "--verbose"    => \$verbose,
-        "--help"       => \$help,   
-    );   
+        "--return=s"   => \$return,
+        # "--threads=i"  => \$threads,
+        # "--verbose"    => \$verbose,
+        "--help"       => \$help,
+    );
+
 
     if ($help) {
         Helper -> new();
@@ -34,8 +36,15 @@ sub main {
 
         while (<$file>) {
             chomp ($_);
-        
-            my $fuzzMethod = Fuzzers::Method -> new($target . $_);
+
+            if ($return) {
+                my @return  = split(/,/, $return);
+                my $fuzzMethod = Fuzzers::Method -> new($target . $_, @return);
+            }
+
+            else {
+                my $fuzzMethod = Fuzzers::Method -> new($target . $_);
+            }
         }
 
         close ($file);
@@ -43,4 +52,3 @@ sub main {
 }
 
 main();
-exit;
