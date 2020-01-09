@@ -17,7 +17,13 @@ sub new {
 		\r\t-------       -----------
 		\r\t--url         Define target
 		\r\t--wordlist    Define wordlist
+		\r\t--return      Define a filter based in HTTP Codes
         \r\t--help        See this screen
+
+		\rExamples
+		\r==============
+
+		\r $ perl fukon.pl -u https://api.spotify.com/v1/ --return 200,201
 
 		\rCopyright Fukon (c) 2019 - 2020 | Heitor Gouvêa\n\n";
     

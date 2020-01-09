@@ -11,17 +11,20 @@ use Fuzzers::Method;
 use Fuzzers::ContentType;
 
 sub main {
+    # implement -> my ($method, $contentType, $param);
     my ($target, $wordlist, $return, $threads, $verbose, $help);
 
     GetOptions (
-        "--url=s"      => \$target,
-        "--wordlist=s" => \$wordlist,
-        "--return=s"   => \$return,
-        # "--threads=i"  => \$threads,
-        # "--verbose"    => \$verbose,
-        "--help"       => \$help,
+        "--url=s"          => \$target,
+        "--wordlist=s"     => \$wordlist,
+        "--return=s"       => \$return,
+        # "--threads=i"    => \$threads,
+        # "--method"       => \$method,
+        # "--content-type" => \$contentType,
+        # "--param"        => \$param,
+        # "--verbose"      => \$verbose,
+        "--help"           => \$help,
     );
-
 
     if ($help) {
         Helper -> new();
