@@ -1,5 +1,0 @@
-/v1/
-/users
-/admin
-/accounts
-/support

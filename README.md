@@ -32,26 +32,19 @@
         -------       -----------
         --url         Define the target
         --wordlist    Define the wordlist
+        --return      Define a filter based in HTTP Codes
         --help        See this screen
 
       Copyright Fukon (c) 2019 - 2020 | Heitor Gouvêa
 
-    # Examples
-    $ perl fukon.pl -u https://heitorgouvea.me -w personal-wordlist.txt -t 5
+    # Example
+    $ perl fukon.pl -u https://heitorgouvea.me -w wordlists/personal.txt --return 200
 
+    [-] -> [200] | http://192.168.15.10:8080/v1/ 	 [GET] - OK
+    [-] -> [200] | http://192.168.15.10:8080/v1/ 	 [POST] - OK
+    [-] -> [200] | http://192.168.15.10:8080/v1/ 	 [PUT] - OK
+    [-] -> [200] | http://192.168.15.10:8080/v1/ 	 [HEAD] - OK
     ...
-    [-] -> [400] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [CONNECT] - Bad Request
-    [-] -> [405] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [TRACE] - Not Allowed
-    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [PATCH] - Forbidden
-    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [SUBSCRIBE] - Forbidden
-    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [MOVE] - Forbidden
-    ...
-    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [NOTIFY] - Forbidden
-    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [SEARCH] - Forbidden
-    [-] -> [400] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [1337] - Bad Request
-    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [JEFF] - Forbidden
-    [-] -> [403] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [CATS] - Forbidden
-    [-] -> [400] | https://heitorgouvea.me/api/v3/$/CancelRepairTask         [*] - Bad Request
 ```
 
 ### Docker image

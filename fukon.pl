@@ -15,15 +15,15 @@ sub main {
     my ($target, $wordlist, $return, $threads, $verbose, $help);
 
     GetOptions (
-        "--url=s"          => \$target,
-        "--wordlist=s"     => \$wordlist,
-        "--return=s"       => \$return,
-        # "--threads=i"    => \$threads,
+        "--url=s"      => \$target,
+        "--wordlist=s" => \$wordlist,
+        "--return=s"   => \$return,
+        "--threads=i"  => \$threads,
         # "--method"       => \$method,
         # "--content-type" => \$contentType,
         # "--param"        => \$param,
         # "--verbose"      => \$verbose,
-        "--help"           => \$help,
+        "--help"       => \$help,
     );
 
     if ($help) {
@@ -35,6 +35,8 @@ sub main {
     }
 
     if ($target) {
+        # $target =~ s/https:\/\/// || $target =~ s/http:\/\///;
+
         open (my $file, "<", $wordlist);
 
         while (<$file>) {

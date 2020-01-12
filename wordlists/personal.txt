@@ -1,3 +1,7 @@
+v1/
+users
+accounts
+support
 admin/
 administrator/
 admin1/
