@@ -7,3 +7,10 @@
 
 # output data in format of postman colletion
 # create options to filter the output via CLI
+
+
+# dirb wordlist -> ok
+# dirsearch, wfuzz, fuff -> not ok
+
+
+# https://gist.github.com/yassineaboukir/8e12adefbd505ef704674ad6ad48743d
