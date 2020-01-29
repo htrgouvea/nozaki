@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-package Helper;
+package Functions::Helper;
 
 sub new {
 	# \r\t--theards     Define number of theards, default is 3
