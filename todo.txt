@@ -24,3 +24,4 @@
 # extensions brute forcing? 
 
 # https://raw.githubusercontent.com/danielmiessler/SecLists/master/Fuzzing/LFI/LFI-Jhaddix.txt
+# https://github.com/milo2012/pathbrute
