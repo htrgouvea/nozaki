@@ -14,3 +14,13 @@
 
 
 # https://gist.github.com/yassineaboukir/8e12adefbd505ef704674ad6ad48743d
+
+
+# param fuzzing 
+# https://github.com/Bo0oM/ParamPamPam
+# https://github.com/s0md3v/Arjun
+# https://github.com/portswigger/param-miner
+
+# extensions brute forcing? 
+
+# https://raw.githubusercontent.com/danielmiessler/SecLists/master/Fuzzing/LFI/LFI-Jhaddix.txt
