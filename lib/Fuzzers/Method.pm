@@ -35,10 +35,10 @@ sub new {
                 }
             }
         }
-
-        else { 
+        
+        else {
             print "[-] -> [$httpCode] | $endpoint \t [$verb] - $httpMessage\n";
-        }
+        }   
     }
 
     return true;
