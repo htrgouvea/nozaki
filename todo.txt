@@ -24,3 +24,12 @@
 # extensions brute forcing? 
 
 # https://raw.githubusercontent.com/danielmiessler/SecLists/master/Fuzzing/LFI/LFI-Jhaddix.txt
+
+# https://github.com/Bo0oM/fuzz.txt/blob/master/fuzz.txt
+# https://github.com/Bo0oM/fuzz.txt/blob/master/extensions.txt
+
+
+# https://github.com/fuzzdb-project/fuzzdb/tree/master/attack
+# https://github.com/fuzzdb-project/fuzzdb/tree/master/web-backdoors
+
+
