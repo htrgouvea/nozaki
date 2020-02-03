@@ -28,17 +28,17 @@ sub new {
         my $httpCode    = $response -> code();
         my $httpMessage = $response -> message();
 
-        if ($exclude) {
-            my @exclude = split(",", $exclude);
+        # if ($exclude) {
+        #     my @exclude = split(",", $exclude);
 
-             foreach my $filter (@exclude) {
-                if ($httpCode ne $filter) {
-                    print "[-] -> [$httpCode] | $endpoint \t [$verb] - $httpMessage\n";
-                }
-            }
-        }
+        #      foreach my $filter (@exclude) {
+        #         if ($httpCode ne $filter) {
+        #             print "[-] -> [$httpCode] | $endpoint \t [$verb] - $httpMessage\n";
+        #         }
+        #     }
+        # }
 
-        elsif ($return) {
+        if ($return) {
             my @return = split(",", $return);
 
             foreach my $filter (@return) {

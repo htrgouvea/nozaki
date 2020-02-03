@@ -1,17 +1,14 @@
 # to do
 
+# foco em return / exclude
+# e multi thread
+# output para o postman / insmonia
+
 # fuzzing content type
 # fuzzing params
 
-# implement multi therads
-
-# output data in format of postman colletion
-# create options to filter the output via CLI
-
-
 # dirb wordlist -> ok
 # dirsearch, wfuzz, fuff -> not ok
-
 
 # https://gist.github.com/yassineaboukir/8e12adefbd505ef704674ad6ad48743d
 
@@ -32,4 +29,6 @@
 # https://github.com/fuzzdb-project/fuzzdb/tree/master/attack
 # https://github.com/fuzzdb-project/fuzzdb/tree/master/web-backdoors
 
+
+# https://github.com/milo2012/pathbrute
 
