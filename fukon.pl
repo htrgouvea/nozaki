@@ -47,7 +47,6 @@ sub main {
                     $fuzzFilter{return}, 
                     $fuzzFilter{exclude}
                 );
-                
             }
 
             else {

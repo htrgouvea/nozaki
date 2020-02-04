@@ -158,7 +158,7 @@ wp-json/wp/v2/
 wp-json/wp/v2/users
 wp-login.php
 xmlrpc.php
-/swagger/index.html
-/swagger/v1/swagger.json
-/swagger-ui.html
-/swagger-resources
+swagger/index.html
+swagger/v1/swagger.json
+swagger-ui.html
+swagger-resources
