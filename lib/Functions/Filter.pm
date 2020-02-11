@@ -1,6 +1,7 @@
-#!/usr/bin/env perl
-
 package Functions::Filter;
+
+use strict;
+use warnings;
 
 sub new {
     my ($self, $return, $exclude) = @_;

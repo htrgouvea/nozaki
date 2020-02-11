@@ -1,6 +1,7 @@
-#!/usr/bin/env perl
-
 package Functions::Helper;
+
+use strict;
+use warnings;
 
 sub new {
 	# \r\t--theards     Define number of theards, default is 3
@@ -20,7 +21,7 @@ sub new {
 
 		\rCopyright Fukon (c) 2019 - 2020 | Heitor Gouvêa\n\n";
     
-    return true;
+    return 1;
 }
 
 1;

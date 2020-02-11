@@ -12,8 +12,7 @@ use Functions::Helper;
 use Functions::Filter;
 
 sub main {
-    # implement -> my ($method, $contentType, $param, $verbose);
-    my ($target, $wordlist, $return, $exclude, $threads, $help);
+    my ($target, $wordlist, $return, $exclude, $threads);
 
     GetOptions (
         "--url=s"      => \$target,
@@ -21,19 +20,16 @@ sub main {
         "--return=s"   => \$return,
         "--exclude=s"  => \$exclude,
         "--threads=i"  => \$threads,
-        "--help"       => \$help,
+        "--help"       => sub { 
+            Functions::Helper -> new();
+        }
     );
-
-    if ($help) {
-        Functions::Helper -> new();
-    }
-
-    if (!$wordlist) {
-        $wordlist = "wordlists/default.txt";
-    }
-
+    
     if ($target) {
-        # $target =~ s/https:\/\/// || $target =~ s/http:\/\///;
+        if (!$wordlist) {
+            $wordlist = "wordlists/default.txt";
+        }
+
         open (my $file, "<", $wordlist);
 
         while (<$file>) {
