@@ -17,6 +17,7 @@
 # https://github.com/Bo0oM/ParamPamPam
 # https://github.com/s0md3v/Arjun
 # https://github.com/portswigger/param-miner
+# https://portswigger.net/research/practical-web-cache-poisoning
 
 # extensions brute forcing? 
 
