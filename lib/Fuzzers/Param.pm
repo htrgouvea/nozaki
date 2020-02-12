@@ -1,6 +1,7 @@
-#!/usr/bin/env perl
-
 package Fuzzers::Param;
+
+use strict;
+use warings;
 
 sub new {
 

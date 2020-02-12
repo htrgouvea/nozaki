@@ -1,6 +1,7 @@
-#!/usr/bin/env perl
-
 package Fuzzers::ContentType;
+
+use strict;
+use warnings;
 
 sub new {
 

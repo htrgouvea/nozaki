@@ -1,7 +1,7 @@
-#!/usr/bin/env perl
-
 package Fuzzers::Method;
 
+use strict;
+use warnings;
 use HTTP::Request;
 use LWP::UserAgent;
 
@@ -53,7 +53,7 @@ sub new {
         }   
     }
 
-    return true;
+    return 1;
 }
 
 1;
