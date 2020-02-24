@@ -1,7 +1,7 @@
 package Fuzzers::Param;
 
 use strict;
-use warings;
+use warnings;
 
 sub new {
 
