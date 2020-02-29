@@ -1,11 +1,10 @@
-# to do
-
-# foco em return / exclude
-# e multi thread
-# output para o postman / insmonia
+# melhorar os filtros de return / exclude
+# implementar multi thread
+# implementar output para o postman / insmonia
 
 # fuzzing content type
 # fuzzing params
+# fuzzing headers
 
 # dirb wordlist -> ok
 # dirsearch, wfuzz, fuff -> not ok
