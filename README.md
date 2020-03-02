@@ -1,6 +1,6 @@
 <p align="center">
   <h3 align="center"><b>Fukon</b></h3>
-  <p align="center">A simple and complete HTTP fuzzer</p>
+  <p align="center">A HTTP Engine Fuzzer</p>
   <p align="center">
     <a href="https://github.com/GouveaHeitor/security-spellbook/blob/master/LICENSE.md">
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
