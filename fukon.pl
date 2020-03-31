@@ -52,6 +52,10 @@ sub main {
 
         close ($file);
     }
+
+    else {
+        Functions::Helper -> new();
+    }
 }
 
 main();

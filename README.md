@@ -1,11 +1,11 @@
 <p align="center">
   <h3 align="center"><b>Fukon</b></h3>
-  <p align="center">A HTTP Engine Fuzzer</p>
+  <p align="center">A simple and complete HTTP engine fuzzer</p>
   <p align="center">
-    <a href="https://github.com/GouveaHeitor/security-spellbook/blob/master/LICENSE.md">
+    <a href="https://github.com/GouveaHeitor/fukon/blob/master/LICENSE.md">
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
-    <a href="https://github.com/GouveaHeitor/security-spellbook/releases">
+    <a href="https://github.com/GouveaHeitor/fukon/releases">
       <img src="https://img.shields.io/badge/version-0.1-blue.svg">
     </a>
   </p>
@@ -50,8 +50,9 @@
 ### To do
 
   - Customize a header
+  - Customize verbs http
   - Fuzzing parameters
-  - Fuzzzing content-type
+  - Fuzzing content-type
   - Implement multithread
   - Improve return/exclude filters
   - Create a option for output in json format supported by postman
