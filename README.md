@@ -35,35 +35,31 @@
         --return      Define a filter based in HTTP Codes
         --help        See this screen
 
-      Copyright Fukon (c) 2019 - 2020 | Heitor Gouvêa
+      Copyright Fukon (c) 2020 | Heitor Gouvêa
 
     # Example
-    $ perl fukon.pl -u https://heitorgouvea.me -w wordlists/personal.txt --return 200
+    $ perl fukon.pl -u https://example.com/api/v1/ -w wordlists/personal.txt --return 200
 
-    [-] -> [200] | http://192.168.15.10:8080/v1/ 	 [GET] - OK
-    [-] -> [200] | http://192.168.15.10:8080/v1/ 	 [POST] - OK
-    [-] -> [200] | http://192.168.15.10:8080/v1/ 	 [PUT] - OK
-    [-] -> [200] | http://192.168.15.10:8080/v1/ 	 [HEAD] - OK
+    [-] -> [200] | https://example.com/api/v1/ 	 [GET] - OK
+    [-] -> [200] | https://example.com/api/v1/ 	 [POST] - OK
+    [-] -> [200] | https://example.com/api/v1/ 	 [PUT] - OK
+    [-] -> [200] | https://example.com/api/v1/ 	 [HEAD] - OK
     ...
 ```
 
-### Docker image
+### To do
 
-```bash
-    # building image
-    $ docker build --rm --squash -t fukon .
-
-    # stop container
-    $ docker stop fukon
-
-    # remove container
-    $ docker rm fukon
-```
+  - Customize a header
+  - Fuzzing parameters
+  - Fuzzzing content-type
+  - Implement multithread
+  - Improve return/exclude filters
+  - Create a option for output in json format supported by postman
 
 ### Contribution
 
-- Your contributions and suggestions are heartily ♥ welcome. [**See here the contribution guidelines.**](/.github/CONTRIBUTING.md) Please, report bugs via [**issues page.**](https://github.com/GouveaHeitor/fukon/issues) See here the [**security policy.**](./github/SECURITY.md) (✿ ◕‿◕) 
+- Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page.](https://github.com/GouveaHeitor/fukon/issues) See here the [security policy.](./github/SECURITY.md) (✿ ◕‿◕) 
 
 ### License
 
-- This work is licensed under [**MIT License.**](https://github.com/GouveaHeitor/fukon/blob/master/LICENSE.md)
+- This work is licensed under [MIT License.](https://github.com/GouveaHeitor/fukon/blob/master/LICENSE.md)
