@@ -56,6 +56,8 @@
   - Implement multithread
   - Improve return/exclude filters
   - Create a option for output in json format supported by postman
+  - Create a Dockerfile
+  - Fuzzing recursive
 
 ### Contribution
 

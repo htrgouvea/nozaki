@@ -1124,3 +1124,13 @@ zips
 ~user
 ~webmaster
 ~www
+default
+home
+index
+menu
+main
+start
+localstart
+inicio
+indice
+base
