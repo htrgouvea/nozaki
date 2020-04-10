@@ -2,7 +2,7 @@
   <h3 align="center"><b>Fukon</b></h3>
   <p align="center">A simple and complete HTTP engine fuzzer</p>
   <p align="center">
-    <a href="https://github.com/GouveaHeitor/fukon/blob/master/LICENSE.md">
+    <a href="/LICENSE.md">
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/GouveaHeitor/fukon/releases">
@@ -57,12 +57,11 @@
   - Improve return/exclude filters
   - Create a option for output in json format supported by postman
   - Create a Dockerfile
-  - Fuzzing recursive
 
 ### Contribution
 
-- Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page.](https://github.com/GouveaHeitor/fukon/issues) See here the [security policy.](./github/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
+- Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page.](https://github.com/GouveaHeitor/fukon/issues) See here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
 
 ### License
 
-- This work is licensed under [MIT License.](https://github.com/GouveaHeitor/fukon/blob/master/LICENSE.md)
+- This work is licensed under [MIT License.](/LICENSE.md)
