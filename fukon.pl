@@ -12,17 +12,24 @@ use Functions::Helper;
 use Functions::Filter;
 
 sub main {
-    my ($target, $wordlist, $return, $exclude, $threads);
+    my (
+        $target, $wordlist, $header, $threads, $param, $mimeType, $method, $payload, $return, $exclude, $json
+    );
 
     GetOptions (
         "--url=s"      => \$target,
         "--wordlist=s" => \$wordlist,
+        "--header=s"   => \$header,
+        "--threads=i"  => \$threads,
+        "--param"      => \$param,
+        "--mime-type"  => \$mimeType,
+        "--method=s"   => \$method,
+        "--payload=s"  => \$payload,
         "--return=s"   => \$return,
         "--exclude=s"  => \$exclude,
-        "--threads=i"  => \$threads,
-        "--help"       => sub { 
-            Functions::Helper -> new();
-        }
+        "--json=s"     => \$json
+    ) or die (
+        return Functions::Helper -> new()
     );
     
     if ($target) {
@@ -30,32 +37,30 @@ sub main {
             $wordlist = "wordlists/default.txt";
         }
 
+        if (!$header) {
+            $header = [
+                "Accept" => "*/*",
+                "Content-Type" => "*/*"
+            ];
+        }
+
         open (my $file, "<", $wordlist);
 
         while (<$file>) {
             chomp ($_);
+            my $endpoint = $target.$_;
 
-            if (($return) || ($exclude)) {
-                my %fuzzFilter = Functions::Filter -> new($return, $exclude);
-
-                my $fuzzMethod = Fuzzers::Method -> new(
-                    "$target/$_", 
-                    $fuzzFilter{return}, 
-                    $fuzzFilter{exclude}
-                );
-            }
-
-            else {
-                my $fuzzMethod = Fuzzers::Method -> new($target . $_);
-            }
+            my $fuzzer = Fuzzers::Method -> new(
+                $endpoint,
+                $header
+            );
         }
 
         close ($file);
+        return 1;
     }
 
-    else {
-        Functions::Helper -> new();
-    }
+    return Functions::Helper -> new();
 }
 
 main();
