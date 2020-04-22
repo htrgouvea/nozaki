@@ -47,17 +47,6 @@
     ...
 ```
 
-### To do
-
-  - Customize a header
-  - Customize verbs http
-  - Fuzzing parameters
-  - Fuzzing content-type
-  - Implement multithread
-  - Improve return/exclude filters
-  - Create a option for output in json format supported by postman
-  - Create a Dockerfile
-
 ### Contribution
 
 - Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page.](https://github.com/GouveaHeitor/fukon/issues) See here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
