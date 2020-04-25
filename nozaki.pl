@@ -36,7 +36,7 @@ sub main {
         if (!$wordlist) {
             $wordlist = "wordlists/default.txt";
         }
-
+        
         if (!$header) {
             $header = [
                 "Accept" => "*/*",
