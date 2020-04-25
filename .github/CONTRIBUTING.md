@@ -1,4 +1,4 @@
-# Contributing to the Fukon!
+# Contributing to the Nozaki!
 
 ## License
 

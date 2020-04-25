@@ -5,7 +5,7 @@ use warnings;
 
 sub new {
     print "
-        \rFukon v0.0.1
+        \rNozaki v0.0.1
 		\rCore Commands
 		\r==============
 		\r\tCommand       Description
@@ -23,7 +23,7 @@ sub new {
 		\r\t--json        Create a output in JSON type supported by Postman
 		\r\t--help        See this screen
 
-		\rCopyright Fukon (c) 2020 | Heitor Gouvêa\n\n";
+		\rCopyright Nozaki (c) 2020 | Heitor Gouvêa\n\n";
     
     return 1;
 }
