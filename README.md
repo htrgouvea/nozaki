@@ -16,8 +16,7 @@
 ### Download & Install
 
 ```bash 
-    $ git clone https://github.com/GouveaHeitor/nozaki
-    $ cd nozaki
+    $ git clone https://github.com/GouveaHeitor/nozaki && cd nozaki
     $ cpan install Getopt::Long LWP::UserAgent HTTP::Request
 ```
 ### How to use
