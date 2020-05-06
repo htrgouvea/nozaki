@@ -1,6 +1,6 @@
 <p align="center">
   <h3 align="center"><b>Nozaki</b></h3>
-  <p align="center">A simple and complete HTTP engine fuzzer</p>
+  <p align="center">A HTTP engine fuzzer security oriented</p>
   <p align="center">
     <a href="/LICENSE.md">
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
