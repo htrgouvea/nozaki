@@ -6,7 +6,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/GouveaHeitor/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.1.2-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.1.3-blue.svg">
     </a>
   </p>
 </p>
@@ -22,27 +22,27 @@
 ### How to use
 
 ```bash
-    $ perl nozaki.pl --help
+$ perl nozaki.pl --help
 
-    Nozaki v0.0.1
-    Core Commands
-    ==============
-        Command       Description
-        -------       -----------
-        --url         Define the target
-        --wordlist    Define the wordlist
-        --return      Define a filter based in HTTP Codes
-        --help        See this screen
+Nozaki v0.0.2
+Core Commands
+==============
+	Command       Description
+	-------       -----------
+	--url         Define a target
+	--wordlist    Define wordlist of paths
+	--method      Define methods HTTP to use during fuzzing, separeted by ","
+	--delay       Define a seconds of delay between requests
+	--help        See this screen
 
-      Copyright Nozaki (c) 2020 | Heitor Gouvêa
+Copyright Nozaki (c) 2020 | Heitor Gouvêa
 
-    # Example
-    $ perl nozaki.pl -u https://example.com/api/v1/ -w wordlists/personal.txt --return 200
+# Example
+$ perl nozaki.pl -m GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/payloads/ssrf.txt | grep "Length: 574"
 
-    [-] -> [200] | https://example.com/api/v1/ 	 [GET] - OK
-    [-] -> [200] | https://example.com/api/v1/ 	 [POST] - OK
-    [-] -> [200] | https://example.com/api/v1/ 	 [PUT] - OK
-    [-] -> [200] | https://example.com/api/v1/ 	 [HEAD] - OK
+[-] -> [200] | http://lab.nozaki.io:8002/?read=http://2852039166/        [GET] - OK | Length: 574
+[-] -> [200] | http://lab.nozaki.io:8002/?read=http://0xA9FEA9FE/        [GET] - OK | Length: 574
+[-] -> [200] | http://lab.nozaki.io:8002/?read=http://0251.0376.0251.0376/       [GET] - OK | Length: 574
     ...
 ```
 
