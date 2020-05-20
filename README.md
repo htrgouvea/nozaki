@@ -13,6 +13,9 @@
 
 ---
 
+
+⚠️ __Warning:__ Nozaki is currently in __beta__, you've been warned :) and please consider [contributing](./github/CONTRIBUTING.md)
+
 ### Download & Install
 
 ```bash 
