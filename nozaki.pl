@@ -19,7 +19,6 @@ use Functions::Helper;
 # --return-length
 # --exclude-length
 # supported input files: swagger, openapi, graphql
-
 # implement filter by http code / return and exclude
 
 sub main {
@@ -55,11 +54,9 @@ sub main {
         }
 
         if (!$method) {
-            $method = "
-                GET,POST,PUT,DELETE,HEAD,OPTIONS,CONNECT,TRACE,PATCH,SUBSCRIBE,MOVE,REPORT,UNLOCK,%s%s%s%s,PURGE,
-                POLL,NOTIFY,SEARCH,1337,CATS,*,DATA,HEADERS,PRIORITY,RST_STREAM,SETTINGS,PUSH_PROMISE,PING,GOAWAY,
-                WINDOW_UPDATE,CONTINUATION
-            ";
+            $method = "GET,POST,PUT,DELETE,HEAD,OPTIONS,CONNECT,TRACE,PATCH,SUBSCRIBE,MOVE,REPORT,UNLOCK,%s%s%s%s"
+                    . "PURGE,POLL,NOTIFY,SEARCH,1337,CATS,*,DATA,HEADERS,PRIORITY,RST_STREAM,SETTINGS,PUSH_PROMISE"
+                    . "PING,GOAWAY,WINDOW_UPDATE,CONTINUATION";
         }
 
         open (my $file, "<", $wordlist);

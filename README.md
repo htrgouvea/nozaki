@@ -46,6 +46,13 @@ $ perl nozaki.pl -m GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/paylo
     ...
 ```
 
+### Labs
+
+Are you interested and want to test the tool in a controlled environment? On the following servers your tests are more than authorized!
+
+- 1. [http://lab.nozaki.io:8001](http://lab.nozaki.io:8002)
+- 2. [http://lab.nozaki.io:8002](http://lab.nozaki.io:8002)
+
 ### Contribution
 
 - Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page.](https://github.com/GouveaHeitor/Nozaki/issues) See here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
