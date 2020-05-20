@@ -8,37 +8,18 @@ use lib "./lib/";
 use Engine::Fuzzer;
 use Functions::Helper;
 
-# implement multi threads
-# implement custom header
-# implement fuzzing of mime type / http version / parameters
-# implement output in json, supported by postman/insomnia/burp
-# implement a feature to send a custom payload
-# refact all wordlists
-# --return-length
-# --exclude-length
-# supported input files: swagger, openapi, graphql
-# implement filter by http code / return and exclude
-
 sub main {
     my (
-        $target, $wordlist, $header, $threads, $param, $contentType, $method, $payload, $return, $exclude, $json,
-        $delay, $maxtime
+        $target, $wordlist, $method, $delay, $timeout, $proccess
     );
 
     GetOptions (
-        "--url=s"      => \$target, # ok
-        "--wordlist=s" => \$wordlist, # ok
-        "--header=s"   => \$header,
-        "--threads=i"  => \$threads, # working here
-        "--param"      => \$param,
-        "--content-type"  => \$contentType, 
-        "--method=s"   => \$method, # ok
-        "--payload=s"  => \$payload,
-        "--return=s"   => \$return,
-        "--exclude=s"  => \$exclude,
-        "--delay=i"    => \$delay, # ok
-        "--maxtime=i"  => \$maxtime, #ok
-        "--json=s"     => \$json
+        "--url=s"      => \$target,
+        "--wordlist=s" => \$wordlist,
+        "--proccess=i" => \$proccess,
+        "--method=s"   => \$method,
+        "--delay=i"    => \$delay,
+        "--timeout=i"  => \$timeout,
     ) or die (
         return Functions::Helper -> new()
     );
@@ -58,8 +39,8 @@ sub main {
                     . "PING,GOAWAY,WINDOW_UPDATE,CONTINUATION";
         }
 
-        if (!$maxtime) {
-            $maxtime = 10;
+        if (!$timeout) {
+            $timeout = 10;
         }
 
         open (my $file, "<", $wordlist);
@@ -71,7 +52,7 @@ sub main {
             my $fuzzer = Engine::Fuzzer -> new(
                 $method,
                 $endpoint,
-                $maxtime,
+                $timeout,
                 $delay
             );
         }
@@ -85,3 +66,17 @@ sub main {
 }
 
 main();
+
+    # TO DO:
+    # refact all wordlists
+    # $payload  | implement a feature to send a custom payload
+    # $json     | implement output in json, supported by postman/insomnia/burp
+    # $header   | implement custom header
+    # $proccess | implement multi threads
+    # $param    | implement fuzzing of parameters
+    # $mimeType | implement fuzzing of content type
+    # $version  | implement fuzzing of http version
+    # $return   | implement filter by http code / return 
+    # $exclude  | implement filter by http code / exclude
+    # $length   | filter for return-length / --exclude-length
+    # supported input files: swagger, openapi, graphql
