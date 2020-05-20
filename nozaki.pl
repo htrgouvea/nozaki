@@ -12,10 +12,8 @@ use Functions::Helper;
 # implement custom header
 # implement fuzzing of mime type / http version / parameters
 # implement output in json, supported by postman/insomnia/burp
-# implement custom method http
 # implement a feature to send a custom payload
 # refact all wordlists
-# define timeout / --timeout 3
 # --return-length
 # --exclude-length
 # supported input files: swagger, openapi, graphql
@@ -24,7 +22,7 @@ use Functions::Helper;
 sub main {
     my (
         $target, $wordlist, $header, $threads, $param, $contentType, $method, $payload, $return, $exclude, $json,
-        $delay
+        $delay, $maxtime
     );
 
     GetOptions (
@@ -39,6 +37,7 @@ sub main {
         "--return=s"   => \$return,
         "--exclude=s"  => \$exclude,
         "--delay=i"    => \$delay, # ok
+        "--maxtime=i"  => \$maxtime, #ok
         "--json=s"     => \$json
     ) or die (
         return Functions::Helper -> new()
@@ -59,6 +58,10 @@ sub main {
                     . "PING,GOAWAY,WINDOW_UPDATE,CONTINUATION";
         }
 
+        if (!$maxtime) {
+            $maxtime = 10;
+        }
+
         open (my $file, "<", $wordlist);
 
         while (<$file>) {
@@ -68,6 +71,7 @@ sub main {
             my $fuzzer = Engine::Fuzzer -> new(
                 $method,
                 $endpoint,
+                $maxtime,
                 $delay
             );
         }

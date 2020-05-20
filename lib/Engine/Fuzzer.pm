@@ -6,9 +6,9 @@ use HTTP::Request;
 use LWP::UserAgent;
 
 sub new {
-    my ($self, $method, $endpoint, $delay) = @_;
+    my ($self, $method, $endpoint, $maxtime, $delay) = @_;
 
-    my $userAgent = LWP::UserAgent -> new();
+    my $userAgent = LWP::UserAgent -> new(timeout => $maxtime);
 
     my @verbs = split(",", $method);
 

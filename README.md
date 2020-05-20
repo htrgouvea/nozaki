@@ -6,7 +6,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/GouveaHeitor/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.1.3-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.1.4-blue.svg">
     </a>
   </p>
 </p>
@@ -19,6 +19,9 @@
     $ git clone https://github.com/GouveaHeitor/nozaki && cd nozaki
     $ cpan install Getopt::Long LWP::UserAgent HTTP::Request
 ```
+
+---
+
 ### How to use
 
 ```bash
@@ -33,6 +36,7 @@ Core Commands
 	--wordlist    Define wordlist of paths
 	--method      Define methods HTTP to use during fuzzing, separeted by ","
 	--delay       Define a seconds of delay between requests
+  --maxtime     Define the timeout
 	--help        See this screen
 
 Copyright Nozaki (c) 2020 | Heitor Gouvêa
@@ -46,6 +50,8 @@ $ perl nozaki.pl -m GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/paylo
     ...
 ```
 
+---
+
 ### Labs
 
 Are you interested and want to test the tool in a controlled environment? On the following servers your tests are more than authorized!
@@ -53,9 +59,13 @@ Are you interested and want to test the tool in a controlled environment? On the
 - 1. [http://lab.nozaki.io:8001](http://lab.nozaki.io:8002)
 - 2. [http://lab.nozaki.io:8002](http://lab.nozaki.io:8002)
 
+---
+
 ### Contribution
 
 - Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page.](https://github.com/GouveaHeitor/Nozaki/issues) See here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
+
+---
 
 ### License
 
