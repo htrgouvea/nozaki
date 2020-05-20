@@ -3383,3 +3383,7 @@ zips
 ~user
 ~webmaster
 ~www
+index.html
+v1/
+images/logo.png
+images/

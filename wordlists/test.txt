@@ -1,4 +1,0 @@
-index.html
-v1/
-images/logo.png
-images/
