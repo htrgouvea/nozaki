@@ -88,3 +88,4 @@ http://100.100.100.200/latest/meta-data/
 http://100.100.100.200/latest/meta-data/instance-id
 http://100.100.100.200/latest/meta-data/image-id
 http://127.0.0.1:2379/version
+http://0xa9.0xfe.0xa9.0xfe/
