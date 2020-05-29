@@ -9,9 +9,14 @@ use Engine::Fuzzer;
 use Functions::Helper;
 
 sub main {
-    my (
-        $target, $wordlist, $method, $delay, $timeout, $proccess
-    );
+    my ($target, $proccess);
+
+    my $delay    = 0;
+    my $timeout  = 10;
+    my $wordlist = "wordlists/default.txt";
+    my $method   = "GET,POST,PUT,DELETE,HEAD,OPTIONS,CONNECT,TRACE,PATCH,SUBSCRIBE,MOVE,REPORT,UNLOCK,%s%s%s%s"
+                    . "PURGE,POLL,NOTIFY,SEARCH,1337,CATS,*,DATA,HEADERS,PRIORITY,RST_STREAM,SETTINGS,PUSH_PROMISE"
+                    . "PING,GOAWAY,WINDOW_UPDATE,CONTINUATION";
 
     GetOptions (
         "--url=s"      => \$target,
@@ -20,29 +25,9 @@ sub main {
         "--method=s"   => \$method,
         "--delay=i"    => \$delay,
         "--timeout=i"  => \$timeout,
-    ) or die (
-        return Functions::Helper -> new()
-    );
+    ) or die ( return Functions::Helper -> new() );
 
     if ($target) {
-        if (!$wordlist) {
-            $wordlist = "wordlists/default.txt";
-        }
-
-        if (!$delay) {
-            $delay = 0;
-        }
-
-        if (!$method) {
-            $method = "GET,POST,PUT,DELETE,HEAD,OPTIONS,CONNECT,TRACE,PATCH,SUBSCRIBE,MOVE,REPORT,UNLOCK,%s%s%s%s"
-                    . "PURGE,POLL,NOTIFY,SEARCH,1337,CATS,*,DATA,HEADERS,PRIORITY,RST_STREAM,SETTINGS,PUSH_PROMISE"
-                    . "PING,GOAWAY,WINDOW_UPDATE,CONTINUATION";
-        }
-
-        if (!$timeout) {
-            $timeout = 10;
-        }
-
         open (my $file, "<", $wordlist);
 
         while (<$file>) {
