@@ -9,9 +9,10 @@ use Engine::Fuzzer;
 use Functions::Helper;
 
 sub main {
-    my ($target, $proccess);
+    my ($target);
 
     my $delay    = 0;
+    my $proccess = 4;
     my $timeout  = 10;
     my $wordlist = "wordlists/default.txt";
     my $method   = "GET,POST,PUT,DELETE,HEAD,OPTIONS,CONNECT,TRACE,PATCH,SUBSCRIBE,MOVE,REPORT,UNLOCK,%s%s%s%s"
