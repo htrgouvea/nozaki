@@ -11,9 +11,9 @@
   </p>
 </p>
 
----
+⚠️ __Warning:__ Nozaki is currently in __development__, you've been warned :) and please consider [contributing](./github/CONTRIBUTING.md)
 
-⚠️ __Warning:__ Nozaki is currently in __beta__, you've been warned :) and please consider [contributing](./github/CONTRIBUTING.md)
+---
 
 ### Download & Install
 
@@ -37,14 +37,14 @@ Core Commands
 	--url         Define a target
 	--wordlist    Define wordlist of paths
 	--method      Define methods HTTP to use during fuzzing, separeted by ","
-    --timeout     Define the timeout
+        --timeout     Define the timeout
 	--delay       Define a seconds of delay between requests
 	--help        See this screen
 
 Copyright Nozaki (c) 2020 | Heitor Gouvêa
 
 # Example
-$ perl nozaki.pl -X GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/payloads/ssrf.txt | grep "574"
+$ perl nozaki.pl -m GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/payloads/ssrf.txt | grep "574"
 
 [-] -> [200] | http://lab.nozaki.io:8002/?read=http://2852039166/           [GET] - OK | Length: 574
 [-] -> [200] | http://lab.nozaki.io:8002/?read=http://0xA9FEA9FE/           [GET] - OK | Length: 574
