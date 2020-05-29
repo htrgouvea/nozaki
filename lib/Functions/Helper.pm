@@ -5,7 +5,7 @@ use warnings;
 
 sub new {
     print "
-        \rNozaki v0.0.4
+        \rNozaki v0.0.5
 		\rCore Commands
 		\r==============
 		\r\tCommand       Description

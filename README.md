@@ -6,7 +6,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/GouveaHeitor/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.1.4-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.0.5-blue.svg">
     </a>
   </p>
 </p>
@@ -29,7 +29,7 @@
 ```bash
 $ perl nozaki.pl --help
 
-Nozaki v0.0.2
+Nozaki v0.0.5
 Core Commands
 ==============
 	Command       Description
