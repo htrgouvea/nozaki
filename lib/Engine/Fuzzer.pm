@@ -6,21 +6,32 @@ use HTTP::Request;
 use LWP::UserAgent;
 
 sub new {
-    my ($self, $method, $endpoint, $timeout, $delay) = @_;
+    my ($self, $method, $endpoint, $timeout, $delay, $agent, $return) = @_;
 
-    my $userAgent = LWP::UserAgent -> new(timeout => $timeout);
+    my $ua = LWP::UserAgent -> new   (
+        timeout => $timeout,
+        agent => $agent
+    );
 
     my @verbs = split(",", $method);
 
     foreach my $verb (@verbs) {
         my $request  = new HTTP::Request($verb, $endpoint);
-        my $response = $userAgent -> request($request);
+        my $response = $ua -> request($request);
         my $code     = $response -> code();
         my $message  = $response -> message();
         my $length   = $response -> content_length() || "null";
 
-        print "[-] -> [$code] | $endpoint \t [$verb] - $message | Length: $length\n"; 
+        if ($return) { # Yeah, I know, i need refact that shit
+            if ($code == $return) {
+                print "[+] -> [$code] | $endpoint \t [$verb] - $message | Length: $length\n";
+            }
+        }
 
+        else {
+            print "[+] -> [$code] | $endpoint \t [$verb] - $message | Length: $length\n";
+        }
+        
         sleep($delay);
     }
 
