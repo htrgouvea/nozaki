@@ -9,10 +9,10 @@ use Engine::Fuzzer;
 use Functions::Helper;
 
 sub main {
-    my ($target);
+    my ($target, $return);
 
+    my $agent    = "Nozaki CLI / v0.6";
     my $delay    = 0;
-    my $proccess = 4;
     my $timeout  = 10;
     my $wordlist = "wordlists/default.txt";
     my $method   = "GET,POST,PUT,DELETE,HEAD,OPTIONS,CONNECT,TRACE,PATCH,SUBSCRIBE,MOVE,REPORT,UNLOCK,%s%s%s%s"
@@ -22,10 +22,11 @@ sub main {
     GetOptions (
         "--url=s"      => \$target,
         "--wordlist=s" => \$wordlist,
-        "--proccess=i" => \$proccess,
         "--method=s"   => \$method,
         "--delay=i"    => \$delay,
         "--timeout=i"  => \$timeout,
+        "--agent=s"    => \$agent,
+        "--return=i"   => \$return
     ) or die ( return Functions::Helper -> new() );
 
     if ($target) {
@@ -39,7 +40,9 @@ sub main {
                 $method,
                 $endpoint,
                 $timeout,
-                $delay
+                $delay,
+                $agent,
+                $return
             );
         }
 
@@ -52,17 +55,3 @@ sub main {
 }
 
 main();
-
-    # TO DO:
-    # refact all wordlists
-    # $payload  | implement a feature to send a custom payload
-    # $json     | implement output in json, supported by postman/insomnia/burp
-    # $header   | implement custom header
-    # $proccess | implement multi threads
-    # $param    | implement fuzzing of parameters
-    # $mimeType | implement fuzzing of content type
-    # $version  | implement fuzzing of http version
-    # $return   | implement filter by http code / return 
-    # $exclude  | implement filter by http code / exclude
-    # $length   | filter for return-length / --exclude-length
-    # supported input files: swagger, openapi, graphql

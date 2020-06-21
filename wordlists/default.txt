@@ -1,3 +1,4 @@
+index
 .DS_Store
 .aws/
 .git/
