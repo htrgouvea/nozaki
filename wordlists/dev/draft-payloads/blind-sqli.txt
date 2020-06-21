@@ -1,2 +1,0 @@
-sleep(__TIME__)#
-hi' or sleep(__TIME__)--+

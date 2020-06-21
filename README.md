@@ -76,7 +76,6 @@ Are you interested and want to test the tool in a controlled environment? On the
 
 ### To do
 
-- Refact all wordlists
 - Implement multi threads
 - Implement "--payload" option: a feature to send a custom payload
 - Implement "--header" option: send a custom header

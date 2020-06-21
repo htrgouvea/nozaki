@@ -10,7 +10,7 @@ sub new {
 
     my $ua = LWP::UserAgent -> new   (
         timeout => $timeout,
-        agent => ("Nozaki 0.6")
+        agent => $agent
     );
 
     my @verbs = split(",", $method);
@@ -24,12 +24,12 @@ sub new {
 
         if ($return) { # Yeah, I know, i need refact that shit
             if ($code == $return) {
-                print "[-] -> [$code] | $endpoint \t [$verb] - $message | Length: $length\n";
+                print "[+] -> [$code] | $endpoint \t [$verb] - $message | Length: $length\n";
             }
         }
 
         else {
-            print "[-] -> [$code] | $endpoint \t [$verb] - $message | Length: $length\n";
+            print "[+] -> [$code] | $endpoint \t [$verb] - $message | Length: $length\n";
         }
         
         sleep($delay);
