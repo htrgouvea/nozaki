@@ -8,7 +8,7 @@ use LWP::UserAgent;
 sub new {
     my ($self, $method, $endpoint, $timeout, $delay, $agent, $return) = @_;
 
-    my $ua = LWP::UserAgent -> new   (
+    my $ua = LWP::UserAgent -> new (
         timeout => $timeout,
         agent => $agent
     );
@@ -24,12 +24,12 @@ sub new {
 
         if ($return) { # Yeah, I know, i need refact that shit
             if ($code == $return) {
-                print "[+] -> [$code] | $endpoint \t [$verb] - $message | Length: $length\n";
+                print "[$code] | $endpoint \t [$verb] - $message | Length: $length\n";
             }
         }
 
         else {
-            print "[+] -> [$code] | $endpoint \t [$verb] - $message | Length: $length\n";
+            print "[$code] | $endpoint \t [$verb] - $message | Length: $length\n";
         }
         
         sleep($delay);
