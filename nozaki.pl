@@ -24,7 +24,7 @@ sub main {
         "--wordlist=s" => \$wordlist,
         "--method=s"   => \$method,
         "--delay=i"    => \$delay,
-        "--timeout=i"  => \$timeout,
+        "--maxtime=i"  => \$timeout,
         "--agent=s"    => \$agent,
         "--return=i"   => \$return
     ) or die ( return Functions::Helper -> new() );

@@ -45,18 +45,17 @@ Core Commands
 	--url         Define a target
 	--wordlist    Define wordlist of paths
 	--method      Define methods HTTP to use during fuzzing, separeted by ","
-    --timeout     Define the timeout
 	--delay       Define a seconds of delay between requests
-    --maxtime     Define the timeout 
 	--agent       Define a custom User Agent
 	--return      Set a filter based on HTTP Code Response
+	--maxtime     Define the timeout
 
 # Example
 $ perl nozaki.pl -m GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/payloads/ssrf.txt | grep "574"
 
-[-] -> [200] | http://lab.nozaki.io:8002/?read=http://2852039166/           [GET] - OK | Length: 574
-[-] -> [200] | http://lab.nozaki.io:8002/?read=http://0xA9FEA9FE/           [GET] - OK | Length: 574
-[-] -> [200] | http://lab.nozaki.io:8002/?read=http://0251.0376.0251.0376/  [GET] - OK | Length: 574
+[200] | http://lab.nozaki.io:8002/?read=http://2852039166/           [GET] - OK | Length: 574
+[200] | http://lab.nozaki.io:8002/?read=http://0xA9FEA9FE/           [GET] - OK | Length: 574
+[200] | http://lab.nozaki.io:8002/?read=http://0251.0376.0251.0376/  [GET] - OK | Length: 574
 ...
 ```
 
