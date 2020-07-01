@@ -6,12 +6,20 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/GouveaHeitor/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.0.6-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.0.7-blue.svg">
     </a>
   </p>
 </p>
 
-⚠️ __Warning:__ Nozaki is currently in __development__, you've been warned :) and please consider [contributing](./github/CONTRIBUTING.md)
+---
+
+### Summary 
+
+⚠️ __Warning:__ Nozaki is currently in __development__, you've been warned :) and please consider [contributing!](./github/CONTRIBUTING.md)
+
+"Fuzzing is one of the most powerful and proven strategies for identifying security issues in real-world software" and for this reason, Nozaki tries to bridge the gap for a complete solution focused on web applications.
+
+The idea is that this solution is complete enough to cover the entire fuzzing process in a web application (be it a monolith, a REST API, or even a GraphQL API) being fully parameterized, piped with other tools and with amazing filters.
 
 ---
 
@@ -26,10 +34,10 @@
 
 ### How to use
 
-```bash
+```
 $ perl nozaki.pl
 
-Nozaki v0.0.6
+Nozaki v0.0.7
 Core Commands
 ==============
 	Command       Description
@@ -37,9 +45,9 @@ Core Commands
 	--url         Define a target
 	--wordlist    Define wordlist of paths
 	--method      Define methods HTTP to use during fuzzing, separeted by ","
-  --timeout     Define the timeout
+    --timeout     Define the timeout
 	--delay       Define a seconds of delay between requests
-  --maxtime     Define the timeout 
+    --maxtime     Define the timeout 
 	--agent       Define a custom User Agent
 	--return      Set a filter based on HTTP Code Response
 
@@ -54,15 +62,6 @@ $ perl nozaki.pl -m GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/paylo
 
 ---
 
-### Labs
-
-Are you interested and want to test the tool in a controlled environment? On the following servers your tests are more than authorized!
-
-- 1. [http://lab.nozaki.io:8001](http://lab.nozaki.io:8002)
-- 2. [http://lab.nozaki.io:8002](http://lab.nozaki.io:8002)
-
----
-
 ### Contribution
 
 - Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page.](https://github.com/GouveaHeitor/Nozaki/issues) See here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
@@ -73,6 +72,7 @@ Are you interested and want to test the tool in a controlled environment? On the
 
 - This work is licensed under [MIT License.](/LICENSE.md)
 
+---
 
 ### To do
 
@@ -80,8 +80,8 @@ Are you interested and want to test the tool in a controlled environment? On the
 - Implement "--payload" option: a feature to send a custom payload
 - Implement "--header" option: send a custom header
 - Implement some filters: return/exclude based in HTTP Codes or Response Length/Size
-- Implement "--version": fuzzing htttp version
 - Feature to fuzzing params
 - Feature to fuzzing mime type
-- Try implement a feature to receive input files from swagger, openapi, graphql
 - Implement "--json" option: genereate output in json file supported by postman/insomnia
+- Try implement a feature to receive input files from swagger, openapi, graphql
+- Implement "--version": fuzzing htttp version
