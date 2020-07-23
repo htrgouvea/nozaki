@@ -14,7 +14,7 @@ sub new {
 		\r\t--wordlist    Define wordlist of paths
 		\r\t--method      Define methods HTTP to use during fuzzing, separeted by \",\"
 		\r\t--delay       Define a seconds of delay between requests
-		\r\t--maxtime     Define the timeout 
+		\r\t--timeout     Define the timeout 
 		\r\t--agent       Define a custom User Agent
 		\r\t--return      Set a filter based on HTTP Code Response
 		\r\t--help        See this screen\n\n";

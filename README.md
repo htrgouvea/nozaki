@@ -48,7 +48,7 @@ Core Commands
 	--delay       Define a seconds of delay between requests
 	--agent       Define a custom User Agent
 	--return      Set a filter based on HTTP Code Response
-	--maxtime     Define the timeout
+	--timeout     Define the timeout
 
 # Example
 $ perl nozaki.pl -m GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/payloads/ssrf.txt | grep "574"
