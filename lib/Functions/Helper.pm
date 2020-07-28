@@ -9,15 +9,15 @@ package Functions::Helper {
 			\r==============
 			\r\tCommand       Description
 			\r\t-------       -----------
+			\r\t--method      Define methods HTTP to use during fuzzing, separeted by \",\"
 			\r\t--url         Define a target
 			\r\t--wordlist    Define wordlist of paths
-			\r\t--method      Define methods HTTP to use during fuzzing, separeted by \",\"
 			\r\t--delay       Define a seconds of delay between requests
-			\r\t--timeout     Define the timeout 
 			\r\t--agent       Define a custom User Agent
 			\r\t--return      Set a filter based on HTTP Code Response
+			\r\t--timeout     Define the timeout 
 			\r\t--help        See this screen\n\n";
-		
+					
 		return 1;
 	}
 }

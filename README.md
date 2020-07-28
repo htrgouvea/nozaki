@@ -6,7 +6,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/GouveaHeitor/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.0.7-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.0.8-blue.svg">
     </a>
   </p>
 </p>
@@ -26,8 +26,8 @@ The idea is that this solution is complete enough to cover the entire fuzzing pr
 ### Download & Install
 
 ```bash 
-    $ git clone https://github.com/GouveaHeitor/nozaki && cd nozaki
-    $ cpan install Getopt::Long LWP::UserAgent HTTP::Request
+  $ git clone https://github.com/GouveaHeitor/nozaki && cd nozaki
+  $ cpan install Getopt::Long LWP::UserAgent HTTP::Request
 ```
 
 ---
@@ -42,9 +42,9 @@ Core Commands
 ==============
 	Command       Description
 	-------       -----------
+  --method      Define methods HTTP to use during fuzzing, separeted by ","
 	--url         Define a target
 	--wordlist    Define wordlist of paths
-	--method      Define methods HTTP to use during fuzzing, separeted by ","
 	--delay       Define a seconds of delay between requests
 	--agent       Define a custom User Agent
 	--return      Set a filter based on HTTP Code Response
@@ -70,17 +70,3 @@ $ perl nozaki.pl -m GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/paylo
 ### License
 
 - This work is licensed under [MIT License.](/LICENSE.md)
-
----
-
-### To do
-
-- Implement multi threads
-- Implement "--payload" option: a feature to send a custom payload
-- Implement "--header" option: send a custom header
-- Implement some filters: return/exclude based in HTTP Codes or Response Length/Size
-- Feature to fuzzing params
-- Feature to fuzzing mime type
-- Implement "--json" option: genereate output in json file supported by postman/insomnia
-- Try implement a feature to receive input files from swagger, openapi, graphql
-- Implement "--version": fuzzing htttp version
