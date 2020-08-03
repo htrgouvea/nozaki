@@ -5,7 +5,7 @@ package Engine::Fuzzer {
     use LWP::UserAgent;
 
     sub new {
-        my ($self, $method, $endpoint, $timeout, $delay, $agent, $return) = @_;
+        my ($self, $method, $endpoint, $timeout, $delay, $agent, $return, $payload) = @_;
 
         my $ua = LWP::UserAgent -> new (
             timeout => $timeout,
@@ -16,6 +16,12 @@ package Engine::Fuzzer {
 
         foreach my $verb (@verbs) {
             my $request  = new HTTP::Request($verb, $endpoint);
+
+            if ($payload) {
+                # $request -> content_type("application/json");
+                $request -> content($payload);
+            }
+
             my $response = $ua -> request($request);
             my $code     = $response -> code();
             my $message  = $response -> message();

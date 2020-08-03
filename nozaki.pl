@@ -9,9 +9,9 @@ use Engine::Fuzzer;
 use Functions::Helper;
 
 sub main {
-    my ($target, $return);
+    my ($target, $return, $payload);
 
-    my $agent    = "Nozaki CLI / 0.8";
+    my $agent    = "Nozaki CLI / 0.0.9";
     my $delay    = 0;
     my $timeout  = 10;
     my $wordlist = "wordlists/default.txt";
@@ -26,7 +26,8 @@ sub main {
         "--delay=i"    => \$delay,
         "--timeout=i"  => \$timeout,
         "--agent=s"    => \$agent,
-        "--return=i"   => \$return
+        "--return=i"   => \$return,
+        "--payload=s"  => \$payload,
     ) or die ( return Functions::Helper -> new() );
 
     if ($target) {
@@ -42,7 +43,8 @@ sub main {
                 $timeout,
                 $delay,
                 $agent,
-                $return
+                $return,
+                $payload
             );
         }
 

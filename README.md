@@ -37,18 +37,19 @@ The idea is that this solution is complete enough to cover the entire fuzzing pr
 ```
 $ perl nozaki.pl
 
-Nozaki v0.0.7
+Nozaki v0.0.9
 Core Commands
 ==============
 	Command       Description
 	-------       -----------
-  --method      Define methods HTTP to use during fuzzing, separeted by ","
+	--method      Define methods HTTP to use during fuzzing, separeted by ","
 	--url         Define a target
 	--wordlist    Define wordlist of paths
 	--delay       Define a seconds of delay between requests
 	--agent       Define a custom User Agent
 	--return      Set a filter based on HTTP Code Response
-	--timeout     Define the timeout
+	--timeout     Define the timeout, default is 10s
+	--payload     Send a custom data
 
 # Example
 $ perl nozaki.pl -m GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/payloads/ssrf.txt | grep "574"

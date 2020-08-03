@@ -4,7 +4,7 @@ package Functions::Helper {
 
 	sub new {
 		print "
-			\rNozaki v0.0.7
+			\rNozaki v0.0.9
 			\rCore Commands
 			\r==============
 			\r\tCommand       Description
@@ -15,7 +15,8 @@ package Functions::Helper {
 			\r\t--delay       Define a seconds of delay between requests
 			\r\t--agent       Define a custom User Agent
 			\r\t--return      Set a filter based on HTTP Code Response
-			\r\t--timeout     Define the timeout 
+			\r\t--timeout     Define the timeout, default is 10s
+			\r\t--payload     Send a custom data
 			\r\t--help        See this screen\n\n";
 					
 		return 1;
