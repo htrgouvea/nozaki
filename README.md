@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://heitorgouvea.me/images/projects/nozaki/logo.png" width="150px" heigth="150px">
-  <h1 align="center"><b>Nozaki</b></h1>
+  <h3 align="center"><b>Nozaki</b></h3>
   <p align="center">HTTP engine fuzzer security oriented</p>
   <p align="center">
     <a href="/LICENSE.md">
