@@ -1,3 +1,12 @@
+CHANGELOG
+CHANGELOG.md
+SECURITY.md
+security.txt
+LICENSE
+LICENSE.md
+wp-install.php
+wp-json/wp/v2/users
+wp-content/debug.log
 index
 .DS_Store
 .aws/
