@@ -1,11 +1,12 @@
 package Engine::Fuzzer {
     use strict;
     use warnings;
+    use JSON;
     use HTTP::Request;
     use LWP::UserAgent;
 
     sub new {
-        my ($self, $method, $endpoint, $timeout, $delay, $agent, $return, $payload) = @_;
+        my ($self, $method, $endpoint, $timeout, $delay, $agent, $return, $payload, $json) = @_;
 
         my $ua = LWP::UserAgent -> new (
             timeout => $timeout,
@@ -18,7 +19,7 @@ package Engine::Fuzzer {
             my $request  = new HTTP::Request($verb, $endpoint);
 
             if ($payload) {
-                # $request -> content_type("application/json");
+                # $request -> content_type("application/json"); # define the content-type
                 $request -> content($payload);
             }
 
@@ -27,16 +28,39 @@ package Engine::Fuzzer {
             my $message  = $response -> message();
             my $length   = $response -> content_length() || "null";
 
-            if ($return) { # Yeah, I know, i need refact that shit
-                if ($code == $return) {
-                    print "[$code] | $endpoint \t [$verb] - $message | Length: $length\n";
+            my $printable = {
+                "Code"     => $code,
+                "URL"      => $endpoint,
+                "Method"   => $verb,
+                "Response" => $message,
+                "Length"   => $length 
+            };
+
+            my $resultObject = encode_json ($printable);
+
+            # Yeah, I know, i need refact that shit
+            if ($return) { 
+                if (@$printable{'Code'} == $return) {
+                    if ($json) {
+                        print $resultObject, "\n";
+                    }
+
+                    else {
+                        print "Code: $code | URL: $endpoint | Method: [$verb] | Reponse: $message | Length: $length\n";
+                    }     
                 }
             }
 
             else {
-                print "[$code] | $endpoint \t [$verb] - $message | Length: $length\n";
+                if ($json) {
+                    print $resultObject, "\n";
+                }
+
+                else {
+                    print "Code: $code | URL: $endpoint | Method: [$verb] | Response: $message | Length: $length\n";
+                }   
             }
-            
+
             sleep($delay);
         }
 

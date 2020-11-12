@@ -7,7 +7,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/x86scale/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.0.9-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.1.0-blue.svg">
     </a>
   </p>
 </p>

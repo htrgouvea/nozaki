@@ -4,7 +4,7 @@ package Functions::Helper {
 
 	sub new {
 		print "
-			\rNozaki v0.0.9
+			\rNozaki v0.0.10
 			\rCore Commands
 			\r==============
 			\r\tCommand       Description
@@ -17,6 +17,7 @@ package Functions::Helper {
 			\r\t--return      Set a filter based on HTTP Code Response
 			\r\t--timeout     Define the timeout, default is 10s
 			\r\t--payload     Send a custom data
+			\r\t--json        Define the output in JSON format
 			\r\t--help        See this screen\n\n";
 					
 		return 1;

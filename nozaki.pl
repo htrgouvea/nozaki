@@ -11,13 +11,14 @@ use Functions::Helper;
 sub main {
     my ($target, $return, $payload);
 
-    my $agent    = "Nozaki CLI / 0.0.9";
+    my $agent    = "Nozaki CLI / 0.1.0";
     my $delay    = 0;
     my $timeout  = 10;
     my $wordlist = "wordlists/default.txt";
     my $method   = "GET,POST,PUT,DELETE,HEAD,OPTIONS,CONNECT,TRACE,PATCH,SUBSCRIBE,MOVE,REPORT,UNLOCK,%s%s%s%s"
                     . "PURGE,POLL,NOTIFY,SEARCH,1337,CATS,*,DATA,HEADERS,PRIORITY,RST_STREAM,SETTINGS,PUSH_PROMISE"
                     . "PING,GOAWAY,WINDOW_UPDATE,CONTINUATION";
+    my $json     = 0;
 
     GetOptions (
         "--url=s"      => \$target,
@@ -28,6 +29,7 @@ sub main {
         "--agent=s"    => \$agent,
         "--return=i"   => \$return,
         "--payload=s"  => \$payload,
+        "--json"       => \$json,
     ) or die ( return Functions::Helper -> new() );
 
     if ($target) {
@@ -44,7 +46,8 @@ sub main {
                 $delay,
                 $agent,
                 $return,
-                $payload
+                $payload,
+                $json,
             );
         }
 
