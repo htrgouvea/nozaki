@@ -1,3 +1,4 @@
+composer.json
 CHANGELOG
 CHANGELOG.md
 SECURITY.md
