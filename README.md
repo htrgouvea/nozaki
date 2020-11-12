@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://heitorgouvea.me/images/projects/nozaki/logo.png" width="150px" heigth="150px">
   <h3 align="center"><b>Nozaki</b></h3>
-  <p align="center">HTTP engine fuzzer security oriented</p>
+  <p align="center">Black-box HTTP engine fuzzer security oriented</p>
   <p align="center">
     <a href="/LICENSE.md">
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
@@ -51,6 +51,7 @@ Core Commands
 	--return      Set a filter based on HTTP Code Response
 	--timeout     Define the timeout, default is 10s
 	--payload     Send a custom data
+  --json        Define the output in JSON format
 
 # Example
 $ perl nozaki.pl -m GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/payloads/ssrf.txt | grep "574"

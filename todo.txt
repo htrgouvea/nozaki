@@ -5,6 +5,5 @@
 - Implement some filters: return/exclude based in HTTP Codes or Response Length/Size
 - Feature to fuzzing params
 - Feature to fuzzing mime type
-- Implement "--json" option: genereate output in json file supported by postman/insomnia
 - Try implement a feature to receive input files from swagger, openapi, graphql
 - Implement "--version": fuzzing htttp version
