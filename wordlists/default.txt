@@ -1,14 +1,3 @@
-composer.json
-CHANGELOG
-CHANGELOG.md
-SECURITY.md
-security.txt
-LICENSE
-LICENSE.md
-wp-install.php
-wp-json/wp/v2/users
-wp-content/debug.log
-index
 .DS_Store
 .aws/
 .git/
@@ -23,7 +12,6 @@ index
 10
 100
 1000
-Dockerfile
 101
 102
 103
@@ -84,6 +72,8 @@ Blog
 Books
 Business
 C
+CHANGELOG
+CHANGELOG.md
 CPAN
 CVS
 CYBERDOCS
@@ -112,6 +102,7 @@ Default
 Details
 Dir
 Directory
+Dockerfile
 Download
 Downloads
 E
@@ -153,6 +144,8 @@ Java
 Job
 Json
 L
+LICENSE
+LICENSE.md
 Legal
 Letters
 Link
@@ -218,6 +211,7 @@ Recursive
 Research
 Resources
 S
+SECURITY.md
 SPUser
 SSoAuthLoginResponse
 Sale
@@ -715,6 +709,7 @@ component
 components
 compose
 composer
+composer.json
 compressed
 computer
 computers
@@ -1173,6 +1168,8 @@ iissamples
 im
 image
 images
+images/
+images/logo.png
 images01
 img
 imgs
@@ -1186,6 +1183,7 @@ includes
 incoming
 incs
 index
+index.html
 index1
 index2
 index3
@@ -1825,6 +1823,7 @@ sections
 secure
 secured
 security
+security.txt
 select
 sell
 seminars
@@ -3337,7 +3336,9 @@ worldwide
 wp
 wp-admin
 wp-content
+wp-content/debug.log
 wp-includes
+wp-install.php
 wp-json/
 wp-json/wp/
 wp-json/wp/v2/
@@ -3395,7 +3396,3 @@ zips
 ~user
 ~webmaster
 ~www
-index.html
-v1/
-images/logo.png
-images/

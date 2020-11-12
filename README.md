@@ -7,7 +7,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/x86scale/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.1.0-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.1.1-blue.svg">
     </a>
   </p>
 </p>
@@ -26,7 +26,7 @@ The idea is that this solution is complete enough to cover the entire fuzzing pr
 
 ### Download & Install
 
-```bash 
+```
   $ git clone https://github.com/x86scale/nozaki && cd nozaki
   $ cpan install Getopt::Long LWP::UserAgent HTTP::Request
 ```
@@ -51,14 +51,53 @@ Core Commands
 	--return      Set a filter based on HTTP Code Response
 	--timeout     Define the timeout, default is 10s
 	--payload     Send a custom data
-  --json        Define the output in JSON format
+	--json        Define the output in JSON format
+```
 
-# Example
-$ perl nozaki.pl -m GET -u http://lab.nozaki.io:8002/\?read\= -w wordlists/payloads/ssrf.txt | grep "574"
+---
 
-[200] | http://lab.nozaki.io:8002/?read=http://2852039166/           [GET] - OK | Length: 574
-[200] | http://lab.nozaki.io:8002/?read=http://0xA9FEA9FE/           [GET] - OK | Length: 574
-[200] | http://lab.nozaki.io:8002/?read=http://0251.0376.0251.0376/  [GET] - OK | Length: 574
+### Examples
+
+1. Content Discovery: finding pages with 200 response code for the GET method
+
+```
+$ perl nozaki.pl --method GET --url https://heitorgouvea.me/ --return 200
+
+Code: 200 | URL: https://heitorgouvea.me/index | Method: [GET] | Reponse: OK | Length: null
+Code: 200 | URL: https://heitorgouvea.me/about | Method: [GET] | Reponse: OK | Length: null
+Code: 200 | URL: https://heitorgouvea.me/projects | Method: [GET] | Reponse: OK | Length: null
+...
+```
+
+2. Discovery of HTTP methods supported by the application with a personalized wordlist
+
+```
+$ perl nozaki.pl --url https://heitorgouvea.me/ -w wordlists/hackerone/paths_h1.txt
+
+Code: 200 | URL: https://heitorgouvea.me/ | Method: [GET] | Response: OK | Length: null
+Code: 403 | URL: https://heitorgouvea.me/ | Method: [POST] | Response: Forbidden | Length: null
+Code: 403 | URL: https://heitorgouvea.me/ | Method: [PUT] | Response: Forbidden | Length: null
+Code: 403 | URL: https://heitorgouvea.me/ | Method: [DELETE] | Response: Forbidden | Length: null
+Code: 200 | URL: https://heitorgouvea.me/ | Method: [HEAD] | Response: OK | Length: null
+Code: 405 | URL: https://heitorgouvea.me/ | Method: [OPTIONS] | Response: Not Allowed | Length: null
+Code: 400 | URL: https://heitorgouvea.me/ | Method: [CONNECT] | Response: Bad Request | Length: 155
+Code: 405 | URL: https://heitorgouvea.me/ | Method: [TRACE] | Response: Not Allowed | Length: 155
+Code: 403 | URL: https://heitorgouvea.me/ | Method: [PATCH] | Response: Forbidden | Length: null
+...
+```
+
+3. Fuzzing with personal payload and output in JSON format
+
+```
+$ perl nozaki.pl -m POST -u https://heitorgouvea.me/ --payload \{\"data\": \"\"\} --json
+
+{"Length":"null","Method":"POST","Code":"403","Response":"Forbidden","URL":"https://heitorgouvea.me/.DS_Store"}
+{"Code":"403","Method":"POST","Length":"null","URL":"https://heitorgouvea.me/.aws/","Response":"Forbidden"}
+{"Response":"Forbidden","URL":"https://heitorgouvea.me/.git/","Length":"null","Code":"403","Method":"POST"}
+{"Length":"null","Code":"403","Method":"POST","Response":"Forbidden","URL":"https://heitorgouvea.me/.svn/"}
+{"Method":"POST","Code":"403","Length":"null","URL":"https://heitorgouvea.me/0","Response":"Forbidden"}
+{"Method":"POST","Code":"403","Length":"null","URL":"https://heitorgouvea.me/00","Response":"Forbidden"}
+{"Response":"Forbidden","URL":"https://heitorgouvea.me/01","Length":"null","Method":"POST","Code":"403"}
 ...
 ```
 

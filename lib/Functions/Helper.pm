@@ -4,7 +4,7 @@ package Functions::Helper {
 
 	sub new {
 		print "
-			\rNozaki v0.0.10
+			\rNozaki v0.1.1
 			\rCore Commands
 			\r==============
 			\r\tCommand       Description
