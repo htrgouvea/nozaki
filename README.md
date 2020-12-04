@@ -1,12 +1,12 @@
 <p align="center">
   <img src="https://heitorgouvea.me/images/projects/nozaki/logo.png" width="150px" heigth="150px">
   <h3 align="center"><b>Nozaki</b></h3>
-  <p align="center">Black-box HTTP engine fuzzer security oriented</p>
+  <p align="center">HTTP engine fuzzer security oriented</p>
   <p align="center">
     <a href="/LICENSE.md">
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
-    <a href="https://github.com/x86scale/nozaki/releases">
+    <a href="https://github.com/htrgouvea/nozaki/releases">
       <img src="https://img.shields.io/badge/version-0.1.1-blue.svg">
     </a>
   </p>
@@ -27,7 +27,7 @@ The idea is that this solution is complete enough to cover the entire fuzzing pr
 ### Download & Install
 
 ```
-  $ git clone https://github.com/x86scale/nozaki && cd nozaki
+  $ git clone https://github.com/htrgouvea/nozaki && cd nozaki
   $ cpan install Getopt::Long LWP::UserAgent HTTP::Request
 ```
 
@@ -38,20 +38,21 @@ The idea is that this solution is complete enough to cover the entire fuzzing pr
 ```
 $ perl nozaki.pl
 
-Nozaki v0.0.9
+Nozaki v0.1.1
 Core Commands
 ==============
 	Command       Description
 	-------       -----------
-	--method      Define methods HTTP to use during fuzzing, separeted by ","
-	--url         Define a target
-	--wordlist    Define wordlist of paths
-	--delay       Define a seconds of delay between requests
-	--agent       Define a custom User Agent
-	--return      Set a filter based on HTTP Code Response
-	--timeout     Define the timeout, default is 10s
-	--payload     Send a custom data
-	--json        Define the output in JSON format
+	-m, --method      Define methods HTTP to use during fuzzing, separeted by ","
+	-u, --url         Define a target
+	-w, --wordlist    Define wordlist of paths
+	-d, --delay       Define a seconds of delay between requests
+	-a, --agent       Define a custom User Agent
+	-r, --return      Set a filter based on HTTP Code Response
+	-t, --timeout     Define the timeout, default is 10s
+	-p, --payload     Send a custom data
+	-j, --json        Define the output in JSON format
+	-h, --help        See this screen
 ```
 
 ---
@@ -105,9 +106,7 @@ $ perl nozaki.pl -m POST -u https://heitorgouvea.me/ --payload \{\"data\": \"\"\
 
 ### Contribution
 
-- Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page](https://github.com/x86scale/Nozaki/issues) and for security issues, see here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
-
-- If you want to contribute financially to this project, an alternative is to become my ["Patreon"](https://patreon.com/x86scale) or make a donation via [Paypal.](https://www.paypal.com/donate?hosted_button_id=4283L7ZNWN3M6)
+- Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page](https://github.com/htrgouvea/Nozaki/issues) and for security issues, see here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
 
 ---
 

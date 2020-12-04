@@ -11,7 +11,7 @@ use Functions::Helper;
 sub main {
     my ($target, $return, $payload);
 
-    my $agent    = "Nozaki CLI / 0.1.0";
+    my $agent    = "Nozaki CLI / 0.1.1";
     my $delay    = 0;
     my $timeout  = 10;
     my $wordlist = "wordlists/default.txt";

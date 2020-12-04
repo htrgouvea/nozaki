@@ -9,16 +9,16 @@ package Functions::Helper {
 			\r==============
 			\r\tCommand       Description
 			\r\t-------       -----------
-			\r\t--method      Define methods HTTP to use during fuzzing, separeted by \",\"
-			\r\t--url         Define a target
-			\r\t--wordlist    Define wordlist of paths
-			\r\t--delay       Define a seconds of delay between requests
-			\r\t--agent       Define a custom User Agent
-			\r\t--return      Set a filter based on HTTP Code Response
-			\r\t--timeout     Define the timeout, default is 10s
-			\r\t--payload     Send a custom data
-			\r\t--json        Define the output in JSON format
-			\r\t--help        See this screen\n\n";
+			\r\t-m, --method      Define methods HTTP to use during fuzzing, separeted by \",\"
+			\r\t-u, --url         Define a target
+			\r\t-w, --wordlist    Define wordlist of paths
+			\r\t-d, --delay       Define a seconds of delay between requests
+			\r\t-a, --agent       Define a custom User Agent
+			\r\t-r, --return      Set a filter based on HTTP Code Response
+			\r\t-t, --timeout     Define the timeout, default is 10s
+			\r\t-p, --payload     Send a custom data
+			\r\t-j, --json        Define the output in JSON format
+			\r\t-h, --help        See this screen\n\n";
 					
 		return 1;
 	}
