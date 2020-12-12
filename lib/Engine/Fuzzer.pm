@@ -1,71 +1,48 @@
-package Engine::Fuzzer {
-    use strict;
-    use warnings;
-    use JSON;
-    use HTTP::Request;
-    use LWP::UserAgent;
+package Engine::Fuzzer;
 
-    sub new {
-        my ($self, $method, $endpoint, $timeout, $delay, $agent, $return, $payload, $json) = @_;
+use strict;
+use warnings;
+use HTTP::Request;
+use LWP::UserAgent;
 
-        my $ua = LWP::UserAgent -> new (
-            timeout => $timeout,
-            agent => $agent
-        );
+sub new
+{
+    my ($self, %args) = @_;
+    my $ua = LWP::UserAgent->new(
+        agent   => $args{useragent} || "Nozaki/0.1.1",
+        timeout => $args{timeout} || 10,
+    );
+    bless { ua => $ua, headers => $args{headers} || {} }, $self;
+}
 
-        my @verbs = split(",", $method);
+sub fuzz
+{
+    my ($self, $endpoint, $method, $payload, $accept) = @_;
 
-        foreach my $verb (@verbs) {
-            my $request  = new HTTP::Request($verb, $endpoint);
+    my $request  = HTTP::Request->new($method, $endpoint);
 
-            if ($payload) {
-                # $request -> content_type("application/json"); # define the content-type
-                $request -> content($payload);
-            }
-
-            my $response = $ua -> request($request);
-            my $code     = $response -> code();
-            my $message  = $response -> message();
-            my $length   = $response -> content_length() || "null";
-
-            my $printable = {
-                "Code"     => $code,
-                "URL"      => $endpoint,
-                "Method"   => $verb,
-                "Response" => $message,
-                "Length"   => $length 
-            };
-
-            my $resultObject = encode_json ($printable);
-
-            # Yeah, I know, i need refact that shit
-            if ($return) { 
-                if (@$printable{'Code'} == $return) {
-                    if ($json) {
-                        print $resultObject, "\n";
-                    }
-
-                    else {
-                        print "Code: $code | URL: $endpoint | Method: [$verb] | Reponse: $message | Length: $length\n";
-                    }     
-                }
-            }
-
-            else {
-                if ($json) {
-                    print $resultObject, "\n";
-                }
-
-                else {
-                    print "Code: $code | URL: $endpoint | Method: [$verb] | Response: $message | Length: $length\n";
-                }   
-            }
-
-            sleep($delay);
-        }
-
-        return 1;
+    while (my ($header, $value) = each %{$self->{headers}})
+    {
+        $request->header($header => $value)
     }
+    $request->header(Accept => $accept) if $accept;
+
+    $request->content($payload) if ($payload);
+
+    my $response = $self->{ua}->request($request);
+    my $message  = $response->message();
+    my $length   = $response->content_length() || "null";
+    my $code     = $response->code();
+
+    my $printable = {
+        "Code"     => $code,
+        "URL"      => $endpoint,
+        "Method"   => $method,
+        "Response" => $message,
+        "Length"   => $length 
+    };
+    #always return a hashref, let the application deal with the exhibition
+    return $printable;
 }
 
 1;
