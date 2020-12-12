@@ -43,6 +43,9 @@ Core Commands
 ==============
 	Command       Description
 	-------       -----------
+    -A, --accept      Define a custom 'Accept' header
+    -T, --tasks       The number of threads to run in parallel
+    -H, --header      Define a custom header (header=value)
 	-m, --method      Define methods HTTP to use during fuzzing, separeted by ","
 	-u, --url         Define a target
 	-w, --wordlist    Define wordlist of paths

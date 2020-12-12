@@ -77,20 +77,19 @@ sub main
     my $accept;
 
     GetOptions (
-        "--accept=s"   => \$accept,
-        "--url=s"      => \$target,
-        "--wordlist=s" => \$wordlist,
-        "--method=s"   => \$methods,
-        "--delay=i"    => \$delay,
-        "--timeout=i"  => \$timeout,
-        "--agent=s"    => \$agent,
-        "--return=i"   => \$return,
-        "--payload=s"  => \$payload,
-        "--json"       => \$json,
-        "--header=s%"  => \%headers,
-        "--tasks=i"    => \$tasks,
+        "A|accept=s"   => \$accept,
+        "u|url=s"      => \$target,
+        "w|wordlist=s" => \$wordlist,
+        "m|method=s"   => \$methods,
+        "d|delay=i"    => \$delay,
+        "t|timeout=i"  => \$timeout,
+        "a|agent=s"    => \$agent,
+        "r|return=i"   => \$return,
+        "p|payload=s"  => \$payload,
+        "j|json"       => \$json,
+        "H|header=s%"  => \%headers,
+        "T|tasks=i"    => \$tasks,
     ) or die ( return Functions::Helper -> new() );
-
     return Functions::Helper->new() unless $target && $wordlist;
     
     open (my $file, "<", $wordlist) || die "$0: Can't open $wordlist";

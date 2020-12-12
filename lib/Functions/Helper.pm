@@ -9,6 +9,9 @@ package Functions::Helper {
 			\r==============
 			\r\tCommand       Description
 			\r\t-------       -----------
+            \r\t-A, --accept      Define a custom 'Accept' header
+            \r\t-T, --tasks       The number of threads to run in parallel
+            \r\t-H, --header      Define a custom header (header=value)
 			\r\t-m, --method      Define methods HTTP to use during fuzzing, separeted by \",\"
 			\r\t-u, --url         Define a target
 			\r\t-w, --wordlist    Define wordlist of paths
