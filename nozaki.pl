@@ -11,8 +11,8 @@ use Functions::Helper;
 use Parallel::ForkManager;
 use Getopt::Long qw(:config no_ignore_case);
 
-sub fuzzer_thread
-{
+sub fuzzer_thread {
+
     my ($endpoint, $methods,$agent, $headers, $accept,
         $timeout, $return, $payload, $json, $delay) = @_;
     
@@ -23,14 +23,13 @@ sub fuzzer_thread
     );
     
     my @verbs = split /,/, $methods;
-    for my $verb (@verbs)
-    {
+    for my $verb (@verbs) {
         my $result = $fuzzer->fuzz($endpoint, $verb, $payload, $accept);
 
         next if $return && $result->{Code} != $return;
         
         my $printable = $json ? encode_json($result) : sprintf(
-            "[%d] URL: %s | Method: %s | Response: %s | Length: %s",
+            "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
             $result->{Code}, $result->{URL}, $result->{Method},
             $result->{Response}, $result->{Length}
         );
@@ -39,18 +38,15 @@ sub fuzzer_thread
     }
 }
 
-sub main
-{
+sub main {
+
     my ($target, $return, $payload);
     my %headers;
     my $agent    = "Nozaki CLI / 0.1.1";
     my $delay    = 0;
     my $timeout  = 10;
     my $wordlist = "wordlists/default.txt";
-    my $methods  = "GET,POST,PUT,DELETE,HEAD,OPTIONS,CONNECT,TRACE,PATCH,SUBSCRIBE,MOVE,REPORT,UNLOCK,%s%s%s%s"
-                    . "PURGE,POLL,NOTIFY,SEARCH,1337,CATS,*,DATA,HEADERS,PRIORITY,RST_STREAM,SETTINGS,PUSH_PROMISE"
-                    . "PING,GOAWAY,WINDOW_UPDATE,CONTINUATION";
-    #use only 10 threads by default
+    my $methods  = "GET,POST,PUT,DELETE,HEAD,OPTIONS,TRACE,PATCH,PUSH";
     my $tasks    = 10; 
     my $json     = 0;
     my $accept;
@@ -73,24 +69,25 @@ sub main
     return Functions::Helper->new() unless $target && $wordlist;
     
     open (my $file, "<", $wordlist) || die "$0: Can't open $wordlist";
-    my @wordlist;
+    my @resources;
     while (<$file>)
     {
         chomp;
-        push @wordlist, $_;
+        push @resources, $_;
     }
     close ($file);
 
     my $threadmgr = Parallel::ForkManager->new($tasks);
     $threadmgr->set_waitpid_blocking_sleep(0);
     THREADS:
-    for (@wordlist)
+    for (@resources)
     {
         my $endpoint = url_join($target, $_);
         $threadmgr->start() and next THREADS;
         
         fuzzer_thread($endpoint, $methods, $agent, \%headers, $accept,
-            $timeout, $return, $payload, $json, $delay);
+            $timeout, $return, $payload, $json, $delay
+        );
         
         $threadmgr->finish();
     }
