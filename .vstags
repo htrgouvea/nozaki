@@ -14,8 +14,8 @@ Functions::Utils::url_get_extension	lib/Functions/Utils.pm	31;"	s
 Functions::Utils::url_info	lib/Functions/Utils.pm	9;"	s
 Functions::Utils::url_join	lib/Functions/Utils.pm	25;"	s
 fuzz	lib/Engine/Fuzzer.pm	18;"	s
-fuzzer_thread	nozaki.pl	18;"	s
-main	nozaki.pl	63;"	s
+fuzzer_thread	nozaki.pl	14;"	s
+main	nozaki.pl	42;"	s
 new	lib/Engine/Fuzzer.pm	8;"	s
 new	lib/Functions/Helper.pm	5;"	s
 url_get_extension	lib/Functions/Utils.pm	31;"	s

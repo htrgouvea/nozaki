@@ -67,9 +67,9 @@ Core Commands
 ```
 $ perl nozaki.pl --method GET --url https://heitorgouvea.me/ --return 200
 
-Code: 200 | URL: https://heitorgouvea.me/index | Method: [GET] | Reponse: OK | Length: null
-Code: 200 | URL: https://heitorgouvea.me/about | Method: [GET] | Reponse: OK | Length: null
-Code: 200 | URL: https://heitorgouvea.me/projects | Method: [GET] | Reponse: OK | Length: null
+[200] URL: https://heitorgouvea.me/index | Method: [GET] | Reponse: OK | Length: null
+[200] URL: https://heitorgouvea.me/about | Method: [GET] | Reponse: OK | Length: null
+[200] URL: https://heitorgouvea.me/projects | Method: [GET] | Reponse: OK | Length: null
 ...
 ```
 
@@ -78,15 +78,15 @@ Code: 200 | URL: https://heitorgouvea.me/projects | Method: [GET] | Reponse: OK 
 ```
 $ perl nozaki.pl --url https://heitorgouvea.me/ -w wordlists/hackerone/paths_h1.txt
 
-Code: 200 | URL: https://heitorgouvea.me/ | Method: [GET] | Response: OK | Length: null
-Code: 403 | URL: https://heitorgouvea.me/ | Method: [POST] | Response: Forbidden | Length: null
-Code: 403 | URL: https://heitorgouvea.me/ | Method: [PUT] | Response: Forbidden | Length: null
-Code: 403 | URL: https://heitorgouvea.me/ | Method: [DELETE] | Response: Forbidden | Length: null
-Code: 200 | URL: https://heitorgouvea.me/ | Method: [HEAD] | Response: OK | Length: null
-Code: 405 | URL: https://heitorgouvea.me/ | Method: [OPTIONS] | Response: Not Allowed | Length: null
-Code: 400 | URL: https://heitorgouvea.me/ | Method: [CONNECT] | Response: Bad Request | Length: 155
-Code: 405 | URL: https://heitorgouvea.me/ | Method: [TRACE] | Response: Not Allowed | Length: 155
-Code: 403 | URL: https://heitorgouvea.me/ | Method: [PATCH] | Response: Forbidden | Length: null
+[200] URL: https://heitorgouvea.me/ | Method: [GET] | Response: OK | Length: null
+[403] URL: https://heitorgouvea.me/ | Method: [POST] | Response: Forbidden | Length: null
+[403] URL: https://heitorgouvea.me/ | Method: [PUT] | Response: Forbidden | Length: null
+[403] URL: https://heitorgouvea.me/ | Method: [DELETE] | Response: Forbidden | Length: null
+[200] URL: https://heitorgouvea.me/ | Method: [HEAD] | Response: OK | Length: null
+[405] URL: https://heitorgouvea.me/ | Method: [OPTIONS] | Response: Not Allowed | Length: null
+[400] URL: https://heitorgouvea.me/ | Method: [CONNECT] | Response: Bad Request | Length: 155
+[405] URL: https://heitorgouvea.me/ | Method: [TRACE] | Response: Not Allowed | Length: 155
+[403] URL: https://heitorgouvea.me/ | Method: [PATCH] | Response: Forbidden | Length: null
 ...
 ```
 
