@@ -6,7 +6,8 @@ package Engine::Fuzzer {
 
     sub new {
         my ($self, %args) = @_;
-        my $ua = LWP::UserAgent->new(
+        
+        my $ua = LWP::UserAgent -> new(
             agent   => $args{useragent} || "Nozaki/0.1.1",
             timeout => $args{timeout} || 10,
         );
@@ -16,19 +17,19 @@ package Engine::Fuzzer {
     sub fuzz {
         my ($self, $endpoint, $method, $payload, $accept) = @_;
 
-        my $request  = HTTP::Request->new($method, $endpoint);
+        my $request  = HTTP::Request -> new($method, $endpoint);
 
-        while (my ($header, $value) = each %{$self->{headers}}) {
-            $request->header($header => $value)
+        while (my ($header, $value) = each %{$self -> {headers}}) {
+            $request -> header($header => $value)
         }
-        $request->header(Accept => $accept) if $accept;
 
-        $request->content($payload) if ($payload);
+        $request ->header(Accept => $accept) if $accept;
+        $request -> content($payload) if ($payload);
 
-        my $response = $self->{ua}->request($request);
-        my $message  = $response->message();
-        my $length   = $response->content_length() || "null";
-        my $code     = $response->code();
+        my $response = $self -> {ua} -> request($request);
+        my $message  = $response -> message();
+        my $length   = $response -> content_length() || "null";
+        my $code     = $response -> code();
 
         my $printable = {
             "Code"     => $code,
@@ -37,7 +38,9 @@ package Engine::Fuzzer {
             "Response" => $message,
             "Length"   => $length 
         };
+
         return $printable;
     }
 }
+
 1;

@@ -12,36 +12,34 @@ use Parallel::ForkManager;
 use Getopt::Long qw(:config no_ignore_case);
 
 sub fuzzer_thread {
-
-    my ($endpoint, $methods,$agent, $headers, $accept,
-        $timeout, $return, $payload, $json, $delay) = @_;
+    my ($endpoint, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay) = @_;
     
-    my $fuzzer = Engine::Fuzzer->new(
+    my $fuzzer = Engine::Fuzzer -> new(
             useragent => $agent,
             timeout => $timeout,
-            headers => $headers,
+            headers => $headers
     );
     
     my @verbs = split /,/, $methods;
-    for my $verb (@verbs) {
-        my $result = $fuzzer->fuzz($endpoint, $verb, $payload, $accept);
 
-        next if $return && $result->{Code} != $return;
+    for my $verb (@verbs) {
+        my $result = $fuzzer -> fuzz($endpoint, $verb, $payload, $accept);
+
+        next if $return && $result -> {Code} != $return;
         
         my $printable = $json ? encode_json($result) : sprintf(
             "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
-            $result->{Code}, $result->{URL}, $result->{Method},
-            $result->{Response}, $result->{Length}
+            $result -> {Code}, $result -> {URL}, $result -> {Method},
+            $result -> {Response}, $result -> {Length}
         );
+
         print $printable . "\n";
         sleep($delay);
     }
 }
 
 sub main {
-
-    my ($target, $return, $payload);
-    my %headers;
+    my ($target, $return, $payload, %headers, $accept);
     my $agent    = "Nozaki CLI / 0.1.1";
     my $delay    = 0;
     my $timeout  = 10;
@@ -49,7 +47,6 @@ sub main {
     my $methods  = "GET,POST,PUT,DELETE,HEAD,OPTIONS,TRACE,PATCH,PUSH";
     my $tasks    = 10; 
     my $json     = 0;
-    my $accept;
 
     GetOptions (
         "A|accept=s"   => \$accept,
@@ -66,35 +63,33 @@ sub main {
         "T|tasks=i"    => \$tasks,
     ) or die ( return Functions::Helper -> new() );
 
-    return Functions::Helper->new() unless $target && $wordlist;
+    return Functions::Helper -> new() unless $target && $wordlist;
     
     open (my $file, "<", $wordlist) || die "$0: Can't open $wordlist";
+    
     my @resources;
-    while (<$file>)
-    {
-        chomp;
+
+    while (<$file>) {
+        chomp ($_);
         push @resources, $_;
     }
+
     close ($file);
 
-    my $threadmgr = Parallel::ForkManager->new($tasks);
-    $threadmgr->set_waitpid_blocking_sleep(0);
+    my $threadmgr = Parallel::ForkManager -> new($tasks);
+    $threadmgr -> set_waitpid_blocking_sleep(0);
     THREADS:
-    for (@resources)
-    {
-        my $endpoint = url_join($target, $_);
-        $threadmgr->start() and next THREADS;
-        
-        fuzzer_thread($endpoint, $methods, $agent, \%headers, $accept,
-            $timeout, $return, $payload, $json, $delay
-        );
-        
-        $threadmgr->finish();
-    }
-    $threadmgr->wait_all_children;
 
-    print "Finished.\n";
-    
+    for (@resources) {
+        my $endpoint = url_join($target, $_);
+        $threadmgr -> start() and next THREADS;
+        
+        fuzzer_thread($endpoint, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay);
+        
+        $threadmgr -> finish();
+    }
+    $threadmgr -> wait_all_children();
+
     return 0;
 }
 

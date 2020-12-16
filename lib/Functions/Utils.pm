@@ -1,5 +1,4 @@
 package Functions::Utils {
-
     use strict;
     use warnings;
     use base 'Exporter';
