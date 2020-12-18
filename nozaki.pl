@@ -11,7 +11,7 @@ use Parallel::ForkManager;
 use Getopt::Long qw(:config no_ignore_case);
 
 sub fuzzer_thread {
-    my ($endpoint, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay) = @_;
+    my ($endpoint, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude) = @_;
     
     my $fuzzer = Engine::Fuzzer -> new (
             useragent => $agent,
@@ -25,7 +25,8 @@ sub fuzzer_thread {
         my $result = $fuzzer -> fuzz($endpoint, $verb, $payload, $accept);
 
         next if $return && $result -> {Code} != $return;
-        
+        next if $exclude && $result -> {Code} == $exclude;
+
         my $printable = $json ? encode_json($result) : sprintf(
             "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
             $result -> {Code}, $result -> {URL}, $result -> {Method},
@@ -38,7 +39,7 @@ sub fuzzer_thread {
 }
 
 sub main {
-    my ($target, $return, $payload, %headers, $accept);
+    my ($target, $return, $payload, %headers, $accept, $exclude);
     my $agent    = "Nozaki CLI / 0.2.0";
     my $delay    = 0;
     my $timeout  = 10;
@@ -60,6 +61,7 @@ sub main {
         "j|json"       => \$json,
         "H|header=s%"  => \%headers,
         "T|tasks=i"    => \$tasks,
+        "e|exclude=s"  => \$exclude,
     ) or die ( return Functions::Helper -> new() );
 
     return Functions::Helper -> new() unless $target && $wordlist;
@@ -84,7 +86,7 @@ sub main {
         my $endpoint = $target . $_;
         $threadmgr -> start() and next THREADS;
         
-        fuzzer_thread($endpoint, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay);
+        fuzzer_thread($endpoint, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude);
         
         $threadmgr -> finish();
     }

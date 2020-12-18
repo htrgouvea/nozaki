@@ -11,6 +11,6 @@ Functions::Helper	lib/Functions/Helper.pm	1;"	p
 Functions::Helper::new	lib/Functions/Helper.pm	5;"	s
 fuzz	lib/Engine/Fuzzer.pm	18;"	s
 fuzzer_thread	nozaki.pl	13;"	s
-main	nozaki.pl	40;"	s
+main	nozaki.pl	41;"	s
 new	lib/Engine/Fuzzer.pm	7;"	s
 new	lib/Functions/Helper.pm	5;"	s
