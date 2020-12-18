@@ -25,7 +25,7 @@ package Engine::Fuzzer {
         }
 
         $request -> header(Accept => $accept) if $accept;
-        $request -> content($payload) if ($payload);
+        $request -> content($payload) if $payload;
 
         my $response = $self -> {ua} -> request($request);
 

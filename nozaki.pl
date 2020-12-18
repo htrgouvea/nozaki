@@ -6,7 +6,6 @@ use strict;
 use warnings;
 use lib "./lib/";
 use Engine::Fuzzer;
-use Functions::Utils;
 use Functions::Helper;
 use Parallel::ForkManager;
 use Getopt::Long qw(:config no_ignore_case);
