@@ -7,10 +7,11 @@ package Engine::Fuzzer {
     sub new {
         my ($self, %args) = @_;
         
-        my $ua = LWP::UserAgent -> new(
-            agent   => $args{useragent} || "Nozaki/0.1.1",
+        my $ua = LWP::UserAgent -> new (
+            agent   => $args{useragent},
             timeout => $args{timeout} || 10,
         );
+
         bless { ua => $ua, headers => $args{headers} || {} }, $self;
     }
 
@@ -23,10 +24,11 @@ package Engine::Fuzzer {
             $request -> header($header => $value)
         }
 
-        $request ->header(Accept => $accept) if $accept;
+        $request -> header(Accept => $accept) if $accept;
         $request -> content($payload) if ($payload);
 
         my $response = $self -> {ua} -> request($request);
+
         my $message  = $response -> message();
         my $length   = $response -> content_length() || "null";
         my $code     = $response -> code();

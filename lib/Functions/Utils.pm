@@ -3,7 +3,7 @@ package Functions::Utils {
     use warnings;
     use base 'Exporter';
 
-    our @EXPORT = qw(url_info url_get_extension url_join);
+    our @EXPORT = qw(url_info url_get_extension);
 
     sub url_info {
         my ($url) = @_;
@@ -19,11 +19,6 @@ package Functions::Utils {
             path    => $path,
             file    => $file,
         }
-    }
-
-    sub url_join {
-        my ($base, $res) = @_;
-        ($base =~ /\/$/ || $res =~ /^\//) ? $base . $res : $base . "/" . $res
     }
 
     sub url_get_extension {

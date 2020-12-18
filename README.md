@@ -6,8 +6,8 @@
     <a href="/LICENSE.md">
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
-    <a href="https://github.com/htrgouvea/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.1.1-blue.svg">
+    <a href="https://github.com/NozakiLabs/nozaki/releases">
+      <img src="https://img.shields.io/badge/version-0.2.0-blue.svg">
     </a>
   </p>
 </p>
@@ -27,7 +27,7 @@ The idea is that this solution is complete enough to cover the entire fuzzing pr
 ### Download & Install
 
 ```
-  $ git clone https://github.com/htrgouvea/nozaki && cd nozaki
+  $ git clone https://github.com/NozakiLabs/nozaki && cd nozaki
   $ cpan install Getopt::Long LWP::UserAgent HTTP::Request Parallel::ForkManager
 ```
 
@@ -38,7 +38,7 @@ The idea is that this solution is complete enough to cover the entire fuzzing pr
 ```
 $ perl nozaki.pl
 
-Nozaki v0.1.1
+Nozaki v0.2.0
 Core Commands
 ==============
 	Command       Description
@@ -109,7 +109,7 @@ $ perl nozaki.pl -m POST -u https://heitorgouvea.me/ --payload \{\"data\": \"\"\
 
 ### Contribution
 
-- Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page](https://github.com/htrgouvea/Nozaki/issues) and for security issues, see here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
+- Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page](https://github.com/NozakiLabs/Nozaki/issues) and for security issues, see here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
 
 ---
 

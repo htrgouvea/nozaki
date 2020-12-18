@@ -14,13 +14,13 @@ use Getopt::Long qw(:config no_ignore_case);
 sub fuzzer_thread {
     my ($endpoint, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay) = @_;
     
-    my $fuzzer = Engine::Fuzzer -> new(
+    my $fuzzer = Engine::Fuzzer -> new (
             useragent => $agent,
             timeout => $timeout,
             headers => $headers
     );
     
-    my @verbs = split /,/, $methods;
+    my @verbs = split (/,/, $methods);
 
     for my $verb (@verbs) {
         my $result = $fuzzer -> fuzz($endpoint, $verb, $payload, $accept);
@@ -40,7 +40,7 @@ sub fuzzer_thread {
 
 sub main {
     my ($target, $return, $payload, %headers, $accept);
-    my $agent    = "Nozaki CLI / 0.1.1";
+    my $agent    = "Nozaki CLI / 0.2.0";
     my $delay    = 0;
     my $timeout  = 10;
     my $wordlist = "wordlists/default.txt";
@@ -77,17 +77,19 @@ sub main {
     close ($file);
 
     my $threadmgr = Parallel::ForkManager -> new($tasks);
+
     $threadmgr -> set_waitpid_blocking_sleep(0);
     THREADS:
 
     for (@resources) {
-        my $endpoint = url_join($target, $_);
+        my $endpoint = $target . $_;
         $threadmgr -> start() and next THREADS;
         
         fuzzer_thread($endpoint, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay);
         
         $threadmgr -> finish();
     }
+
     $threadmgr -> wait_all_children();
 
     return 0;
