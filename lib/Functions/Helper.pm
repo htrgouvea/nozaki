@@ -4,7 +4,7 @@ package Functions::Helper {
 
 	sub new {
 		print "
-			\rNozaki v0.2.0
+			\rNozaki v0.2.1
 			\rCore Commands
 			\r==============
 			\r\tCommand       Description
@@ -17,7 +17,8 @@ package Functions::Helper {
 			\r\t-w, --wordlist    Define wordlist of paths
 			\r\t-d, --delay       Define a seconds of delay between requests
 			\r\t-a, --agent       Define a custom User Agent
-			\r\t-r, --return      Set a filter based on HTTP Code Response
+			\r\t-r, --return      Set a filter based on HTTP Response Code
+			\r\t-e, --exclude     Exclude a specif result based on HTTP Response Code
 			\r\t-t, --timeout     Define the timeout, default is 10s
 			\r\t-p, --payload     Send a custom data
 			\r\t-j, --json        Define the output in JSON format
