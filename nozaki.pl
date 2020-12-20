@@ -22,10 +22,9 @@ sub fuzzer_thread {
     my @verbs = split (/,/, $methods);
 
     for my $verb (@verbs) {
-        my $result = $fuzzer -> fuzz($endpoint, $verb, $payload, $accept);
+        my $result = $fuzzer -> fuzz ($endpoint, $verb, $payload, $accept);
 
-        next if $return && $result -> {Code} != $return;
-        next if $exclude && $result -> {Code} == $exclude;
+        next if ($return && $return != $result -> {Code}) || ($exclude && $exclude == $result -> {Code});
 
         my $printable = $json ? encode_json($result) : sprintf(
             "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
@@ -39,14 +38,13 @@ sub fuzzer_thread {
 }
 
 sub main {
-    my ($target, $return, $payload, %headers, $accept, $exclude);
-    my $agent    = "Nozaki CLI / 0.2.0";
+    my ($target, $return, $payload, %headers, $accept, $json, $exclude);
+    my $agent    = "Nozaki CLI / 0.2.1";
     my $delay    = 0;
     my $timeout  = 10;
     my $wordlist = "wordlists/default.txt";
     my $methods  = "GET,POST,PUT,DELETE,HEAD,OPTIONS,TRACE,PATCH,PUSH";
-    my $tasks    = 10; 
-    my $json     = 0;
+    my $tasks    = 10;
 
     GetOptions (
         "A|accept=s"   => \$accept,

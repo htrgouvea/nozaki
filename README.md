@@ -7,7 +7,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/NozakiLabs/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.2.0-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.2.1-blue.svg">
     </a>
   </p>
 </p>
@@ -51,7 +51,8 @@ Core Commands
 	-w, --wordlist    Define wordlist of paths
 	-d, --delay       Define a seconds of delay between requests
 	-a, --agent       Define a custom User Agent
-	-r, --return      Set a filter based on HTTP Code Response
+	-r, --return      Set a filter based on HTTP Response Code
+	-e, --exclude     Exclude a specif result based on HTTP Response Code
 	-t, --timeout     Define the timeout, default is 10s
 	-p, --payload     Send a custom data
 	-j, --json        Define the output in JSON format
