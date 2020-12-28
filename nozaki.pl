@@ -20,15 +20,18 @@ sub fuzzer_thread {
     );
     
     my @verbs = split (/,/, $methods);
-
+    my @valid_codes = split /,/, $return || "";
+    my @invalid_codes = split /,/, $exclude || "";
+    
     for my $verb (@verbs) {
         my $result = $fuzzer -> fuzz ($endpoint, $verb, $payload, $accept);
 
-        next if ($return && $return != $result -> {Code}) || ($exclude && $exclude == $result -> {Code});
-
+        my $status = $result -> {Code};
+        next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
+        
         my $printable = $json ? encode_json($result) : sprintf(
             "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
-            $result -> {Code}, $result -> {URL}, $result -> {Method},
+            $status, $result -> {URL}, $result -> {Method},
             $result -> {Response}, $result -> {Length}
         );
 
