@@ -4,7 +4,7 @@ use JSON;
 use 5.018;
 use strict;
 use warnings;
-use lib "./lib/";
+use Find::Lib "./lib";
 use Engine::Fuzzer;
 use Functions::Helper;
 use Parallel::ForkManager;
