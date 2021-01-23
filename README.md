@@ -38,25 +38,25 @@ The idea is that this solution is complete enough to cover the entire fuzzing pr
 ```
 $ perl nozaki.pl
 
-Nozaki v0.2.0
+Nozaki v0.2.1
 Core Commands
 ==============
 	Command       Description
-	-------       -----------
-	-A, --accept      Define a custom 'Accept' header
-	-T, --tasks       The number of threads to run in parallel
-	-H, --header      Define a custom header (header=value)
-	-m, --method      Define methods HTTP to use during fuzzing, separeted by ","
-	-u, --url         Define a target
-	-w, --wordlist    Define wordlist of paths
-	-d, --delay       Define a seconds of delay between requests
-	-a, --agent       Define a custom User Agent
-	-r, --return      Set a filter based on HTTP Response Code
-	-e, --exclude     Exclude a specif result based on HTTP Response Code
-	-t, --timeout     Define the timeout, default is 10s
-	-p, --payload     Send a custom data
-	-j, --json        Define the output in JSON format
-	-h, --help        See this screen
+    -------       -----------
+    -A, --accept      Define a custom 'Accept' header
+    -T, --tasks       The number of threads to run in parallel
+    -H, --header      Define a custom header (header=value)
+    -m, --method      Define HTTP methods to use during fuzzing, separeted by ","
+    -u, --url         Define a target
+    -w, --wordlist    Define wordlist of paths
+    -d, --delay       Define seconds of delay between requests
+    -a, --agent       Define a custom User Agent
+    -r, --return      Set a filter based on HTTP Response Code
+    -e, --exclude     Exclude a specific result based on HTTP Response Code
+    -t, --timeout     Define the timeout, default is 10s
+    -p, --payload     Send a custom data
+    -j, --json        Display the results in JSON format
+    -h, --help        See this screen
 ```
 
 ---
