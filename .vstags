@@ -9,8 +9,11 @@ Engine::Fuzzer::fuzz	lib/Engine/Fuzzer.pm	18;"	s
 Engine::Fuzzer::new	lib/Engine/Fuzzer.pm	7;"	s
 Functions::Helper	lib/Functions/Helper.pm	1;"	p
 Functions::Helper::new	lib/Functions/Helper.pm	5;"	s
+Nozaki::Core	nozaki.pl	3;"	p
+Nozaki::Core::fuzzer_thread	nozaki.pl	15;"	s
+Nozaki::Core::main	nozaki.pl	45;"	s
 fuzz	lib/Engine/Fuzzer.pm	18;"	s
-fuzzer_thread	nozaki.pl	13;"	s
-main	nozaki.pl	43;"	s
+fuzzer_thread	nozaki.pl	15;"	s
+main	nozaki.pl	45;"	s
 new	lib/Engine/Fuzzer.pm	7;"	s
 new	lib/Functions/Helper.pm	5;"	s
