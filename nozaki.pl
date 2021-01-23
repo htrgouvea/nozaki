@@ -4,8 +4,8 @@ use JSON;
 use 5.018;
 use strict;
 use warnings;
-use Find::Lib "./lib";
 use Engine::Fuzzer;
+use Find::Lib "./lib";
 use Functions::Helper;
 use Parallel::ForkManager;
 use Getopt::Long qw(:config no_ignore_case);
@@ -57,7 +57,7 @@ sub main {
         "d|delay=i"    => \$delay,
         "t|timeout=i"  => \$timeout,
         "a|agent=s"    => \$agent,
-        "r|return=i"   => \$return,
+        "r|return=s"   => \$return,
         "p|payload=s"  => \$payload,
         "j|json"       => \$json,
         "H|header=s%"  => \%headers,
