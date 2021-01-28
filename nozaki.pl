@@ -1,12 +1,12 @@
 #!/usr/bin/env perl
 
-package Nozaki::Core {
+use 5.018;
+use strict;
+use warnings;
+use Find::Lib "./lib";
 
+package Nozaki::Core {
     use JSON;
-    use 5.018;
-    use strict;
-    use warnings;
-    use Find::Lib "./lib";
     use Engine::Fuzzer;
     use Functions::Helper;
     use Parallel::ForkManager;
@@ -16,9 +16,9 @@ package Nozaki::Core {
         my ($endpoint, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude) = @_;
         
         my $fuzzer = Engine::Fuzzer -> new (
-                useragent => $agent,
-                timeout => $timeout,
-                headers => $headers
+            useragent => $agent,
+            timeout => $timeout,
+            headers => $headers
         );
         
         my @verbs = split (/,/, $methods);
@@ -37,15 +37,15 @@ package Nozaki::Core {
                 $result -> {Response}, $result -> {Length}
             );
 
-            print $printable . "\n";
+            print $printable, "\n";
             sleep($delay);
         }
     }
 
     sub main {
-        my ($cl_opt) = @_;
+        my ($arguments) = @_;
         my ($target, $return, $payload, %headers, $accept, $json, $exclude);
-        my $agent    = "Nozaki CLI / 0.2.1";
+        my $agent    = "Nozaki CLI / 0.2.2";
         my $delay    = 0;
         my $timeout  = 10;
         my $wordlist = "wordlists/default.txt";
@@ -53,7 +53,7 @@ package Nozaki::Core {
         my $tasks    = 10;
 
         Getopt::Long::GetOptionsFromArray (
-            $cl_opt,
+            $arguments,
             "A|accept=s"   => \$accept,
             "u|url=s"      => \$target,
             "w|wordlist=s" => \$wordlist,
@@ -67,43 +67,45 @@ package Nozaki::Core {
             "H|header=s%"  => \%headers,
             "T|tasks=i"    => \$tasks,
             "e|exclude=s"  => \$exclude,
-        ) or die ( return Functions::Helper -> new() );
+        );
+        
+        if ($target) {
+            my @resources;
+        
+            for my $list (glob($wordlist)) {
+                open (my $file, "<$list") || die "$0: Can't open $list";
 
-        return Functions::Helper -> new() unless $target && $wordlist;
-            
-        my @resources;
-        for my $list (glob($wordlist))
-        {
-            open (my $file, "<$list") || die "$0: Can't open $list";
+                while (<$file>) {
+                    chomp ($_);
+                    push @resources, $_;
+                }
 
-            while (<$file>) {
-                chomp ($_);
-                push @resources, $_;
+                close ($file);
             }
-            close ($file);
+
+            my $threadmgr = Parallel::ForkManager -> new($tasks);
+
+            $threadmgr -> set_waitpid_blocking_sleep(0);
+            THREADS:
+
+            for (@resources) {
+                my $endpoint = $target . $_;
+                $threadmgr -> start() and next THREADS;
+                
+                fuzzer_thread($endpoint, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude);
+                
+                $threadmgr -> finish();
+            }
+
+            $threadmgr -> wait_all_children();
+
+            return 0;
         }
 
-        my $threadmgr = Parallel::ForkManager -> new($tasks);
-
-        $threadmgr -> set_waitpid_blocking_sleep(0);
-        THREADS:
-
-        for (@resources) {
-            my $endpoint = $target . $_;
-            $threadmgr -> start() and next THREADS;
-            
-            fuzzer_thread($endpoint, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude);
-            
-            $threadmgr -> finish();
-        }
-
-        $threadmgr -> wait_all_children();
-
-        return 0;
-    }
+        return Functions::Helper -> new();
+    } 
 
     exit main(\@ARGV) unless caller;
-
 }
 
 1;
