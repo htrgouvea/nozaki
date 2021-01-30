@@ -15,11 +15,7 @@ package Nozaki::Core {
     sub fuzzer_thread {
         my ($endpoint, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude) = @_;
         
-        my $fuzzer = Engine::Fuzzer -> new (
-            useragent => $agent,
-            timeout => $timeout,
-            headers => $headers
-        );
+        my $fuzzer = Engine::Fuzzer -> new ($agent, $timeout, $headers);
         
         my @verbs = split (/,/, $methods);
         my @valid_codes = split /,/, $return || "";

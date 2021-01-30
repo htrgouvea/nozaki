@@ -5,14 +5,14 @@ package Engine::Fuzzer {
     use LWP::UserAgent;
 
     sub new {
-        my ($self, %args) = @_;
+        my ($self, $agent, $timeout, $headers) = @_;
         
         my $ua = LWP::UserAgent -> new (
-            agent   => $args{useragent},
-            timeout => $args{timeout} || 10,
+            agent   => $agent,
+            timeout => $timeout || 10,
         );
 
-        bless { ua => $ua, headers => $args{headers} || {} }, $self;
+        bless { ua => $ua, headers => $headers || {} }, $self;
     }
 
     sub fuzz {
@@ -21,7 +21,7 @@ package Engine::Fuzzer {
         my $request  = HTTP::Request -> new($method, $endpoint);
 
         while (my ($header, $value) = each %{$self -> {headers}}) {
-            $request -> header($header => $value)
+            $request -> header($header => $value);
         }
 
         $request -> header(Accept => $accept) if $accept;
@@ -33,7 +33,7 @@ package Engine::Fuzzer {
         my $length   = $response -> content_length() || "null";
         my $code     = $response -> code();
 
-        my $printable = {
+        my $result = {
             "Code"     => $code,
             "URL"      => $endpoint,
             "Method"   => $method,
@@ -41,7 +41,7 @@ package Engine::Fuzzer {
             "Length"   => $length 
         };
 
-        return $printable;
+        return $result;
     }
 }
 
