@@ -5,33 +5,29 @@ package Engine::Fuzzer {
     use LWP::UserAgent;
 
     sub new {
-        my ($self, $agent, $timeout, $headers) = @_;
+        my ($self, $agent, $timeout, $headers, $endpoint, $method, $payload, $accept) = @_;
         
-        my $ua = LWP::UserAgent -> new (
+        my $userAgent = LWP::UserAgent -> new (
             agent   => $agent,
             timeout => $timeout || 10,
+            agent   => $agent,
         );
 
-        bless { ua => $ua, headers => $headers || {} }, $self;
-    }
+        my $request = HTTP::Request -> new($method, $endpoint);
 
-    sub fuzz {
-        my ($self, $endpoint, $method, $payload, $accept) = @_;
-
-        my $request  = HTTP::Request -> new($method, $endpoint);
-
-        while (my ($header, $value) = each %{$self -> {headers}}) {
+        while (my ($header, $value) = each %{$headers}) {
             $request -> header($header => $value);
         }
 
         $request -> header(Accept => $accept) if $accept;
         $request -> content($payload) if $payload;
 
-        my $response = $self -> {ua} -> request($request);
+        my $response = $userAgent -> request($request);
 
         my $message  = $response -> message();
         my $length   = $response -> content_length() || "null";
         my $code     = $response -> code();
+        my $content  = $response -> content();
 
         my $result = {
             "Code"     => $code,

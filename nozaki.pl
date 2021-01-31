@@ -15,14 +15,12 @@ package Nozaki::Core {
     sub fuzzer_thread {
         my ($endpoint, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude) = @_;
         
-        my $fuzzer = Engine::Fuzzer -> new ($agent, $timeout, $headers);
-        
         my @verbs = split (/,/, $methods);
         my @valid_codes = split /,/, $return || "";
         my @invalid_codes = split /,/, $exclude || "";
         
         for my $verb (@verbs) {
-            my $result = $fuzzer -> fuzz ($endpoint, $verb, $payload, $accept);
+            my $result = Engine::Fuzzer -> new ($agent, $timeout, $headers, $endpoint, $verb, $payload, $accept);
 
             my $status = $result -> {Code};
             next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
@@ -41,7 +39,7 @@ package Nozaki::Core {
     sub main {
         my ($arguments) = @_;
         my ($target, $return, $payload, %headers, $accept, $json, $exclude);
-        my $agent    = "Nozaki CLI / 0.2.2";
+        my $agent    = "Nozaki CLI / 0.2.3";
         my $delay    = 0;
         my $timeout  = 10;
         my $wordlist = "wordlists/default.txt";
