@@ -7,7 +7,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/NozakiLabs/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.2.1-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.2.3-blue.svg">
     </a>
   </p>
 </p>
@@ -38,7 +38,7 @@ The idea is that this solution is complete enough to cover the entire fuzzing pr
 ```
 $ perl nozaki.pl
 
-Nozaki v0.2.1
+Nozaki v0.2.3
 Core Commands
 ==============
 	Command       Description
@@ -68,9 +68,10 @@ Core Commands
 ```
 $ perl nozaki.pl --method GET --url https://heitorgouvea.me/ --return 200
 
-Code: 200 | URL: https://heitorgouvea.me/index | Method: [GET] | Reponse: OK | Length: null
-Code: 200 | https://heitorgouvea.me/about | Method: [GET] | Reponse: OK | Length: null
-Code: 200 | https://heitorgouvea.me/projects | Method: [GET] | Reponse: OK | Length: null
+Code: 200 | URL: https://nozaki.io/CNAME | Method: GET | Response: OK | Length: null
+Code: 200 | URL: https://nozaki.io/index | Method: GET | Response: OK | Length: 6335
+Code: 200 | URL: https://nozaki.io/index.html | Method: GET | Response: OK | Length: 6335
+Code: 200 | URL: https://nozaki.io/README.md | Method: GET | Response: OK | Length: 3950
 ...
 ```
 
