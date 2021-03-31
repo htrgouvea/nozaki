@@ -5,13 +5,15 @@ package Engine::Fuzzer {
     use LWP::UserAgent;
 
     sub new {
-        my ($self, $agent, $timeout, $headers, $endpoint, $method, $payload, $accept) = @_;
+        my ($self, $agent, $timeout, $headers, $endpoint, $method, $payload, $accept, $skipssl) = @_;
         
         my $userAgent = LWP::UserAgent -> new (
             agent   => $agent,
             timeout => $timeout || 10,
             agent   => $agent,
         );
+
+        $userAgent -> ssl_opts(verify_hostname => 0) if $skipssl;
 
         my $request = HTTP::Request -> new($method, $endpoint);
 

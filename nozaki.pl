@@ -11,14 +11,16 @@ use Parallel::ForkManager;
 use Getopt::Long qw(:config no_ignore_case);
 
 sub fuzzer_thread {
-    my ($endpoint, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude) = @_;
+    my (
+        $endpoint, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl
+    ) = @_;
         
     my @verbs = split (/,/, $methods);
     my @valid_codes = split /,/, $return || "";
     my @invalid_codes = split /,/, $exclude || "";
         
     for my $verb (@verbs) {
-        my $result = Engine::Fuzzer -> new ($agent, $timeout, $headers, $endpoint, $verb, $payload, $accept);
+        my $result = Engine::Fuzzer -> new ($agent, $timeout, $headers, $endpoint, $verb, $payload, $accept, $skipssl);
 
         my $status = $result -> {Code};
         next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
@@ -35,7 +37,7 @@ sub fuzzer_thread {
 }
 
 sub main {
-    my ($target, $return, $payload, %headers, $accept, $json, $exclude);
+    my ($target, $return, $payload, %headers, $accept, $json, $exclude, $skipssl);
     my $agent    = "Nozaki CLI / 0.2.3";
     my $delay    = 0;
     my $timeout  = 10;
@@ -57,8 +59,9 @@ sub main {
         "H|header=s%"  => \%headers,
         "T|tasks=i"    => \$tasks,
         "e|exclude=s"  => \$exclude,
+        "S|skip-ssl"   => \$skipssl,
     );
-        
+
     if ($target) {
         my @resources;
         
@@ -82,7 +85,7 @@ sub main {
             my $endpoint = $target . $_;
             $threadmgr -> start() and next THREADS;
                 
-            fuzzer_thread($endpoint, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude);
+            fuzzer_thread($endpoint, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl);
                 
             $threadmgr -> finish();
         }
