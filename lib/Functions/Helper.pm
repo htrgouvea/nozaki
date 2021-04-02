@@ -4,11 +4,11 @@ package Functions::Helper {
 
 	sub new {
 		print "
-			\rNozaki v0.2.1
+			\rNozaki v0.2.3
 			\rCore Commands
 			\r==============
-			\r\tCommand       Description
-			\r\t-------       -----------
+			\r\tCommand           Description
+			\r\t-------           -----------
             \r\t-A, --accept      Define a custom 'Accept' header
             \r\t-T, --tasks       The number of threads to run in parallel
             \r\t-H, --header      Define a custom header (header=value)
