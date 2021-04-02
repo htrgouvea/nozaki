@@ -1,0 +1,13 @@
+rules:
+  - description: Discovery CVE Endpoints
+    method: GET,POST,OPTIONS,PUT,DELETE
+    wordlist: ../wordlists/leaky-paths/*.txt
+    return: 200
+    accept: \*/\*
+  - description: Fuzz based on HackerOne dataset
+    method: GET,POST,PUT,DELETE
+    wordlist: ../wordlists/hackerone/*.txt
+    return: 200
+    header:
+    accept: application/json
+    

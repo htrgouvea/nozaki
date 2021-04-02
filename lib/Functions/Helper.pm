@@ -24,7 +24,7 @@ package Functions::Helper {
 			\r\t-j, --json        Display the results in JSON format
 			\r\t-h, --help        See this screen\n\n";
 					
-		return 1;
+		return 0;
 	}
 }
 

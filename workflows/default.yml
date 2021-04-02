@@ -1,0 +1,9 @@
+rules:
+  - description: Find valid paths
+    method: GET
+    wordlist: wordlists/default.txt
+    return: 200
+  - description: Discovery sensitive files expousure
+    method: GET
+    wordlist: wordlists/juicefiles.txt
+    return: 200

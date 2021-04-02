@@ -1,0 +1,5 @@
+rules:
+  - description: Find valid paths based on CMS directories
+    method: GET
+    wordlist: ../wordlists/cms/*.txt
+    return: 200
