@@ -28,7 +28,7 @@ The idea is that this solution is complete enough to cover the entire fuzzing pr
 
 ```
   $ git clone https://github.com/NozakiLabs/nozaki && cd nozaki
-  $ cpan install Getopt::Long LWP::UserAgent HTTP::Request Parallel::ForkManager
+  $ cpan install JSON Getopt::Long LWP::UserAgent HTTP::Request Parallel::ForkManager
 ```
 
 ---
@@ -41,8 +41,8 @@ $ perl nozaki.pl
 Nozaki v0.2.3
 Core Commands
 ==============
-	Command       Description
-    -------       -----------
+    Command           Description
+    -------           -----------
     -A, --accept      Define a custom 'Accept' header
     -T, --tasks       The number of threads to run in parallel
     -H, --header      Define a custom header (header=value)
