@@ -1,13 +1,13 @@
 #!/usr/bin/env perl
 
+use JSON;
 use 5.018;
 use strict;
 use warnings;
 use Find::Lib "./lib";
-use JSON;
-use Engine::Fuzzer;
 use Functions::Helper;
 use Functions::Parser;
+use Engine::Fuzzer;
 use Parallel::ForkManager;
 use Getopt::Long qw(:config no_ignore_case pass_through);
 
@@ -19,10 +19,9 @@ sub fuzzer_thread {
     my @verbs = split (/,/, $methods);
     my @valid_codes = split /,/, $return || "";
     my @invalid_codes = split /,/, $exclude || "";
-        
+    my $fuzzer = Engine::Fuzzer->new($timeout, $headers, $skipssl);
     for my $verb (@verbs) {
-        my $result = Engine::Fuzzer -> new ($agent, $timeout, $headers, $endpoint, $verb, $payload, $accept, $skipssl);
-
+        my $result = $fuzzer->request($verb, $agent, $endpoint, $payload, $accept);
         my $status = $result -> {Code};
         next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
             
@@ -63,7 +62,7 @@ sub run_fuzzer {
         "e|exclude=s"  => \$exclude,
         "S|skip-ssl"   => \$skipssl,
     );
-    
+
     my @resources;
     
     for my $list (glob($wordlist)) {
