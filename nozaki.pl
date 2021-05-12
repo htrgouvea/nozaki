@@ -1,39 +1,63 @@
 #!/usr/bin/env perl
 
+use JSON;
 use 5.018;
 use strict;
+use threads;
 use warnings;
+use Thread::Queue;
 use Find::Lib "./lib";
-use JSON;
-use Engine::Fuzzer;
 use Functions::Helper;
 use Functions::Parser;
-use Parallel::ForkManager;
+use Engine::Fuzzer;
+use Time::HiRes qw( gettimeofday tv_interval );
 use Getopt::Long qw(:config no_ignore_case pass_through);
+
+my $wordlist_queue = Thread::Queue->new();
 
 sub fuzzer_thread {
     my (
-        $endpoint, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl
+        $target, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl
     ) = @_;
         
     my @verbs = split (/,/, $methods);
     my @valid_codes = split /,/, $return || "";
     my @invalid_codes = split /,/, $exclude || "";
-        
-    for my $verb (@verbs) {
-        my $result = Engine::Fuzzer -> new ($agent, $timeout, $headers, $endpoint, $verb, $payload, $accept, $skipssl);
+    my $fuzzer = Engine::Fuzzer->new($timeout, $headers, $skipssl);
+    while (defined(my $resource = $wordlist_queue->dequeue()))
+    {
+        my $endpoint = $target . $resource;
+        for my $verb (@verbs) {
+            my $result = $fuzzer->request($verb, $agent, $endpoint, $payload, $accept);
+            my $status = $result -> {Code};
+            next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
+                
+            my $printable = $json ? encode_json($result) : sprintf(
+                "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
+                $status, $result -> {URL}, $result -> {Method},
+                $result -> {Response}, $result -> {Length}
+            );
 
-        my $status = $result -> {Code};
-        next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
-            
-        my $printable = $json ? encode_json($result) : sprintf(
-            "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
-            $status, $result -> {URL}, $result -> {Method},
-            $result -> {Response}, $result -> {Length}
-        );
+            print $printable, "\n";
+            sleep($delay);
+        }
+    }
+    
+}
 
-        print $printable, "\n";
-        sleep($delay);
+sub fill_queue {
+    my ($list, $n) = @_;
+    for (1 .. $n)
+    {
+        return unless (@{$list} > 0);
+        if (eof($list->[0])) {
+            close shift @{$list};
+            (@{$list} > 0) || $wordlist_queue->end();
+            next
+        }
+        my $fh = $list->[0];
+        chomp(my $line = <$fh>);
+        $wordlist_queue->enqueue($line);
     }
 }
 
@@ -63,35 +87,28 @@ sub run_fuzzer {
         "e|exclude=s"  => \$exclude,
         "S|skip-ssl"   => \$skipssl,
     );
+
+    my @current = map {
+        open(my $fh, "<$_") || die "$0: Can't open $_: $!";
+        $fh
+    } glob($wordlist);
     
-    my @resources;
+    fill_queue(\@current, 10 * $tasks);
     
-    for my $list (glob($wordlist)) {
-        open (my $file, "<$list") || die "$0: Can't open $list";
+    my $start_at = [gettimeofday];
 
-        while (<$file>) {
-            chomp ($_);
-            push @resources, $_;
-        }
+    async {
+        fuzzer_thread($target, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl);
+    } for 1 .. $tasks;
 
-        close ($file);
+    while (threads->list(threads::running) > 0) {
+        fill_queue(\@current, $tasks);
     }
+    map { $_ -> join() } threads->list(threads::all);
 
-    my $threadmgr = Parallel::ForkManager -> new($tasks);
+    my $elapsed = tv_interval($start_at);
 
-    $threadmgr -> set_waitpid_blocking_sleep(0);
-    THREADS:
-
-    for (@resources) {
-        my $endpoint = $target . $_;
-        $threadmgr -> start() and next THREADS;
-            
-        fuzzer_thread($endpoint, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl);
-            
-        $threadmgr -> finish();
-    }
-
-    $threadmgr -> wait_all_children();
+    print "Done in $elapsed seconds.\n";
 
     return 0;
 
