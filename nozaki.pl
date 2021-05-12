@@ -10,25 +10,24 @@ use Find::Lib "./lib";
 use Functions::Helper;
 use Functions::Parser;
 use Engine::Fuzzer;
-use Time::HiRes qw( gettimeofday tv_interval );
+use Time::HiRes qw(gettimeofday tv_interval);
 use Getopt::Long qw(:config no_ignore_case pass_through);
 
-my $wordlist_queue = Thread::Queue->new();
+my $wordlist_queue = Thread::Queue -> new();
 
 sub fuzzer_thread {
-    my (
-        $target, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl
-    ) = @_;
+    my ($target, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl) = @_;
         
     my @verbs = split (/,/, $methods);
     my @valid_codes = split /,/, $return || "";
     my @invalid_codes = split /,/, $exclude || "";
     my $fuzzer = Engine::Fuzzer->new($timeout, $headers, $skipssl);
-    while (defined(my $resource = $wordlist_queue->dequeue()))
-    {
+
+    while (defined(my $resource = $wordlist_queue->dequeue())) {
         my $endpoint = $target . $resource;
+        
         for my $verb (@verbs) {
-            my $result = $fuzzer->request($verb, $agent, $endpoint, $payload, $accept);
+            my $result = $fuzzer -> request($verb, $agent, $endpoint, $payload, $accept);
             my $status = $result -> {Code};
             next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
                 
@@ -42,22 +41,23 @@ sub fuzzer_thread {
             sleep($delay);
         }
     }
-    
 }
 
 sub fill_queue {
     my ($list, $n) = @_;
-    for (1 .. $n)
-    {
+    
+    for (1 .. $n) {
         return unless (@{$list} > 0);
+        
         if (eof($list->[0])) {
             close shift @{$list};
             (@{$list} > 0) || $wordlist_queue->end();
             next
         }
-        my $fh = $list->[0];
+
+        my $fh = $list -> [0];
         chomp(my $line = <$fh>);
-        $wordlist_queue->enqueue($line);
+        $wordlist_queue -> enqueue($line);
     }
 }
 
@@ -104,14 +104,12 @@ sub run_fuzzer {
     while (threads->list(threads::running) > 0) {
         fill_queue(\@current, $tasks);
     }
-    map { $_ -> join() } threads->list(threads::all);
+
+    map { $_ -> join() } threads -> list(threads::all);
 
     my $elapsed = tv_interval($start_at);
 
-    print "Done in $elapsed seconds.\n";
-
     return 0;
-
 }
 
 sub main {
@@ -127,18 +125,17 @@ sub main {
 
     die "No target specified" unless $target;
 
-    if ($workflow)
-    {
+    if ($workflow) {
         my $rules = Functions::Parser -> new($workflow);
-        for my $rule (@$rules)
-        {
+        
+        for my $rule (@$rules) {
             delete $rule->{description};
             my $args = [ map { "--$_" . ($rule->{$_} ? "=$rule->{$_}" : "") } keys %{$rule} ];
             run_fuzzer($args, $target);
         }
     }
-    else
-    {
+
+    else {
         run_fuzzer(\@ARGV, $target);
     }
 

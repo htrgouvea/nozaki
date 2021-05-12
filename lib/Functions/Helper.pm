@@ -22,6 +22,7 @@ package Functions::Helper {
 			\r\t-t, --timeout     Define the timeout, default is 10s
 			\r\t-p, --payload     Send a custom data
 			\r\t-j, --json        Display the results in JSON format
+			\r\t--workflow        Pass a YML file with a fuzzing workflow
 			\r\t-h, --help        See this screen\n\n";
 					
 		return 0;
