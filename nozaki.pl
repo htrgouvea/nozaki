@@ -10,7 +10,6 @@ use Find::Lib "./lib";
 use Functions::Helper;
 use Functions::Parser;
 use Engine::Fuzzer;
-use Time::HiRes qw(gettimeofday tv_interval);
 use Getopt::Long qw(:config no_ignore_case pass_through);
 
 my $wordlist_queue = Thread::Queue -> new();
@@ -49,7 +48,7 @@ sub fill_queue {
     for (1 .. $n) {
         return unless (@{$list} > 0);
         
-        if (eof($list->[0])) {
+        if (eof($list -> [0])) {
             close shift @{$list};
             (@{$list} > 0) || $wordlist_queue->end();
             next
@@ -94,52 +93,45 @@ sub run_fuzzer {
     } glob($wordlist);
     
     fill_queue(\@current, 10 * $tasks);
-    
-    my $start_at = [gettimeofday];
 
     async {
         fuzzer_thread($target, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl);
     } for 1 .. $tasks;
 
-    while (threads->list(threads::running) > 0) {
+    while (threads -> list(threads::running) > 0) {
         fill_queue(\@current, $tasks);
     }
 
     map { $_ -> join() } threads -> list(threads::all);
 
-    my $elapsed = tv_interval($start_at);
-
     return 0;
 }
 
 sub main {
-    my ($workflow, $target, $help);
+    my ($workflow, $target);
     
     Getopt::Long::GetOptions (
-        "workflow=s" => \$workflow,
+        "W|workflow=s" => \$workflow,
         "u|url=s"    => \$target,
-        "h|help"     => \$help
     );
-
-    return Functions::Helper -> new() if $help;
-
-    die "No target specified" unless $target;
 
     if ($workflow) {
         my $rules = Functions::Parser -> new($workflow);
         
         for my $rule (@$rules) {
-            delete $rule->{description};
+            delete $rule -> {description};
             my $args = [ map { "--$_" . ($rule->{$_} ? "=$rule->{$_}" : "") } keys %{$rule} ];
             run_fuzzer($args, $target);
         }
+
+        return 1;
     }
 
-    else {
-        run_fuzzer(\@ARGV, $target);
+    if ($target)  {
+        return run_fuzzer(\@ARGV, $target);
     }
 
-    return 0;
+    return Functions::Helper -> new();
 } 
 
 exit main();
