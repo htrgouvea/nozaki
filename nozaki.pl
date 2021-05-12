@@ -49,25 +49,15 @@ sub fill_queue {
     my ($list, $n) = @_;
     for (1 .. $n)
     {
-        if (@{$list} > 0)
-        {
-            if (eof($list->[0])) {
-                close shift @{$list};
-                unless (@{$list} > 0)
-                {
-                    $wordlist_queue->end();
-                    next;
-                }
-                
-            }
-            my $fh = $list->[0];
-            chomp(my $line = <$fh>);
-            $wordlist_queue->enqueue($line);
+        return unless (@{$list} > 0);
+        if (eof($list->[0])) {
+            close shift @{$list};
+            (@{$list} > 0) || $wordlist_queue->end();
+            next
         }
-        else
-        {
-            return
-        }
+        my $fh = $list->[0];
+        chomp(my $line = <$fh>);
+        $wordlist_queue->enqueue($line);
     }
 }
 
@@ -119,6 +109,7 @@ sub run_fuzzer {
     my $elapsed = tv_interval($start_at);
 
     print "Done in $elapsed seconds.\n";
+
     return 0;
 
 }
