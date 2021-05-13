@@ -6,21 +6,21 @@ package Engine::Fuzzer {
     sub new {
         my ($self, $timeout, $headers, $skipssl) = @_;
         my $userAgent = Mojo::UserAgent -> new -> request_timeout($timeout) -> insecure($skipssl);
-        bless { ua => $userAgent, headers => $headers  }, $self;
+        bless { ua => $userAgent, headers => $headers }, $self;
     }
 
     sub request {
         my ($self, $method, $agent, $endpoint, $payload, $accept) = @_;
-        my $request = $self->{ua} -> build_tx(
+        my $request = $self -> {ua} -> build_tx (
             $method => $endpoint => {
                 'User-Agent' => $agent,
                 %{$self->{headers}}
             } => $payload || ""
         );
 
-        my $response  = $self->{ua} -> start($request)->result;
+        my $response  = $self -> {ua} -> start($request) -> result;
         my $message   = $response -> message;
-        my $length    = $response -> headers->content_length || "null";
+        my $length    = $response -> headers -> content_length || "null";
         my $code      = $response -> code;
         my $content   = $response -> content;
 
