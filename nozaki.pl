@@ -1,6 +1,5 @@
 #!/usr/bin/env perl
 
-use JSON;
 use 5.018;
 use strict;
 use threads;
@@ -9,38 +8,10 @@ use Thread::Queue;
 use Find::Lib "./lib";
 use Functions::Helper;
 use Functions::Parser;
-use Engine::Fuzzer;
+use Engine::FuzzerThread;
 use Getopt::Long qw(:config no_ignore_case pass_through);
 
-my $wordlist_queue = Thread::Queue -> new();
-
-sub fuzzer_thread {
-    my ($target, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl) = @_;
-        
-    my @verbs = split (/,/, $methods);
-    my @valid_codes = split /,/, $return || "";
-    my @invalid_codes = split /,/, $exclude || "";
-    my $fuzzer = Engine::Fuzzer->new($timeout, $headers, $skipssl);
-
-    while (defined(my $resource = $wordlist_queue->dequeue())) {
-        my $endpoint = $target . $resource;
-        
-        for my $verb (@verbs) {
-            my $result = $fuzzer -> request($verb, $agent, $endpoint, $payload, $accept);
-            my $status = $result -> {Code};
-            next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
-                
-            my $printable = $json ? encode_json($result) : sprintf(
-                "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
-                $status, $result -> {URL}, $result -> {Method},
-                $result -> {Response}, $result -> {Length}
-            );
-
-            print $printable, "\n";
-            sleep($delay);
-        }
-    }
-}
+my $wordlist_queue;
 
 sub fill_queue {
     my ($list, $n) = @_;
@@ -92,11 +63,14 @@ sub run_fuzzer {
         $fh
     } glob($wordlist);
     
+    $wordlist_queue = Thread::Queue -> new();
+
     fill_queue(\@current, 10 * $tasks);
 
-    async {
-        fuzzer_thread($target, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl);
-    } for 1 .. $tasks;
+    for (1 .. $tasks)
+    {
+        Engine::FuzzerThread -> new($wordlist_queue, $target, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl)
+    }
 
     while (threads -> list(threads::running) > 0) {
         fill_queue(\@current, $tasks);
