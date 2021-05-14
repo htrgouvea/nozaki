@@ -1,5 +1,4 @@
 package Engine::FuzzerThread {
-    
     use JSON;
     use strict;
     use threads;
@@ -11,10 +10,10 @@ package Engine::FuzzerThread {
         my @verbs = split (/,/, $methods);
         my @valid_codes = split /,/, $return || "";
         my @invalid_codes = split /,/, $exclude || "";
-        my $fuzzer = Engine::Fuzzer->new($timeout, $headers, $skipssl);
+        my $fuzzer = Engine::Fuzzer -> new($timeout, $headers, $skipssl);
     
         async {
-            while (defined(my $resource = $queue->dequeue())) {
+            while (defined(my $resource = $queue -> dequeue())) {
                 my $endpoint = $target . $resource;
                 
                 for my $verb (@verbs) {
