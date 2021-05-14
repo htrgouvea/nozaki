@@ -9,7 +9,7 @@ use Find::Lib "./lib";
 use Functions::Helper;
 use Functions::Parser;
 use Engine::FuzzerThread;
-use Getopt::Long qw(:config no_ignore_case pass_through);
+use Getopt::Long qw(:config bundling pass_through);
 
 my $wordlist_queue;
 
