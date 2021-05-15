@@ -28,9 +28,9 @@ Nozaki supports dynamic workflows written in YAML, from there we can write test 
 
 ### Download & Install
 
-```
+``` bash
   $ git clone https://github.com/NozakiLabs/nozaki && cd nozaki
-  $ cpan install JSON Getopt::Long LWP::UserAgent HTTP::Request
+  $ cpan install JSON YAML::Tiny Mojo::UserAgent # or cpanm --installdeps .
 ```
 
 ---
