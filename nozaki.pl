@@ -78,7 +78,7 @@ sub run_fuzzer {
 
     map { $_ -> join() } threads -> list(threads::all);
 
-    return 0;
+    return 1;
 }
 
 sub main {

@@ -7,7 +7,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/NozakiLabs/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.2.3-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.2.4-blue.svg">
     </a>
   </p>
 </p>
@@ -22,13 +22,15 @@
 
 The idea is that this solution is complete enough to cover the entire fuzzing process in a web application (be it a monolith, a REST API, or even a GraphQL API) being fully parameterized, piped with other tools and with amazing filters.
 
+Nozaki supports dynamic workflows written in YAML, from there we can write test cases only once and then reuse them as many times as necessary on different targets.
+
 ---
 
 ### Download & Install
 
 ```
   $ git clone https://github.com/NozakiLabs/nozaki && cd nozaki
-  $ cpan install JSON Getopt::Long LWP::UserAgent HTTP::Request Parallel::ForkManager
+  $ cpan install JSON Getopt::Long LWP::UserAgent HTTP::Request
 ```
 
 ---
@@ -38,7 +40,7 @@ The idea is that this solution is complete enough to cover the entire fuzzing pr
 ```
 $ perl nozaki.pl
 
-Nozaki v0.2.3
+Nozaki v0.2.4
 Core Commands
 ==============
     Command           Description
@@ -56,55 +58,63 @@ Core Commands
     -t, --timeout     Define the timeout, default is 10s
     -p, --payload     Send a custom data
     -j, --json        Display the results in JSON format
+    -W, --workflow    Pass a YML file with a fuzzing workflow
     -h, --help        See this screen
 ```
 
 ---
 
-### Examples
+### Basic examples
 
-1. Content Discovery: finding pages with 200 response code for the GET method
-
-```
-$ perl nozaki.pl --method GET --url https://heitorgouvea.me/ --return 200
+```bash
+# Content Discovery: finding pages with 200 response code for the GET method
+$ perl nozaki.pl --method GET --url https://nozaki.io/ --return 200
 
 Code: 200 | URL: https://nozaki.io/CNAME | Method: GET | Response: OK | Length: null
 Code: 200 | URL: https://nozaki.io/index | Method: GET | Response: OK | Length: 6335
 Code: 200 | URL: https://nozaki.io/index.html | Method: GET | Response: OK | Length: 6335
-Code: 200 | URL: https://nozaki.io/README.md | Method: GET | Response: OK | Length: 3950
-...
+Code: 200 | URL: https://nozaki.io//README.md | Method: GET | Response: OK | Length: 3950
 ```
 
-2. Discovery of HTTP methods supported by the application with a personalized wordlist
+```bash
+# Discovery HTTP methods supported by the application with a personalized wordlist and auth token
+$ perl nozaki.pl -u http://lab.nozaki.io:8081 -e 404,400,405 -w wordlists/personal.txt -H "X-Auth-Token=da1b16b40fe719cb73c7a19e2b6fa9c7" -H "Content-type=application/json"
 
-```
-$ perl nozaki.pl --url https://heitorgouvea.me/ -w wordlists/hackerone/paths_h1.txt
-
-Code: 200 | URL: https://heitorgouvea.me/ | Method: [GET] | Response: OK | Length: null
-Code: 403 | URL: https://heitorgouvea.me/ | Method: [POST] | Response: Forbidden | Length: null
-Code: 403 | URL: https://heitorgouvea.me/ | Method: [PUT] | Response: Forbidden | Length: null
-Code: 403 | URL: https://heitorgouvea.me/ | Method: [DELETE] | Response: Forbidden | Length: null
-Code: 200 | URL: https://heitorgouvea.me/ | Method: [HEAD] | Response: OK | Length: null
-Code: 405 | URL: https://heitorgouvea.me/ | Method: [OPTIONS] | Response: Not Allowed | Length: null
-Code: 400 | URL: https://heitorgouvea.me/ | Method: [CONNECT] | Response: Bad Request | Length: 155
-Code: 405 | URL: https://heitorgouvea.me/ | Method: [TRACE] | Response: Not Allowed | Length: 155
-Code: 403 | URL: https://heitorgouvea.me/ | Method: [PATCH] | Response: Forbidden | Length: null
-...
+Code: 200 | URL: http://lab.nozaki.io:8081/ | Method: GET | Response: OK | Length: 85
+Code: 200 | URL: http://lab.nozaki.io:8081/ | Method: HEAD | Response: OK | Length: 85
+Code: 200 | URL: http://lab.nozaki.io:8081/tokens | Method: GET | Response: OK | Length: 246
+Code: 500 | URL: http://lab.nozaki.io:8081/tokens | Method: POST | Response: Internal Server Error | Length: 1469
+Code: 200 | URL: http://lab.nozaki.io:8081/user/6 | Method: GET | Response: OK | Length: 72
+Code: 200 | URL: http://lab.nozaki.io:8081/tokens | Method: HEAD | Response: OK | Length: 246
+Code: 200 | URL: http://lab.nozaki.io:8081/uptime | Method: GET | Response: OK | Length: 129
+Code: 200 | URL: http://lab.nozaki.io:8081/user/6 | Method: HEAD | Response: OK | Length: 72
+Code: 200 | URL: http://lab.nozaki.io:8081/uptime | Method: HEAD | Response: OK | Length: 129
 ```
 
-3. Fuzzing with personal payload and output in JSON format
+```yml
+# Using a YAML workflow for "complex" fuzzing tests cases
+rules:
+  - description: Find valid paths based on CMS directories
+    method: GET
+    wordlist: wordlists/technologies/cmsmap.txt
+    return: 200
+  - description: Find valid paths based on Wordpress
+    method: GET
+    wordlist: wordlists/technologies/wordpress.txt
+    return: 200
+  - description: Find valid paths based on Drupal
+    method: GET
+    wordlist: wordlists/technologies/drupal.txt
+    return: 200
+```
 
 ```
-$ perl nozaki.pl -m POST -u https://heitorgouvea.me/ --payload \{\"data\": \"\"\} --json
+$ perl nozaki.pl -u http://lab.nozaki.io:31337/ -W workflows/cms.yml
 
-{"Length":"null","Method":"POST","Code":"403","Response":"Forbidden","URL":"https://heitorgouvea.me/.DS_Store"}
-{"Code":"403","Method":"POST","Length":"null","URL":"https://heitorgouvea.me/.aws/","Response":"Forbidden"}
-{"Response":"Forbidden","URL":"https://heitorgouvea.me/.git/","Length":"null","Code":"403","Method":"POST"}
-{"Length":"null","Code":"403","Method":"POST","Response":"Forbidden","URL":"https://heitorgouvea.me/.svn/"}
-{"Method":"POST","Code":"403","Length":"null","URL":"https://heitorgouvea.me/0","Response":"Forbidden"}
-{"Method":"POST","Code":"403","Length":"null","URL":"https://heitorgouvea.me/00","Response":"Forbidden"}
-{"Response":"Forbidden","URL":"https://heitorgouvea.me/01","Length":"null","Method":"POST","Code":"403"}
-...
+Code: 200 | URL: http://lab.nozaki.io:31337/wp-content/plugins/easy-wp-smtp/ | Method: GET | Response: OK | Length: null
+Code: 200 | URL: http://lab.nozaki.io:31337/wp-json/wp/v2/users/ | Method: GET | Response: OK | Length: null
+Code: 200 | URL: http://lab.nozaki.io:31337/wp-config.php | Method: GET | Response: OK | Length: null
+Code: 200 | URL: http://lab.nozaki.io:31337/wp-content/backup-db/ | Method: GET | Response: OK | Length: null
 ```
 
 ---

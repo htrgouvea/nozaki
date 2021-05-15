@@ -1,5 +1,13 @@
 rules:
   - description: Find valid paths based on CMS directories
     method: GET
-    wordlist: ../wordlists/cms/*.txt
+    wordlist: wordlists/technologies/cmsmap.txt
+    return: 200
+  - description: Find valid paths based on Wordpress
+    method: GET
+    wordlist: wordlists/technologies/wordpress.txt
+    return: 200
+  - description: Find valid paths based on Drupal
+    method: GET
+    wordlist: wordlists/technologies/drupal.txt
     return: 200
