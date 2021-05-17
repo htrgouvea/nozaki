@@ -51,7 +51,7 @@ sub main {
             use Data::Dumper;
             print Dumper($args);
 
-            return Engine::Orchestrator -> run_fuzzer($args, $target);
+            return Engine::Orchestrator -> run_fuzzer($target, $args);
         }
     }
 
