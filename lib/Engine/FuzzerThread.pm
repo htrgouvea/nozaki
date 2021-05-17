@@ -32,6 +32,8 @@ package Engine::FuzzerThread {
                 }
             }
         };
+
+        return 1;
     }
 }
 
