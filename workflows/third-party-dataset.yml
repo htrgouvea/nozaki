@@ -3,6 +3,5 @@ rules:
     method: GET,POST,PUT,DELETE
     wordlist: wordlists/hackerone/paths.txt
     return: 200
-    header:
     accept: application/json
     
