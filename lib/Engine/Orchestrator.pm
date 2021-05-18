@@ -25,7 +25,6 @@ package Engine::Orchestrator  {
 
     sub run_fuzzer {
         my ($self, $target, $args) = @_;
-
         my ($return, $payload, %headers, $accept, $json, $exclude, $skipssl);
         my $delay    = 0;
         my $timeout  = 10;
