@@ -28,7 +28,7 @@ package Engine::Orchestrator  {
         my ($return, $payload, %headers, $accept, $json, $exclude, $skipssl);
         my $delay    = 0;
         my $timeout  = 10;
-        my $agent    = "Nozaki / 0.2.4";
+        my $agent    = "Nozaki / 0.2.5";
         my $wordlist = "wordlists/default.txt";
         my $methods  = "GET,POST,PUT,DELETE,HEAD,OPTIONS,TRACE,PATCH,PUSH";
         my $tasks    = 10;
