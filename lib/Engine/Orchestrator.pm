@@ -71,7 +71,7 @@ package Engine::Orchestrator  {
 
         map { $_ -> join() } threads -> list(threads::all);
 
-        return 1;
+        return 0;
     }
 }
 

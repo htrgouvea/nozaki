@@ -19,22 +19,20 @@ sub main {
         "u|url=s"      => \$target
     );
 
+    return Functions::Helper -> new() unless $target;
+
     if ($workflow) {
         my $rules = Functions::Parser -> new($workflow);
 
         for my $rule (@$rules) {
             delete $rule -> {description};
-            
             my $args = [ map { "--$_" . ($rule -> {$_} ? "=$rule->{$_}" : "") } keys %{$rule} ];
-            return Engine::Orchestrator -> run_fuzzer($target, $args);
+            Engine::Orchestrator -> run_fuzzer($target, $args);
         }
+        return 0;
     }
 
-    if ($target)  {
-        return Engine::Orchestrator -> run_fuzzer ($target, \@ARGV);
-    }
-
-    return Functions::Helper -> new();
+    return Engine::Orchestrator -> run_fuzzer ($target, \@ARGV);
 } 
 
 exit main();
