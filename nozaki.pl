@@ -8,7 +8,6 @@ use Thread::Queue;
 use Find::Lib "./lib";
 use Functions::Helper;
 use Functions::Parser;
-use Engine::FuzzerThread;
 use Engine::Orchestrator;
 use Getopt::Long qw(:config bundling pass_through);
 

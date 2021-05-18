@@ -35,19 +35,19 @@ package Engine::Orchestrator  {
 
         Getopt::Long::GetOptionsFromArray (
             $args,
-            "accept=s"   => \$accept,
-            "wordlist=s" => \$wordlist,
-            "method=s"   => \$methods,
-            "delay=i"    => \$delay,
-            "timeout=i"  => \$timeout,
-            "agent=s"    => \$agent,
-            "return=s"   => \$return,
-            "payload=s"  => \$payload,
-            "json"       => \$json,
-            "header=s%"  => \%headers,
-            "tasks=i"    => \$tasks,
-            "exclude=s"  => \$exclude,
-            "skip-ssl"   => \$skipssl,
+            "A|accept=s"   => \$accept,
+            "w|wordlist=s" => \$wordlist,
+            "m|method=s"   => \$methods,
+            "d|delay=i"    => \$delay,
+            "t|timeout=i"  => \$timeout,
+            "a|agent=s"    => \$agent,
+            "r|return=s"   => \$return,
+            "p|payload=s"  => \$payload,
+            "j|json"       => \$json,
+            "H|header=s%"  => \%headers,
+            "T|tasks=i"    => \$tasks,
+            "e|exclude=s"  => \$exclude,
+            "S|skip-ssl"   => \$skipssl,
         );
 
         my @current = map {
