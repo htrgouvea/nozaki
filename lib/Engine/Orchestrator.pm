@@ -32,6 +32,7 @@ package Engine::Orchestrator  {
         my $wordlist = "wordlists/default.txt";
         my $methods  = "GET,POST,PUT,DELETE,HEAD,OPTIONS,TRACE,PATCH,PUSH";
         my $tasks    = 10;
+        my $length;
 
         Getopt::Long::GetOptionsFromArray (
             $args,
@@ -48,6 +49,7 @@ package Engine::Orchestrator  {
             "T|tasks=i"    => \$tasks,
             "e|exclude=s"  => \$exclude,
             "S|skip-ssl"   => \$skipssl,
+            "l|length=s"   => \$length,
         );
 
         my @current = map {
@@ -61,7 +63,8 @@ package Engine::Orchestrator  {
 
         for (1 .. $tasks) {
             Engine::FuzzerThread -> new (
-                $wordlist_queue, $target, $methods, $agent, \%headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl
+                $wordlist_queue, $target, $methods, $agent, \%headers, $accept, $timeout,
+                $return, $payload, $json, $delay, $exclude, $skipssl, $length
             );
         }
 
