@@ -6,7 +6,9 @@ wp-content/plugins/wordfence/lib/diffResult.php?file=%22%3E%3Csvg%2Fonload%3Dale
 wp-json/wp/v2/lesson/1
 wp-login.php?action=register
 wp-content/debug.log
+wp-content/plugins/social-warfare/
 emergency.php
+info.php
 installer-log.txt
 install.php
 wp-content/backup-db/
@@ -14,11 +16,15 @@ wp-config.php
 wp-config-sample.php
 wp-config.php.txt
 wp-config.php.bak
+dump.sql
 wp-config.php.old
 wp-config-backup.txt
 wp-config.php.save
 wp-config.php~
 wp-config.php.orig
+adminer.php
 wp-config.php.original
 wp-license.php?file=../..//wp-config
 _wpeprivate/config.json
+readme.html
+wp-cron.php
