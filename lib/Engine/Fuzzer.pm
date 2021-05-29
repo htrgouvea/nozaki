@@ -20,7 +20,7 @@ package Engine::Fuzzer {
 
         my $response  = $self -> {ua} -> start($request) -> result;
         my $message   = $response -> message;
-        my $length    = $response -> headers -> content_length || "null";
+        my $length    = $response -> headers -> content_length || "0";
         my $code      = $response -> code;
         my $content   = $response -> content;
 

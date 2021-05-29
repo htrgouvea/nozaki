@@ -1,9 +1,9 @@
 rules:
   - description: Find valid paths
-    method: GET
+    method: GET,POST,PUT,PATCH,DELETE
     wordlist: wordlists/default.txt
-    return: 200
+    exclude: 404,204,410
   - description: Discovery sensitive files expousure
     method: GET
     wordlist: wordlists/juicefiles.txt
-    return: 200
+    return: 200,204
