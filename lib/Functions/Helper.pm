@@ -23,6 +23,8 @@ package Functions::Helper {
 			\r\t-p, --payload     Send a custom data
 			\r\t-j, --json        Display the results in JSON format
 			\r\t-W, --workflow    Pass a YML file with a fuzzing workflow
+			\r\t-S, --skip-ssl    Ignore SSL verification
+			\r\t-l, --length      Filter by content response length
 			\r\t-h, --help        See this screen\n\n";
 					
 		return 0;

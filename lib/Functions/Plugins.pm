@@ -3,7 +3,7 @@ package Functions::Plugins {
     use warnings;
 
     sub new {
-        
+        print "Hello World!\n";
         return 1;
     }
 }

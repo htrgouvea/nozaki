@@ -11,16 +11,18 @@ use Functions::Parser;
 use Engine::Orchestrator;
 use Getopt::Long qw(:config no_ignore_case);
 
-my %options = (
-    accept  => "*/*", wordlist => "wordlists/default.txt",
-    method => "GET,POST,PUT,DELETE,HEAD,OPTIONS,TRACE,PATCH,PUSH",
-    headers => {}, timeout => 10, agent => "Nozaki / 0.2.5",
-    tasks   => 10, delay   => 0,
-);
-
 sub main {
-    
     my $workflow;
+    my %options = (
+        accept   => "*/*", 
+        wordlist => "wordlists/default.txt",
+        method   => "GET,POST,PUT,DELETE,HEAD,OPTIONS,TRACE,PATCH,PUSH",
+        headers  => {},
+        timeout  => 10,
+        agent    => "Nozaki / 0.2.5",
+        tasks    => 10,
+        delay    => 0,
+    );
 
     Getopt::Long::GetOptions (
         "W|workflow=s" => \$workflow,
@@ -38,20 +40,21 @@ sub main {
         "T|tasks=i"    => \$options{tasks},
         "e|exclude=s"  => \$options{exclude},
         "S|skip-ssl"   => \$options{skipssl},
-        "l|length=s"   => \$options{length},
-        "h|help"       => sub { exit Functions::Helper -> new() }
+        "l|length=s"   => \$options{length}
     );
 
     return Functions::Helper -> new() unless $options{target};
 
-    if ($workflow)
-    {
+    if ($workflow) {
         my $rules = Functions::Parser -> new($workflow);
+
         for my $rule (@$rules) {
             my %new_options = %options;
             map { $new_options{$_} = $rule -> {$_} || 1 } keys %{$rule};
+
             Engine::Orchestrator -> run_fuzzer(%new_options);
         }
+
         return 0;
     }
 

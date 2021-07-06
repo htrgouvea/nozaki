@@ -59,6 +59,8 @@ Core Commands
     -p, --payload     Send a custom data
     -j, --json        Display the results in JSON format
     -W, --workflow    Pass a YML file with a fuzzing workflow
+    -S, --skip-ssl    Ignore SSL verification
+    -l, --length      Filter by content response length
     -h, --help        See this screen
 ```
 
