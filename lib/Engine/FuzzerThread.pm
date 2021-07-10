@@ -30,9 +30,10 @@ package Engine::FuzzerThread {
         async {
             while (defined(my $resource = $queue -> dequeue())) {
                 my $endpoint = $target . $resource;
-                
+
                 for my $verb (@verbs) {
                     my $result = $fuzzer -> request($verb, $agent, $endpoint, $payload, $accept);
+                    next unless $result;
                     my $status = $result -> {Code};
                     
                     next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));

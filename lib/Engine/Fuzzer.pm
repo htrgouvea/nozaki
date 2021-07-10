@@ -22,12 +22,15 @@ package Engine::Fuzzer {
                 %{$self -> {headers}}
             } => $payload || ""
         );
+        
+        my $response  = eval { $self -> {ua} -> start($request) -> result } || undef;
 
-        my $response  = $self -> {ua} -> start($request) -> result;
-        my $message   = $response -> message();
-        my $length    = $response -> headers() -> content_length() || "0";
-        my $code      = $response -> code();
-        my $content   = $response -> content();
+        return undef if ($@);   
+
+        my $message   = $response -> message;
+        my $length    = $response -> headers -> content_length || "0";
+        my $code      = $response -> code;
+        my $content   = $response -> content;
 
         my $result = {
             "Code"     => $code,
