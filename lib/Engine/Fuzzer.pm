@@ -18,7 +18,10 @@ package Engine::Fuzzer {
             } => $payload || ""
         );
 
-        my $response  = $self -> {ua} -> start($request) -> result;
+        my $response  = eval { $self -> {ua} -> start($request) -> result } || undef;
+
+        return undef if ($@);
+
         my $message   = $response -> message;
         my $length    = $response -> headers -> content_length || "0";
         my $code      = $response -> code;
@@ -29,7 +32,7 @@ package Engine::Fuzzer {
             "URL"      => $endpoint,
             "Method"   => $method,
             "Response" => $message,
-            "Length"   => $length 
+            "Length"   => $length
         };
 
         return $result;
