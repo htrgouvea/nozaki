@@ -1,6 +1,7 @@
 package Engine::Fuzzer {
     use strict;
     use warnings;
+    use Try::Tiny;
     use Mojo::UserAgent;
 
     sub new {
