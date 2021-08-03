@@ -5,7 +5,7 @@ package Engine::Fuzzer {
 
     sub new {
         my ($self, $timeout, $headers, $skipssl) = @_;
-        my $userAgent = Mojo::UserAgent -> new -> request_timeout($timeout) -> insecure($skipssl);
+        my $userAgent = Mojo::UserAgent -> new() -> request_timeout($timeout) -> insecure($skipssl);
         
         bless { 
             ua => $userAgent,
@@ -23,24 +23,28 @@ package Engine::Fuzzer {
             } => $payload || ""
         );
         
-        my $response  = eval { $self -> {ua} -> start($request) -> result } || undef;
+        try {
+            my $response  = $self -> {ua} -> start($request) -> result();
 
-        return undef if ($@);   
+            my $message   = $response -> message;
+            my $length    = $response -> headers -> content_length || "0";
+            my $code      = $response -> code;
+            my $content   = $response -> content;
 
-        my $message   = $response -> message;
-        my $length    = $response -> headers -> content_length || "0";
-        my $code      = $response -> code;
-        my $content   = $response -> content;
+            my $result = {
+                "Code"     => $code,
+                "URL"      => $endpoint,
+                "Method"   => $method,
+                "Response" => $message,
+                "Length"   => $length
+            };
 
-        my $result = {
-            "Code"     => $code,
-            "URL"      => $endpoint,
-            "Method"   => $method,
-            "Response" => $message,
-            "Length"   => $length
-        };
+            return $result;
+        }
 
-        return $result;
+        catch {
+            return undef;
+        }
     }
 }
 

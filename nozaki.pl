@@ -12,7 +12,7 @@ use Engine::Orchestrator;
 use Getopt::Long qw(:config no_ignore_case);
 
 sub main {
-    my $workflow;
+    my ($workflow, $plugin);
     my %options = (
         accept   => "*/*", 
         wordlist => "wordlists/default.txt",
@@ -40,7 +40,8 @@ sub main {
         "T|tasks=i"    => \$options{tasks},
         "e|exclude=s"  => \$options{exclude},
         "S|skip-ssl"   => \$options{skipssl},
-        "l|length=s"   => \$options{length}
+        "l|length=s"   => \$options{length},
+        "p|plugin=s"   => \$options{plugin},
     );
 
     return Functions::Helper -> new() unless $options{target};

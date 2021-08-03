@@ -37,10 +37,21 @@ package Engine::Orchestrator  {
 
         for (1 .. $options{tasks}) {
             Engine::FuzzerThread -> new (
-                $wordlist_queue, $options{target}, $options{method}, $options{agent},
-                $options{headers}, $options{accept}, $options{timeout}, $options{return},
-                $options{payload}, $options{json}, $options{delay}, $options{exclude},
-                $options{skipssl}, $options{length}
+                $wordlist_queue, 
+                $options{target},
+                $options{method},
+                $options{agent},
+                $options{headers},
+                $options{accept},
+                $options{timeout},
+                $options{return},
+                $options{payload},
+                $options{json},
+                $options{delay},
+                $options{exclude},
+                $options{skipssl},
+                $options{length},
+                # $options{plugin}
             );
         }
 
