@@ -3,3 +3,4 @@ output/
 benchmark-fuzzing/
 .vstags
 tmp.pl
+*~

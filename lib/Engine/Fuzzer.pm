@@ -26,7 +26,8 @@ package Engine::Fuzzer {
         
         try {
             my $response  = $self -> {ua} -> start($request) -> result();
-
+            #use Data::Dumper;
+            #print Dumper($response) if $response->is_redirect;
             my $message   = $response -> message;
             my $length    = $response -> headers -> content_length || "0";
             my $code      = $response -> code;
@@ -37,7 +38,8 @@ package Engine::Fuzzer {
                 "URL"      => $endpoint,
                 "Method"   => $method,
                 "Response" => $message,
-                "Length"   => $length
+                "Length"   => $length,
+                "RespURL"  => $response->is_redirect ? $response->headers->location : $endpoint
             };
 
             return $result;

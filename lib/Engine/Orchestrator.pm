@@ -1,9 +1,11 @@
 package Engine::Orchestrator  {
     use strict;
+    use threads;
     use warnings;
     use Engine::FuzzerThread;
 
     my $wordlist_queue;
+    my @targets_queue :shared;
 
     sub fill_queue {
         my ($list, $n) = @_;
@@ -23,8 +25,31 @@ package Engine::Orchestrator  {
         }
     }
 
+
+    sub add_target {
+        my (@targets) = @_;
+        for my $target (@targets) {
+            $target .= "/" unless $target =~ /\/$/;
+            lock(@targets_queue);
+            push @targets_queue, $target;
+        }
+    }
+
     sub run_fuzzer {
         my ($self, %options) = @_;
+        my $target = undef;
+        while (@targets_queue)
+        {
+            LOCKED: {
+                lock(@targets_queue);
+                $target = shift @targets_queue;
+            }
+            $self -> threaded_fuzz($target, %options);
+        }
+    }
+
+    sub threaded_fuzz {
+        my ($self, $target, %options) = @_;
 
         my @current = map {
             open(my $fh, "<$_") || die "$0: Can't open $_: $!";
@@ -38,7 +63,8 @@ package Engine::Orchestrator  {
         for (1 .. $options{tasks}) {
             Engine::FuzzerThread -> new (
                 $wordlist_queue, 
-                $options{target},
+                #$options{target},
+                $target,
                 $options{method},
                 $options{agent},
                 $options{headers},
@@ -51,7 +77,7 @@ package Engine::Orchestrator  {
                 $options{exclude},
                 $options{skipssl},
                 $options{length},
-                # $options{plugin}
+                \&add_target
             );
         }
 

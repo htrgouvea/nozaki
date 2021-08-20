@@ -6,7 +6,7 @@ package Engine::FuzzerThread {
     use Engine::Fuzzer;
 
     sub new {
-        my ($self, $queue, $target, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl, $length) = @_;
+        my ($self, $queue, $target, $methods, $agent, $headers, $accept, $timeout, $return, $payload, $json, $delay, $exclude, $skipssl, $length, $dir_callback) = @_;
         
         my @verbs         = split (/,/, $methods);
         my @valid_codes   = split /,/, $return || "";
@@ -30,12 +30,15 @@ package Engine::FuzzerThread {
         async {
             while (defined(my $resource = $queue -> dequeue())) {
                 my $endpoint = $target . $resource;
-
+                my $found = 0;
                 for my $verb (@verbs) {
                     my $result = $fuzzer -> request($verb, $agent, $endpoint, $payload, $accept);
                     next unless $result;
                     my $status = $result -> {Code};
-                    
+                    if ($status < 400 && $status >= 200 && $result -> {RespURL} =~ /\/$/)
+                    {
+                        $dir_callback->($result -> {RespURL});
+                    }
                     next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
                     next if $length && !($cmp -> ($result -> {Length}));
                     
@@ -47,6 +50,7 @@ package Engine::FuzzerThread {
 
                     print $printable, "\n";
                     sleep($delay);
+                    $found = 1;
                 }
             }
         };

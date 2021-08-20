@@ -13,6 +13,7 @@ use Getopt::Long qw(:config no_ignore_case);
 
 sub main {
     my ($workflow, $plugin);
+    my @targets;
     my %options = (
         accept   => "*/*", 
         wordlist => "wordlists/default.txt",
@@ -26,7 +27,7 @@ sub main {
 
     Getopt::Long::GetOptions (
         "W|workflow=s" => \$workflow,
-        "u|url=s"      => \$options{target},
+        "u|url=s@"     => \@targets,
         "A|accept=s"   => \$options{accept},
         "w|wordlist=s" => \$options{wordlist},
         "m|method=s"   => \$options{method},
@@ -44,8 +45,8 @@ sub main {
         "p|plugin=s"   => \$options{plugin},
     );
 
-    return Functions::Helper -> new() unless $options{target};
-
+    return Functions::Helper -> new() unless @targets;
+    Engine::Orchestrator::add_target(@targets); 
     if ($workflow) {
         my $rules = Functions::Parser -> new($workflow);
 
