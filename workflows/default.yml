@@ -1,6 +1,6 @@
 rules:
   - description: Find valid paths
-    method: GET,POST,PUT,PATCH,DELETE
+    method: GET
     wordlist: wordlists/default.txt
     exclude: 404,204,410
   - description: Discovery sensitive files expousure
