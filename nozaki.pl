@@ -12,15 +12,14 @@ use Engine::Orchestrator;
 use Getopt::Long qw(:config no_ignore_case);
 
 sub main {
-    my ($workflow, $plugin);
-    my @targets;
+    my ($workflow, $plugin, @targets);
     my %options = (
         accept   => "*/*", 
         wordlist => "wordlists/default.txt",
         method   => "GET,POST,PUT,DELETE,HEAD,OPTIONS,TRACE,PATCH,PUSH",
         headers  => {},
         timeout  => 10,
-        agent    => "Nozaki / 0.2.5",
+        agent    => "Nozaki / 0.2.6",
         tasks    => 10,
         delay    => 0,
     );
@@ -46,7 +45,9 @@ sub main {
     );
 
     return Functions::Helper -> new() unless @targets;
+
     Engine::Orchestrator::add_target(@targets); 
+    
     if ($workflow) {
         my $rules = Functions::Parser -> new($workflow);
 

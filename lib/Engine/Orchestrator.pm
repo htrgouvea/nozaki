@@ -28,9 +28,11 @@ package Engine::Orchestrator  {
 
     sub add_target {
         my (@targets) = @_;
+
         for my $target (@targets) {
             $target .= "/" unless $target =~ /\/$/;
             lock(@targets_queue);
+            
             push @targets_queue, $target;
         }
     }
@@ -38,12 +40,13 @@ package Engine::Orchestrator  {
     sub run_fuzzer {
         my ($self, %options) = @_;
         my $target = undef;
-        while (@targets_queue)
-        {
+
+        while (@targets_queue) {
             LOCKED: {
                 lock(@targets_queue);
                 $target = shift @targets_queue;
             }
+            
             $self -> threaded_fuzz($target, %options);
         }
     }
@@ -62,8 +65,7 @@ package Engine::Orchestrator  {
 
         for (1 .. $options{tasks}) {
             Engine::FuzzerThread -> new (
-                $wordlist_queue, 
-                #$options{target},
+                $wordlist_queue,
                 $target,
                 $options{method},
                 $options{agent},

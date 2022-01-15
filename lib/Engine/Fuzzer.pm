@@ -19,27 +19,24 @@ package Engine::Fuzzer {
        
         my $request = $self -> {ua} -> build_tx (
             $method => $endpoint => {
-                'User-Agent' => $agent,
+                "User-Agent" => $agent,
                 %{$self -> {headers}}
             } => $payload || ""
         );
         
         try {
             my $response  = $self -> {ua} -> start($request) -> result();
+            
             #use Data::Dumper;
             #print Dumper($response) if $response->is_redirect;
-            my $message   = $response -> message;
-            my $length    = $response -> headers -> content_length || "0";
-            my $code      = $response -> code;
-            my $content   = $response -> content;
 
             my $result = {
-                "Code"     => $code,
-                "URL"      => $endpoint,
                 "Method"   => $method,
-                "Response" => $message,
-                "Length"   => $length,
-                "RespURL"  => $response->is_redirect ? $response->headers->location : $endpoint
+                "URL"      => $endpoint,
+                "Code"     => $response -> code(),
+                "Response" => $response -> message(),
+                "Length"   => $response -> headers() -> content_length() || "0",
+                "RespURL"  => $response -> is_redirect ? $response -> headers() -> location() : $endpoint
             };
 
             return $result;
