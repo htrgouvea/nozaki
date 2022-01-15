@@ -40,7 +40,7 @@ Nozaki supports dynamic workflows written in YAML, from there we can write test 
 ```
 $ perl nozaki.pl
 
-Nozaki v0.2.5
+Nozaki v0.2.6
 Core Commands
 ==============
     Command           Description
