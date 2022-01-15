@@ -3,7 +3,10 @@ package Functions::Plugins {
     use warnings;
 
     sub new {
+        my ($self) = @_;
+
         print "Hello World!\n";
+        
         return 1;
     }
 }
