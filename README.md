@@ -30,7 +30,7 @@ Nozaki supports dynamic workflows written in YAML, from there we can write test 
 
 ``` bash
   $ git clone https://github.com/NozakiLabs/nozaki && cd nozaki
-  $ cpan install JSON YAML::Tiny Mojo::UserAgent # or cpanm --installdeps .
+  $ cpan install Find::Lib JSON YAML::Tiny Mojo::UserAgent # or cpanm --installdeps .
 ```
 
 ---
