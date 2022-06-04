@@ -1,0 +1,8 @@
+http
+https
+ws
+wss
+mail
+gopher
+ftp
+tcp

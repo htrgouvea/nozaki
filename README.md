@@ -7,7 +7,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/NozakiLabs/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.2.5-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.2.6-blue.svg">
     </a>
   </p>
 </p>
@@ -70,7 +70,7 @@ Core Commands
 
 ```bash
 # Content Discovery: finding pages with 200 response code for the GET method
-$ perl nozaki.pl --method GET --url https://nozaki.io/ --return 200
+$ perl nozaki.pl --method GET --url https://nozaki.io/ --return 200 --wordlist /path/to/wordlist.txt
 
 Code: 200 | URL: https://nozaki.io/CNAME | Method: GET | Response: OK | Length: null
 Code: 200 | URL: https://nozaki.io/index | Method: GET | Response: OK | Length: 6335
@@ -80,7 +80,7 @@ Code: 200 | URL: https://nozaki.io//README.md | Method: GET | Response: OK | Len
 
 ```bash
 # Discovery HTTP methods supported by the application with a personalized wordlist and auth token
-$ perl nozaki.pl -u http://lab.nozaki.io:8081 -e 404,400,405 -w wordlists/personal.txt -H "X-Auth-Token=da1b16b40fe719cb73c7a19e2b6fa9c7" -H "Content-type=application/json"
+$ perl nozaki.pl -u http://lab.nozaki.io:8081 -e 404,400,405 -w ~/path/to/wordlist.txt -H "X-Auth-Token=da1b16b40fe719cb73c7a19e2b6fa9c7" -H "Content-type=application/json"
 
 Code: 200 | URL: http://lab.nozaki.io:8081/ | Method: GET | Response: OK | Length: 85
 Code: 200 | URL: http://lab.nozaki.io:8081/ | Method: HEAD | Response: OK | Length: 85
@@ -111,7 +111,7 @@ rules:
 ```
 
 ```
-$ perl nozaki.pl -u http://lab.nozaki.io:31337/ -W workflows/cms.yml
+$ perl nozaki.pl -u http://lab.nozaki.io:31337/ -W /path/to/workflows/cms.yml
 
 Code: 200 | URL: http://lab.nozaki.io:31337/wp-content/plugins/easy-wp-smtp/ | Method: GET | Response: OK | Length: null
 Code: 200 | URL: http://lab.nozaki.io:31337/wp-json/wp/v2/users/ | Method: GET | Response: OK | Length: null

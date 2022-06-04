@@ -1,0 +1,7 @@
+rules:
+  - description: Fuzz based on HackerOne dataset
+    method: GET,POST,PUT,DELETE
+    wordlist: wordlists/hackerone/paths.txt
+    return: 200
+    accept: application/json
+    
