@@ -1,0 +1,18 @@
+rules:
+  - description: Find valid paths based on CMS directories
+    method: GET
+    wordlist: wordlists/technologies/cmsmap.txt
+    return: 200
+    accept: \*/\*
+
+  - description: Find valid paths based on Wordpress
+    method: GET,POST,PUT,DELETE
+    wordlist: wordlists/technologies/wordpress.txt
+    return: 200
+    accept: \*/\*
+  
+  - description: Find valid paths based on Drupal
+    method: GET
+    wordlist: wordlists/technologies/drupal.txt
+    exclude: 404,400
+    accept: \*/\*

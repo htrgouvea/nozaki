@@ -1,0 +1,12 @@
+actuator/configprops
+actuator/flyway
+actuator/mappings
+actuator/heapdump
+actuator/env
+actuator/dump
+configprops
+flyway
+mappings
+heapdump
+env
+dump
