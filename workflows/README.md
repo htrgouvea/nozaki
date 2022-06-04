@@ -1,11 +1,6 @@
 <p align="center">
   <h3 align="center"><b>Workflows</b></h3>
   <p align="center">A catalog of public workflows to use with Nozaki Fuzzer</p>
-  <p align="center">
-    <a href="/LICENSE.md">
-      <img src="https://img.shields.io/badge/license-MIT-blue.svg">
-    </a>
-  </p>
 </p>
 
 ---
@@ -15,7 +10,6 @@
 This repository is a catalog of workflows that our team has been using during the development and use of Nozaki in research, bug bounty and pentests.
 
 ---
-
 
 ```yml
 # Using a YAML workflow for "complex" fuzzing tests cases
@@ -42,15 +36,3 @@ Code: 200 | URL: http://lab.nozaki.io:31337/wp-json/wp/v2/users/ | Method: GET |
 Code: 200 | URL: http://lab.nozaki.io:31337/wp-config.php | Method: GET | Response: OK | Length: null
 Code: 200 | URL: http://lab.nozaki.io:31337/wp-content/backup-db/ | Method: GET | Response: OK | Length: null
 ```
-
----
-
-### Contribution
-
-- Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page](https://github.com/NozakiLabs/workflows/issues) and for security issues, see here the [security policy.](/SECURITY.md) (✿ ◕‿◕)
-
----
-
-### License
-
-- This work is licensed under [MIT License.](/LICENSE.md)
