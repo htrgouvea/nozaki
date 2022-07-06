@@ -6,17 +6,15 @@
     <a href="/LICENSE.md">
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
-    <a href="https://github.com/NozakiLabs/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.2.6-blue.svg">
+    <a href="https://github.com/htrgouvea/nozaki/releases">
+      <img src="https://img.shields.io/badge/version-0.2.7-blue.svg">
     </a>
   </p>
 </p>
 
 ---
 
-### Summary 
-
-⚠️ __Warning:__ Nozaki is currently in __development__, you've been warned :) and please consider [contributing!](./github/CONTRIBUTING.md)
+### Summary
 
 "Fuzzing is one of the most powerful and proven strategies for identifying security issues in real-world software" and for this reason, Nozaki tries to bridge the gap for a complete solution focused on web applications.
 
@@ -40,7 +38,7 @@ Nozaki supports dynamic workflows written in YAML, from there we can write test 
 ```
 $ perl nozaki.pl
 
-Nozaki v0.2.6
+Nozaki v0.2.7
 Core Commands
 ==============
     Command           Description
@@ -123,7 +121,7 @@ Code: 200 | URL: http://lab.nozaki.io:31337/wp-content/backup-db/ | Method: GET 
 
 ### Contribution
 
-- Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page](https://github.com/NozakiLabs/Nozaki/issues) and for security issues, see here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
+- Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page](https://github.com/htrgouvea/nozaki/issues) and for security issues, see here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
 
 ---
 
