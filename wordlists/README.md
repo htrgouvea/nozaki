@@ -1,6 +1,6 @@
 <p align="center">
   <h3 align="center"><b>Wordlists</b></h3>
-  <p align="center">A catalog of wordlists to use with Nozaki Fuzzer</p>
+  <p align="center">A catalog of wordlists to use with Nozaki fuzzer</p>
 </p>
 
 ---

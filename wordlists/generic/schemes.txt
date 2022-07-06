@@ -6,3 +6,4 @@ mail
 gopher
 ftp
 tcp
+mail

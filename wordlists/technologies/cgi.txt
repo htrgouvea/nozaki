@@ -3,7 +3,6 @@
 /cgi-mod/index.cgi
 /cgi-bin/test.cgi
 /cgi-bin-sdb/printenv
-
 %00
 %00/
 %0a%0a<script>alert(\"Vulnerable\")</script>.jsp
