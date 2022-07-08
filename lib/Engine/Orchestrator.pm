@@ -15,22 +15,26 @@ package Engine::Orchestrator  {
             
             if (eof($list -> [0])) {
                 close shift @{$list};
+
                 (@{$list} > 0) || $wordlist_queue -> end();
+
                 next
             }
 
             my $fh = $list -> [0];
+
             chomp(my $line = <$fh>);
+
             $wordlist_queue -> enqueue($line);
         }
     }
-
 
     sub add_target {
         my (@targets) = @_;
 
         for my $target (@targets) {
             $target .= "/" unless $target =~ /\/$/;
+
             lock(@targets_queue);
             
             push @targets_queue, $target;
@@ -56,6 +60,7 @@ package Engine::Orchestrator  {
 
         my @current = map {
             open(my $fh, "<$_") || die "$0: Can't open $_: $!";
+            
             $fh
         } glob($options{wordlist});
         

@@ -108,7 +108,7 @@ rules:
     return: 200
 ```
 
-```
+```bash
 $ perl nozaki.pl -u http://lab.nozaki.io:31337/ -W /path/to/workflows/cms.yml
 
 Code: 200 | URL: http://lab.nozaki.io:31337/wp-content/plugins/easy-wp-smtp/ | Method: GET | Response: OK | Length: null

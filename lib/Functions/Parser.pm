@@ -9,9 +9,9 @@ package Functions::Parser {
         if ($workflow) {
 			my $yamlfile = YAML::Tiny -> read($workflow);
  	        my $rules = $yamlfile -> [0] -> {rules};
-		}
 
-		return $rules;
+			return $rules;
+		}
 	}
 }
 
