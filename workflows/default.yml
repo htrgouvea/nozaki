@@ -4,10 +4,8 @@ rules:
     wordlist: ~/Documents/nozaki/wordlists/generic/juicefiles.txt
     return: 200
     length: "> 0"
-
   - description: Find valid paths
     method: GET
     wordlist: ~/Documents/nozaki/wordlists/generic/default.txt
     exclude: 404,204,410,302,405,429
     length: "> 0"
-  

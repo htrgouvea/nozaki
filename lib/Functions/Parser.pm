@@ -6,10 +6,12 @@ package Functions::Parser {
 	sub new {	
         my ($self, $workflow) = @_;
 
-        my $yamlfile = YAML::Tiny -> read($workflow);
-        my $rules = $yamlfile -> [0] -> {rules};
+        if ($workflow) {
+			my $yamlfile = YAML::Tiny -> read($workflow);
+ 	        my $rules = $yamlfile -> [0] -> {rules};
 
-		return $rules;
+			return $rules;
+		}
 	}
 }
 

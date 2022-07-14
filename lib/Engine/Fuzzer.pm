@@ -6,18 +6,19 @@ package Engine::Fuzzer {
 
     sub new {
         my ($self, $timeout, $headers, $skipssl) = @_;
+
         my $userAgent = Mojo::UserAgent -> new() -> request_timeout($timeout) -> insecure($skipssl);
         
         bless { 
-            ua => $userAgent,
-            headers => $headers 
+            useragent => $userAgent,
+            headers   => $headers 
         }, $self;
     }
 
     sub request {
         my ($self, $method, $agent, $endpoint, $payload, $accept) = @_;
        
-        my $request = $self -> {ua} -> build_tx (
+        my $request = $self -> {useragent} -> build_tx (
             $method => $endpoint => {
                 "User-Agent" => $agent,
                 %{$self -> {headers}}
@@ -25,18 +26,14 @@ package Engine::Fuzzer {
         );
         
         try {
-            my $response  = $self -> {ua} -> start($request) -> result();
-            
-            #use Data::Dumper;
-            #print Dumper($response) if $response->is_redirect;
+            my $response  = $self -> {useragent} -> start($request) -> result();
 
             my $result = {
                 "Method"   => $method,
                 "URL"      => $endpoint,
                 "Code"     => $response -> code(),
                 "Response" => $response -> message(),
-                "Length"   => $response -> headers() -> content_length() || "0",
-                "RespURL"  => $response -> is_redirect ? $response -> headers() -> location() : $endpoint
+                "Length"   => $response -> headers() -> content_length() || "0"
             };
 
             return $result;

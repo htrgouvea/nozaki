@@ -4,9 +4,11 @@ package Functions::Plugins {
 
     sub new {
         my ($self) = @_;
-
-        print "Hello World!\n";
         
+        if ($self) {
+            print "Hello World!\n";
+        }
+ 
         return 1;
     }
 }

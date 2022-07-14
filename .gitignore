@@ -1,6 +1,4 @@
 output/
 *.DS_Store
-benchmark-fuzzing/
 .vstags
-tmp.pl
 *~

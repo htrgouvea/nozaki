@@ -53,6 +53,7 @@ sub main {
 
         for my $rule (@$rules) {
             my %new_options = %options;
+            
             map { $new_options{$_} = $rule -> {$_} || 1 } keys %{$rule};
 
             Engine::Orchestrator -> run_fuzzer(%new_options);
