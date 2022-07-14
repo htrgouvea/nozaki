@@ -13,7 +13,6 @@ use Getopt::Long qw(:config no_ignore_case);
 
 sub main {
     my ($workflow, $plugin, @targets);
-
     my %options = (
         accept   => "*/*", 
         wordlist => "wordlists/default.txt",
@@ -37,12 +36,12 @@ sub main {
         "r|return=s"   => \$options{return},
         "p|payload=s"  => \$options{payload},
         "j|json"       => \$options{json},
-        "H|header=s%"  => \$options{headers},
+        "H|header=s%"  =>  $options{headers},
         "T|tasks=i"    => \$options{tasks},
         "e|exclude=s"  => \$options{exclude},
         "S|skip-ssl"   => \$options{skipssl},
         "l|length=s"   => \$options{length},
-        "p|plugin=s"   => \$options{plugin}
+        "p|plugin=s"   => \$options{plugin},
     );
 
     return Functions::Helper -> new() unless @targets;
@@ -54,6 +53,7 @@ sub main {
 
         for my $rule (@$rules) {
             my %new_options = %options;
+            
             map { $new_options{$_} = $rule -> {$_} || 1 } keys %{$rule};
 
             Engine::Orchestrator -> run_fuzzer(%new_options);
