@@ -1,3 +1,0 @@
-- Criar um plugin p/ gerar seeds a partir do histórico do burp
-- Criar um plugin p/ gerar permutações de uma entrada
-- Criar um plugin p/ gerar seeds a partir de um swagger ou openapi 
