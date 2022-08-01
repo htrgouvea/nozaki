@@ -1,4 +1,4 @@
-package Plugins::Seeds::SiteMap {
+package Plugins::Seeds::Sitemap {
     use strict;
     use warnings;
 

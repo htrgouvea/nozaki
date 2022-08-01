@@ -36,7 +36,7 @@ sub main {
         "r|return=s"   => \$options{return},
         "p|payload=s"  => \$options{payload},
         "j|json"       => \$options{json},
-        "H|header=s%"  =>  $options{headers},
+        "H|header=s%"  => \$options{headers},
         "T|tasks=i"    => \$options{tasks},
         "e|exclude=s"  => \$options{exclude},
         "S|skip-ssl"   => \$options{skipssl},
