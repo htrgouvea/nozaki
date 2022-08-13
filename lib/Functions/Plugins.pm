@@ -7,9 +7,11 @@ package Functions::Plugins {
         
         if ($self) {
             print "Hello World!\n";
+            
+            return 1;
         }
  
-        return 1;
+        return 0;
     }
 }
 
