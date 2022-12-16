@@ -2,6 +2,6 @@ rules:
   - description: Fuzz based on HackerOne dataset
     method: GET,POST,PUT,DELETE
     wordlist: wordlists/hackerone/paths.txt
-    exclude: 404,204
+    exclude: 404,204,403,501
     accept: application/json
     length: "> 0"

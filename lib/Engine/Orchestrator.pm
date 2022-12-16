@@ -8,9 +8,9 @@ package Engine::Orchestrator  {
     my @targets_queue :shared;
 
     sub fill_queue {
-        my ($list, $n) = @_;
+        my ($list, $number) = @_;
         
-        for (1 .. $n) {
+        for (1 .. $number) {
             return unless (@{$list} > 0);
             
             if (eof($list -> [0])) {
@@ -20,7 +20,7 @@ package Engine::Orchestrator  {
 
                 next
             }
-
+            # 
             my $fh = $list -> [0];
 
             chomp(my $line = <$fh>);

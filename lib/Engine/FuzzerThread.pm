@@ -43,10 +43,6 @@ package Engine::FuzzerThread {
                     next unless $result;
                     
                     my $status = $result -> {Code};
-                    
-                    # if ($status < 400 && $status >= 200 && $result -> {RespURL} =~ /\/$/) {
-                    #     $dir_callback -> ($result -> {RespURL});
-                    # }
 
                     next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
                     next if $length && !($cmp -> ($result -> {Length}));
