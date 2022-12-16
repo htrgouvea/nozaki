@@ -119,6 +119,15 @@ Code: 200 | URL: http://lab.nozaki.io:31337/wp-content/backup-db/ | Method: GET 
 
 ---
 
+### Docker container
+
+```
+$ docker build -t nozaki . 
+$ docker run -ti --rm nozaki --help
+```
+
+---
+
 ### Contribution
 
 - Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page](https://github.com/htrgouvea/nozaki/issues) and for security issues, see here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
