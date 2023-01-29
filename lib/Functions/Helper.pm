@@ -24,7 +24,8 @@ package Functions::Helper {
 			\r\t-j, --json        Display the results in JSON format
 			\r\t-W, --workflow    Pass a YML file with a fuzzing workflow
 			\r\t-S, --skip-ssl    Ignore SSL verification
-			\r\t-l, --length      Filter by content response length
+			\r\t-l, --length      Filter by the length of content response 
+			\r\t-c, --content     Filter by a string based on the content response
 			\r\t-h, --help        See this screen\n\n";
 					
 		return 0;

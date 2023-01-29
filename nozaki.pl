@@ -13,6 +13,7 @@ use Getopt::Long qw(:config no_ignore_case);
 
 sub main {
     my ($workflow, $plugin, @targets);
+
     my %options = (
         accept   => "*/*", 
         wordlist => "wordlists/default.txt",
@@ -42,6 +43,7 @@ sub main {
         "S|skip-ssl"   => \$options{skipssl},
         "l|length=s"   => \$options{length},
         "p|plugin=s"   => \$options{plugin},
+        "c|content=s"  => \$options{content}
     );
 
     return Functions::Helper -> new() unless @targets;

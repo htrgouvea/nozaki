@@ -20,10 +20,10 @@ package Engine::Orchestrator  {
 
                 next
             }
-            # 
-            my $fh = $list -> [0];
+            
+            my $filehandle = $list -> [0];
 
-            chomp(my $line = <$fh>);
+            chomp(my $line = <$filehandle>);
 
             $wordlist_queue -> enqueue($line);
         }
@@ -59,9 +59,9 @@ package Engine::Orchestrator  {
         my ($self, $target, %options) = @_;
 
         my @current = map {
-            open(my $fh, "<$_") || die "$0: Can't open $_: $!";
+            open(my $filehandle, "<$_") || die "$0: Can't open $_: $!";
             
-            $fh
+            $filehandle
         } glob($options{wordlist});
         
         $wordlist_queue = Thread::Queue -> new();
@@ -84,6 +84,7 @@ package Engine::Orchestrator  {
                 $options{exclude},
                 $options{skipssl},
                 $options{length},
+                $options{content},
                 \&add_target
             );
         }
