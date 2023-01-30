@@ -47,14 +47,14 @@ sub main {
     );
 
     return Functions::Helper -> new() unless @targets;
-
-    Engine::Orchestrator::add_target(@targets); 
     
     if ($workflow) {
         my $rules = Functions::Parser -> new($workflow);
 
         for my $rule (@$rules) {
             my %new_options = %options;
+
+            Engine::Orchestrator::add_target(@targets);
 
             map { $new_options{$_} = $rule -> {$_} || 1 } keys %{$rule};
             
@@ -63,6 +63,8 @@ sub main {
 
         return 0;
     }
+
+    Engine::Orchestrator::add_target(@targets);
 
     return Engine::Orchestrator -> run_fuzzer (%options);
 } 
