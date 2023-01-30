@@ -17,10 +17,10 @@ sub main {
     my %options = (
         accept   => "*/*", 
         wordlist => "wordlists/default.txt",
-        method   => "GET,POST,PUT,DELETE,HEAD,OPTIONS,TRACE,PATCH,PUSH",
+        method   => "GET,POST,PUT,DELETE,HEAD,OPTIONS,PATCH,PUSH",
         headers  => {},
         timeout  => 10,
-        agent    => "Nozaki / 0.2.6",
+        agent    => "Nozaki / 0.2.8",
         tasks    => 10,
         delay    => 0,
     );
@@ -55,9 +55,9 @@ sub main {
 
         for my $rule (@$rules) {
             my %new_options = %options;
-            
-            map { $new_options{$_} = $rule -> {$_} || 1 } keys %{$rule};
 
+            map { $new_options{$_} = $rule -> {$_} || 1 } keys %{$rule};
+            
             Engine::Orchestrator -> run_fuzzer(%new_options);
         }
 
