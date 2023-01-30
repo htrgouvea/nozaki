@@ -7,7 +7,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/htrgouvea/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.2.7-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.2.8-blue.svg">
     </a>
   </p>
 </p>
@@ -28,7 +28,7 @@ Nozaki supports dynamic workflows written in YAML, from there we can write test 
 
 ``` bash
   $ git clone https://github.com/NozakiLabs/nozaki && cd nozaki
-  $ cpan install Find::Lib JSON YAML::Tiny Mojo::UserAgent # or cpanm --installdeps .
+  $ cpanm --installdeps .
 ```
 
 ---
@@ -38,7 +38,7 @@ Nozaki supports dynamic workflows written in YAML, from there we can write test 
 ```
 $ perl nozaki.pl
 
-Nozaki v0.2.7
+Nozaki v0.2.8
 Core Commands
 ==============
     Command           Description
@@ -58,7 +58,8 @@ Core Commands
     -j, --json        Display the results in JSON format
     -W, --workflow    Pass a YML file with a fuzzing workflow
     -S, --skip-ssl    Ignore SSL verification
-    -l, --length      Filter by content response length
+    -l, --length      Filter by the length of content response 
+    -c, --content     Filter by string based on the content response
     -h, --help        See this screen
 ```
 

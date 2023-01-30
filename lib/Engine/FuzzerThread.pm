@@ -9,7 +9,7 @@ package Engine::FuzzerThread {
         my (
             $self, $queue, $target, $methods, $agent, $headers, $accept, 
             $timeout, $return, $payload, $json, $delay, $exclude, $skipssl,
-            $length, $dir_callback
+            $length, $content, $dir_callback
         ) = @_;
         
         my @verbs         = split (/,/, $methods);
@@ -46,16 +46,16 @@ package Engine::FuzzerThread {
 
                     next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
                     next if $length && !($cmp -> ($result -> {Length}));
-                    
-                    my $printable = $json ? $format -> encode($result) : sprintf(
+
+                    my $message = $json ? $format -> encode($result) : sprintf(
                         "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
                         $status, $result -> {URL}, $result -> {Method},
                         $result -> {Response} || "?", $result -> {Length}
                     );
 
-                    print $printable, "\n";
-                    sleep($delay);
+                    print $message, "\n" if !$content || $result -> {Content} =~ m/$content/;
 
+                    sleep($delay);
                     $found = 1;
                 }
             }

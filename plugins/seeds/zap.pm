@@ -1,8 +1,12 @@
-use strict;
-use warnings;
+package Plugins::Seeds::ZAP {
+    use strict;
+    use warnings;
 
-sub main {
-
+    sub new {
+        my ($self, @params) = @_;
+        
+        return 1;
+    }
 }
 
-exit main();
+1;

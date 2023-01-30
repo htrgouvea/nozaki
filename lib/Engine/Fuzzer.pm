@@ -5,7 +5,7 @@ package Engine::Fuzzer {
     use Mojo::UserAgent;
 
     sub new {
-        my ($self, $timeout, $headers, $skipssl) = @_;
+        my ($self, $timeout, $headers, $skipssl, $content) = @_;
 
         my $userAgent = Mojo::UserAgent -> new() -> request_timeout($timeout) -> insecure($skipssl);
         
@@ -33,6 +33,7 @@ package Engine::Fuzzer {
                 "URL"      => $endpoint,
                 "Code"     => $response -> code(),
                 "Response" => $response -> message(),
+                "Content"  => $response -> body(),
                 "Length"   => $response -> headers() -> content_length() || "0"
             };
 
