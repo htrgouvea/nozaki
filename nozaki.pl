@@ -25,25 +25,25 @@ sub main {
         delay    => 0,
     );
 
-    Getopt::Long::GetOptions (
-        "W|workflow=s" => \$workflow,
-        "u|url=s@"     => \@targets,
+    Getopt::Long::GetOptions (        
         "A|accept=s"   => \$options{accept},
-        "w|wordlist=s" => \$options{wordlist},
-        "m|method=s"   => \$options{method},
-        "d|delay=i"    => \$options{delay},
-        "t|timeout=i"  => \$options{timeout},
         "a|agent=s"    => \$options{agent},
+        "c|content=s"  => \$options{content},
+        "d|delay=i"    => \$options{delay},
+        "e|exclude=s"  => \$options{exclude},
+        "H|header=s%"  => \$options{headers},
+        "w|wordlist=s" => \$options{wordlist},
+        "W|workflow=s" => \$workflow,
+        "m|method=s"   => \$options{method},    
         "r|return=s"   => \$options{return},
         "p|payload=s"  => \$options{payload},
         "j|json"       => \$options{json},
-        "H|header=s%"  => \$options{headers},
-        "T|tasks=i"    => \$options{tasks},
-        "e|exclude=s"  => \$options{exclude},
         "S|skip-ssl"   => \$options{skipssl},
+        "T|tasks=i"    => \$options{tasks},
+        "t|timeout=i"  => \$options{timeout},
+        "u|url=s@"     => \@targets,
         "l|length=s"   => \$options{length},
-        "p|plugin=s"   => \$options{plugin},
-        "c|content=s"  => \$options{content}
+        "p|plugin=s"   => \$options{plugin}
     );
 
     return Functions::Helper -> new() unless @targets;
