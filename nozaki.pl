@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use 5.018;
+use 5.030;
 use strict;
 use threads;
 use warnings;
@@ -20,7 +20,7 @@ sub main {
         method   => "GET,POST,PUT,DELETE,HEAD,OPTIONS,PATCH,PUSH",
         headers  => {},
         timeout  => 10,
-        agent    => "Nozaki / 0.2.8",
+        agent    => "Nozaki / 0.2.9",
         tasks    => 10,
         delay    => 0,
     );
