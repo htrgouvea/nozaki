@@ -1,0 +1,6 @@
+rules:
+  - description: Discovery sensitive files expousure
+    method: GET
+    wordlist: ./wordlists/generic/juicefiles.txt
+    return: 200
+    length: "> 0"
