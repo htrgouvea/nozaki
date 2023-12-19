@@ -9,6 +9,8 @@
     <a href="https://github.com/htrgouvea/nozaki/releases">
       <img src="https://img.shields.io/badge/version-0.2.9-blue.svg">
     </a>
+    <br/>
+    <img src="https://github.com/htrgouvea/nozaki/actions/workflows/linter.yml/badge.svg">
   </p>
 </p>
 
