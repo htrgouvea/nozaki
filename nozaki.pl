@@ -12,10 +12,10 @@ use Engine::Orchestrator;
 use Getopt::Long qw(:config no_ignore_case);
 
 sub main {
-    my ($workflow, $plugin, @targets);
+    my ($workflow, @targets);
 
     my %options = (
-        accept   => "*/*", 
+        accept   => "*/*",
         wordlist => "wordlists/default.txt",
         method   => "GET,POST,PUT,DELETE,HEAD,OPTIONS,PATCH,PUSH",
         headers  => {},
@@ -25,7 +25,7 @@ sub main {
         delay    => 0,
     );
 
-    Getopt::Long::GetOptions (        
+    Getopt::Long::GetOptions (
         "A|accept=s"   => \$options{accept},
         "a|agent=s"    => \$options{agent},
         "c|content=s"  => \$options{content},
@@ -34,7 +34,7 @@ sub main {
         "H|header=s%"  => \$options{headers},
         "w|wordlist=s" => \$options{wordlist},
         "W|workflow=s" => \$workflow,
-        "m|method=s"   => \$options{method},    
+        "m|method=s"   => \$options{method},
         "r|return=s"   => \$options{return},
         "p|payload=s"  => \$options{payload},
         "j|json"       => \$options{json},
@@ -42,12 +42,11 @@ sub main {
         "T|tasks=i"    => \$options{tasks},
         "t|timeout=i"  => \$options{timeout},
         "u|url=s@"     => \@targets,
-        "l|length=s"   => \$options{length},
-        "p|plugin=s"   => \$options{plugin}
+        "l|length=s"   => \$options{length}
     );
 
     return Functions::Helper -> new() unless @targets;
-    
+
     if ($workflow) {
         my $rules = Functions::Parser -> new($workflow);
 
@@ -57,7 +56,7 @@ sub main {
             Engine::Orchestrator::add_target(@targets);
 
             map { $new_options{$_} = $rule -> {$_} || 1 } keys %{$rule};
-            
+
             Engine::Orchestrator -> run_fuzzer(%new_options);
         }
 
@@ -67,6 +66,6 @@ sub main {
     Engine::Orchestrator::add_target(@targets);
 
     return Engine::Orchestrator -> run_fuzzer (%options);
-} 
+}
 
 exit main() unless caller;

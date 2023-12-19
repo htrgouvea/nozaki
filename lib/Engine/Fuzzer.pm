@@ -8,23 +8,23 @@ package Engine::Fuzzer {
         my ($self, $timeout, $headers, $skipssl, $content) = @_;
 
         my $userAgent = Mojo::UserAgent -> new() -> request_timeout($timeout) -> insecure($skipssl);
-        
-        bless { 
+
+        bless {
             useragent => $userAgent,
-            headers   => $headers 
+            headers   => $headers
         }, $self;
     }
 
     sub request {
         my ($self, $method, $agent, $endpoint, $payload, $accept) = @_;
-       
+
         my $request = $self -> {useragent} -> build_tx (
             $method => $endpoint => {
                 "User-Agent" => $agent,
                 %{$self -> {headers}}
             } => $payload || ""
         );
-        
+
         try {
             my $response  = $self -> {useragent} -> start($request) -> result();
 

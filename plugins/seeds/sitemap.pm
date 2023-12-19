@@ -4,7 +4,7 @@ package Plugins::Seeds::Sitemap {
 
     sub new {
         my ($self, @params) = @_;
-        
+
         return 1;
     }
 }
