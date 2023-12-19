@@ -9,10 +9,10 @@ package Engine::Orchestrator  {
 
     sub fill_queue {
         my ($list, $number) = @_;
-        
+
         for (1 .. $number) {
             return unless (@{$list} > 0);
-            
+
             if (eof($list -> [0])) {
                 close shift @{$list};
 
@@ -20,7 +20,7 @@ package Engine::Orchestrator  {
 
                 next
             }
-            
+
             my $filehandle = $list -> [0];
 
             chomp(my $line = <$filehandle>);
@@ -36,7 +36,7 @@ package Engine::Orchestrator  {
             $target .= "/" unless $target =~ /\/$/;
 
             lock(@targets_queue);
-            
+
             push @targets_queue, $target;
         }
     }
@@ -50,7 +50,7 @@ package Engine::Orchestrator  {
                 lock(@targets_queue);
                 $target = shift @targets_queue;
             }
- 
+
             $self -> threaded_fuzz($target, %options);
         }
     }
@@ -60,10 +60,10 @@ package Engine::Orchestrator  {
 
         my @current = map {
             open(my $filehandle, "<$_") || die "$0: Can't open $_: $!";
-            
+
             $filehandle
         } glob($options{wordlist});
-        
+
         $wordlist_queue = Thread::Queue -> new();
 
         fill_queue(\@current, 10 * $options{tasks});

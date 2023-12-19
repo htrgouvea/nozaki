@@ -3,7 +3,7 @@ package Functions::Parser {
 	use warnings;
     use YAML::Tiny;
 
-	sub new {	
+	sub new {
         my ($self, $workflow) = @_;
 
         if ($workflow) {
