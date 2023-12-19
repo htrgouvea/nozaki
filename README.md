@@ -7,7 +7,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/htrgouvea/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.2.8-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.2.9-blue.svg">
     </a>
   </p>
 </p>
@@ -38,7 +38,7 @@ Nozaki supports dynamic workflows written in YAML, from there we can write test 
 ```
 $ perl nozaki.pl
 
-Nozaki v0.2.8
+Nozaki v0.2.9
 Core Commands
 ==============
     Command           Description
