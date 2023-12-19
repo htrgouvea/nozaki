@@ -4,7 +4,7 @@ package Plugins::Seeds::Scraping {
 
     sub new {
         my ($self, @params) = @_;
-        
+
         return 1;
     }
 }

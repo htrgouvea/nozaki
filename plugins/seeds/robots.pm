@@ -4,7 +4,7 @@ package Plugins::Seeds::Robots {
 
     sub new {
         my ($self, @params) = @_;
-        
+
         return 1;
     }
 }
