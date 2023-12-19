@@ -41,7 +41,7 @@ package Engine::Fuzzer {
         }
 
         catch {
-            return undef;
+            return 0;
         }
     }
 }

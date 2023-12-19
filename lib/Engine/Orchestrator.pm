@@ -66,7 +66,9 @@ package Engine::Orchestrator  {
 
         $wordlist_queue = Thread::Queue -> new();
 
-        fill_queue(\@current, 10 * $options{tasks});
+        use constant CONCURRENT_TASKS => 10;
+
+        fill_queue(\@current, CONCURRENT_TASKS * $options{tasks});
 
         for (1 .. $options{tasks}) {
             Engine::FuzzerThread -> new (
