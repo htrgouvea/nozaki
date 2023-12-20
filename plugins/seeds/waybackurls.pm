@@ -1,4 +1,4 @@
-package Plugins::Seeds::WatBackUrls {
+package Plugins::Seeds::WayBackUrls {
     use strict;
     use warnings;
 

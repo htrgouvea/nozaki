@@ -22,7 +22,7 @@ sub main {
         timeout  => 10,
         agent    => "Nozaki / 0.2.9",
         tasks    => 10,
-        delay    => 0,
+        delay    => 0
     );
 
     Getopt::Long::GetOptions (
