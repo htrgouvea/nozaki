@@ -42,7 +42,8 @@ sub main {
         "T|tasks=i"    => \$options{tasks},
         "t|timeout=i"  => \$options{timeout},
         "u|url=s@"     => \@targets,
-        "l|length=s"   => \$options{length}
+        "l|length=s"   => \$options{length},
+        "P|proxy=s"    => \$options{proxy}
     );
 
     return Functions::Helper -> new() unless @targets;
@@ -65,7 +66,7 @@ sub main {
 
     Engine::Orchestrator::add_target(@targets);
 
-    return Engine::Orchestrator -> run_fuzzer (%options);
+    return Engine::Orchestrator -> run_fuzzer(%options);
 }
 
 exit main() unless caller;
