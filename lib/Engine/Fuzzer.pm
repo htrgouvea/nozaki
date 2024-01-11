@@ -5,9 +5,14 @@ package Engine::Fuzzer {
     use Mojo::UserAgent;
 
     sub new {
-        my ($self, $timeout, $headers, $skipssl, $content) = @_;
+        my ($self, $timeout, $headers, $skipssl, $proxy) = @_;
 
         my $userAgent = Mojo::UserAgent -> new() -> request_timeout($timeout) -> insecure($skipssl);
+
+        if ($proxy) {
+            $userAgent -> proxy -> http($proxy);
+            $userAgent -> proxy -> https($proxy);
+        }
 
         bless {
             useragent => $userAgent,

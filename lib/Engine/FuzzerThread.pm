@@ -9,14 +9,14 @@ package Engine::FuzzerThread {
         my (
             $self, $queue, $target, $methods, $agent, $headers, $accept,
             $timeout, $return, $payload, $json, $delay, $exclude, $skipssl,
-            $length, $content, $dir_callback
+            $length, $content, $proxy
         ) = @_;
 
         my @verbs         = split (/,/, $methods);
         my @valid_codes   = split /,/, $return || "";
         my @invalid_codes = split /,/, $exclude || "";
 
-        my $fuzzer = Engine::Fuzzer -> new($timeout, $headers, $skipssl);
+        my $fuzzer = Engine::Fuzzer -> new($timeout, $headers, $skipssl, $proxy);
         my $format = JSON -> new() -> allow_nonref() -> pretty();
 
         my $cmp;
