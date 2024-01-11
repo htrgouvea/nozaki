@@ -62,6 +62,7 @@ Core Commands
     -S, --skip-ssl    Ignore SSL verification
     -l, --length      Filter by the length of content response 
     -c, --content     Filter by string based on the content response
+    -P, --proxy       Send all requests through a proxy
     -h, --help        See this screen
 ```
 
@@ -119,6 +120,8 @@ Code: 200 | URL: http://lab.nozaki.io:31337/wp-json/wp/v2/users/ | Method: GET |
 Code: 200 | URL: http://lab.nozaki.io:31337/wp-config.php | Method: GET | Response: OK | Length: null
 Code: 200 | URL: http://lab.nozaki.io:31337/wp-content/backup-db/ | Method: GET | Response: OK | Length: null
 ```
+
+* You can see [more examples here](/docs/Examples.md).
 
 ---
 
