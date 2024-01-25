@@ -1,11 +1,12 @@
 name: ZARN
 
 on:
+  push:
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
-      - develop
-
+    branches: [ "main" ]
+  schedule:
+    - cron: '28 23 * * 1'
 jobs:
   build:
     runs-on: ubuntu-latest
