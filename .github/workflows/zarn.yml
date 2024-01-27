@@ -13,6 +13,9 @@ jobs:
     name: Security Static Analysis with ZARN
     runs-on: ubuntu-20.04
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
     - name: Perform Static Analysis
       uses: htrgouvea/zarn@0.0.9
     
