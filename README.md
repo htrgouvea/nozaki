@@ -11,6 +11,7 @@
     </a>
     <br/>
     <img src="https://github.com/htrgouvea/nozaki/actions/workflows/linter.yml/badge.svg">
+    <img src="https://github.com/htrgouvea/nozaki/actions/workflows/test-on-ubuntu.yml/badge.svg">
   </p>
 </p>
 
