@@ -1,3 +1,5 @@
+Application.ini
+parameters.yml
 %3F.jsp
 .DS_Store
 .HTACCESS
