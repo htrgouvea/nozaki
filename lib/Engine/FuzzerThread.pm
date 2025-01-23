@@ -40,12 +40,19 @@ package Engine::FuzzerThread {
                 for my $verb (@verbs) {
                     my $result = $fuzzer -> request($verb, $agent, $endpoint, $payload, $accept);
 
-                    next unless $result;
+                    unless ($result) {
+                        next;
+                    }
 
                     my $status = $result -> {Code};
 
-                    next if grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes));
-                    next if $length && !($cmp -> ($result -> {Length}));
+                    if (grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes))) {
+                        next;
+                    }
+                    
+                    if ($length && !($cmp -> ($result -> {Length}))) {
+                        next;
+                    }
 
                     my $message = $json ? $format -> encode($result) : sprintf(
                         "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
