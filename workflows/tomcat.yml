@@ -1,0 +1,8 @@
+rules:
+  - description: Find tomcat
+    method: GET
+    wordlist: wordlists/technologies/tomcat.txt
+    content: "Manager App HOW-TO"
+    return: 401
+    accept: \*/\*
+    length: "> 0"
