@@ -1,0 +1,6 @@
+rules:
+  - description: Find valid paths based on Wordpress
+    method: GET
+    wordlist: wordlists/technologies/cms/wordpress.txt
+    exclude: 404
+    accept: \*/\*
