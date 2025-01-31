@@ -21,7 +21,7 @@ jobs:
           sudo apt install -y perl cpanminus
 
       - name: Install dependencies
-        run: cpanm --installdeps --with-test .
+        run: sudo cpanm --installdeps --with-test .
 
       - name: Run tests
         working-directory: ./tests
