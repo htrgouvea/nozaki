@@ -32,10 +32,12 @@ package Engine::Fuzzer {
             } => $payload || ""
         );
 
+        my $result;
+
         try {
             my $response = $self->{useragent}->start($request)->result();
-
-            my $result = {
+            
+            $result = {
                 "Method"   => $method,
                 "URL"      => $endpoint,
                 "Code"     => $response->code(),
@@ -43,15 +45,13 @@ package Engine::Fuzzer {
                 "Content"  => $response->body(),
                 "Length"   => $response->headers()->content_length() || "0"
             };
-
-            return $result;
         }
-
-        catch {
-            return 0;
-        };
         
-        return;
+        catch {
+            $result = 0;
+        };
+
+        return $result;
     }
 }
 

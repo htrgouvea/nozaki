@@ -5,6 +5,7 @@ use strict;
 use threads;
 use warnings;
 use Thread::Queue;
+use IO::Interactive;
 use Find::Lib "./lib";
 use Functions::Helper;
 use Functions::Parser;
@@ -48,6 +49,8 @@ sub main {
 
     return Functions::Helper -> new() unless @targets;
 
+    print "[\n" if $options{json};
+
     if ($workflow) {
         my $rules = Functions::Parser -> new($workflow);
 
@@ -66,7 +69,14 @@ sub main {
 
     Engine::Orchestrator::add_target(@targets);
 
-    return Engine::Orchestrator -> run_fuzzer(%options);
+    Engine::Orchestrator -> run_fuzzer(%options);
+
+    if ($options{json}) {
+        print "]\n";
+        truncate STDOUT, tell(STDOUT) - 2 if IO::Interactive::is_interactive();
+    }
+
+    return 0;
 }
 
 exit main() unless caller;
