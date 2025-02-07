@@ -96,6 +96,8 @@ package Engine::Orchestrator {
                 $options{length},
                 $options{content},
                 $options{proxy},
+                $options{randomize_agent},
+                $options{custom_agents},
                 \&add_target
             );
         }
