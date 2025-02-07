@@ -12,7 +12,7 @@ package Engine::FuzzerThread {
         my (
             $self, $queue, $target, $methods, $agent, $headers, $accept,
             $timeout, $return, $payload, $json, $delay, $exclude, $skipssl,
-            $length, $content, $proxy
+            $length, $content, $proxy, $randomize_agent, $custom_agents
         ) = @_;
         
         my @verbs         = split (/,/, $methods);
@@ -40,6 +40,13 @@ package Engine::FuzzerThread {
                 my $found = 0;
                 
                 for my $verb (@verbs) {
+               	   my $current_agent = $agent;
+               	   
+               	   if($randomize_agent) {
+               	       require Functions::RandomizeAgent;
+               	       $current_agent = Functions::RandomizeAgent::get_random_agent($custom_agents); 
+               	   } 
+                		
                     my $result = $fuzzer->request($verb, $agent, $endpoint, $payload, $accept);
                     
                     unless ($result) {
