@@ -15,7 +15,7 @@ package Functions::RandomizeAgent {
         my $file = shift;
         
         if($file && -e $file) {
-            opne my $fh, '<', $file or die "Cannot open $file: $!";
+            open my $fh, '<', $file or die "Cannot open $file: $!";
             chomp(my @agents = <$fh>);
             close $fh;
             return @agents if @agents; 
