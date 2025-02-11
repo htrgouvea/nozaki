@@ -24,6 +24,7 @@ use Functions::RandomizeAgent;
 my ($fh, $filename) = tempfile();
 print $fh "CustomAgentA\nCustomAgentB\nCustomAgentC\n";
 close $fh;
+
 {
     my $agent = Functions::RandomizeAgent::get_random_agent($filename);
     my @custom = ("CustomAgentA", "CustomAgentB", "CustomAgentC");
@@ -65,6 +66,7 @@ $fuzzer_mod->redefine(
         return bless {}, "Engine::Fuzzer";  
     }
 );
+
 $fuzzer_mod->redefine(
     request => sub {
         my ($self, $method, $user_agent, $endpoint, $payload, $accept) = @_;
