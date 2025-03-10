@@ -1,0 +1,28 @@
+name: Test Suite
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Perl
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y perl
+          sudo apt install -y perl cpanminus
+
+      - name: Install dependencies
+        run: sudo cpanm --installdeps --with-test .
+
+      - name: Run tests
+        working-directory: ./tests
+        run: prove -r
