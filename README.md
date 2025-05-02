@@ -7,7 +7,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/htrgouvea/nozaki/releases">
-      <img src="https://img.shields.io/badge/version-0.2.9-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.3.0-blue.svg">
     </a>
     <br/>
     <img src="https://github.com/htrgouvea/nozaki/actions/workflows/linter.yml/badge.svg">
@@ -43,13 +43,13 @@ Nozaki supports dynamic workflows written in YAML, from there we can write test 
 ```
 $ perl nozaki.pl
 
-Nozaki v0.2.9
+Nozaki v0.3.0
 Core Commands
 ==============
     Command           Description
     -------           -----------
     -A, --accept      Define a custom 'Accept' header
-    -T, --tasks       The number of threads to run in parallel
+    -T, --tasks       The number of threads to run concurrently, default is 30
     -H, --header      Define a custom header (header=value)
     -m, --method      Define HTTP methods to use during fuzzing, separeted by ","
     -u, --url         Define a target
@@ -60,7 +60,7 @@ Core Commands
     -e, --exclude     Exclude a specific result based on HTTP Response Code
     -t, --timeout     Define the timeout, default is 10s
     -p, --payload     Send a custom data
-    -j, --json        Display the results in JSON format
+    -j, --json        Display the results in JSON line format (one json object per line)
     -W, --workflow    Pass a YML file with a fuzzing workflow
     -S, --skip-ssl    Ignore SSL verification
     -l, --length      Filter by the length of content response 
