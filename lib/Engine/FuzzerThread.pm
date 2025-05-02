@@ -7,9 +7,8 @@ package Engine::FuzzerThread {
 
     sub new {
         my (
-            $self, $queue, $target, $methods, $agent, $headers, $accept,
-            $timeout, $return, $payload, $json, $delay, $exclude, $skipssl,
-            $length, $content, $proxy
+            $self, $queue, $target, $methods, $agent, $headers, $accept, $timeout, $return,
+            $payload, $json, $delay, $exclude, $skipssl, $length, $content, $proxy
         ) = @_;
 
         my @verbs         = split (/,/, $methods);
@@ -17,7 +16,7 @@ package Engine::FuzzerThread {
         my @invalid_codes = split /,/, $exclude || "";
 
         my $fuzzer = Engine::Fuzzer -> new($timeout, $headers, $skipssl, $proxy);
-        my $format = JSON -> new() -> allow_nonref() -> pretty();
+        my $format = JSON -> new() -> allow_nonref();
 
         my $cmp;
 
@@ -56,8 +55,7 @@ package Engine::FuzzerThread {
 
                     my $message = $json ? $format -> encode($result) : sprintf(
                         "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
-                        $status, $result -> {URL}, $result -> {Method},
-                        $result -> {Response} || "?", $result -> {Length}
+                        $status, $result -> {URL}, $result -> {Method}, $result -> {Response} || "?", $result -> {Length}
                     );
 
                     print $message, "\n" if !$content || $result -> {Content} =~ m/$content/;
