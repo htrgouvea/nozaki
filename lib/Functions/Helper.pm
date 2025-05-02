@@ -10,7 +10,7 @@ package Functions::Helper {
             \r\tCommand           Description
             \r\t-------           -----------
             \r\t-A, --accept      Define a custom 'Accept' header
-            \r\t-T, --tasks       The number of threads to run in parallel
+            \r\t-T, --tasks       The number of threads to run concurrently, default is 30
             \r\t-H, --header      Define a custom header (header=value)
             \r\t-m, --method      Define HTTP methods to use during fuzzing, separeted by \",\"
             \r\t-u, --url         Define a target
@@ -21,7 +21,7 @@ package Functions::Helper {
             \r\t-e, --exclude     Exclude a specific result based on HTTP Response Code
             \r\t-t, --timeout     Define the timeout, default is 10s
             \r\t-p, --payload     Send a custom data
-            \r\t-j, --json        Display the results in JSON format
+            \r\t-j, --json        Display the results in JSON line format (one json object per line)
             \r\t-W, --workflow    Pass a YML file with a fuzzing workflow
             \r\t-S, --skip-ssl    Ignore SSL verification
             \r\t-l, --length      Filter by the length of content response 
