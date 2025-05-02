@@ -11,9 +11,9 @@ package Engine::FuzzerThread {
             $payload, $json, $delay, $exclude, $skipssl, $length, $content, $proxy
         ) = @_;
 
-        my @verbs         = split (/,/, $methods);
-        my @valid_codes   = split /,/, $return || "";
-        my @invalid_codes = split /,/, $exclude || "";
+        my @verbs         = split (/,/x, $methods);
+        my @valid_codes   = split /,/x, $return || "";
+        my @invalid_codes = split /,/x, $exclude || "";
 
         my $fuzzer = Engine::Fuzzer -> new($timeout, $headers, $skipssl, $proxy);
         my $format = JSON -> new() -> allow_nonref();
@@ -21,7 +21,7 @@ package Engine::FuzzerThread {
         my $cmp;
 
         if ($length) {
-            ($cmp, $length) = $length =~ /([>=<]{0,2})(\d+)/;
+            ($cmp, $length) = $length =~ /([>=<]{0,2})(\d+)/x;
 
             $cmp = sub { $_[0] >= $length } if ($cmp eq ">=");
             $cmp = sub { $_[0] <= $length } if ($cmp eq "<=");
@@ -45,7 +45,7 @@ package Engine::FuzzerThread {
 
                     my $status = $result -> {Code};
 
-                    if (grep(/^$status$/, @invalid_codes) || ($return && !grep(/^$status$/, @valid_codes))) {
+                    if (grep(/^$status$/x, @invalid_codes) || ($return && !grep(/^$status$/x, @valid_codes))) {
                         next;
                     }
                     
@@ -58,7 +58,9 @@ package Engine::FuzzerThread {
                         $status, $result -> {URL}, $result -> {Method}, $result -> {Response} || "?", $result -> {Length}
                     );
 
-                    print $message, "\n" if !$content || $result -> {Content} =~ m/$content/;
+                    if (!$content || $result -> {Content} =~ m/$content/x) {
+                        print $message, "\n"; 
+                    }
 
                     sleep($delay);
                     $found = 1;

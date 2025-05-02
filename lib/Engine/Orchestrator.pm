@@ -33,7 +33,7 @@ package Engine::Orchestrator  {
         my (@targets) = @_;
 
         for my $target (@targets) {
-            $target .= "/" unless $target =~ /\/$/;
+            $target .= "/" unless $target =~ /\/$/x;
 
             lock(@targets_queue);
 
