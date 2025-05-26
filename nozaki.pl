@@ -20,8 +20,8 @@ sub main {
         method   => "GET,POST,PUT,DELETE,HEAD,OPTIONS,PATCH,PUSH",
         headers  => {},
         timeout  => 10,
-        agent    => "Nozaki / 0.3.0",
-        tasks    => 30,
+        agent    => "Nozaki / 0.3.1",
+        tasks    => 35,
         delay    => 0
     );
 
