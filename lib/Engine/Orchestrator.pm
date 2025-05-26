@@ -33,7 +33,7 @@ package Engine::Orchestrator  {
         my (@targets) = @_;
 
         for my $target (@targets) {
-            $target .= "/" unless $target =~ /\/$/;
+            $target .= "/" unless $target =~ /\/$/x;
 
             lock(@targets_queue);
 
@@ -88,7 +88,8 @@ package Engine::Orchestrator  {
                 $options{length},
                 $options{content},
                 $options{proxy},
-                \&add_target
+                $options{report_to},
+                $options{report_format}
             );
         }
 
