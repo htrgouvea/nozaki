@@ -71,6 +71,8 @@ Core Commands
     -c, --content     Filter by string based on the content response
     -P, --proxy       Send all requests through a proxy
     -h, --help        See this screen
+    --report-to       Forward filtered results to a proxy (e.g., http://127.0.0.1:8080)
+    --report-format   Format for --report-to: 'http' (default, forwards original request) or 'json' (sends request/response as JSON)
 ```
 
 ---

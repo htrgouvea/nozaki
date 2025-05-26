@@ -26,24 +26,26 @@ sub main {
     );
 
     Getopt::Long::GetOptions (
-        "A|accept=s"   => \$options{accept},
-        "a|agent=s"    => \$options{agent},
-        "c|content=s"  => \$options{content},
-        "d|delay=i"    => \$options{delay},
-        "e|exclude=s"  => \$options{exclude},
-        "H|header=s%"  => \$options{headers},
-        "w|wordlist=s" => \$options{wordlist},
-        "W|workflow=s" => \$workflow,
-        "m|method=s"   => \$options{method},
-        "r|return=s"   => \$options{return},
-        "p|payload=s"  => \$options{payload},
-        "j|json"       => \$options{json},
-        "S|skip-ssl"   => \$options{skipssl},
-        "T|tasks=i"    => \$options{tasks},
-        "t|timeout=i"  => \$options{timeout},
-        "u|url=s@"     => \@targets,
-        "l|length=s"   => \$options{length},
-        "P|proxy=s"    => \$options{proxy}
+        "A|accept=s"       => \$options{accept},
+        "a|agent=s"        => \$options{agent},
+        "c|content=s"      => \$options{content},
+        "d|delay=i"        => \$options{delay},
+        "e|exclude=s"      => \$options{exclude},
+        "H|header=s%"      => \$options{headers},
+        "w|wordlist=s"     => \$options{wordlist},
+        "W|workflow=s"     => \$workflow,
+        "m|method=s"       => \$options{method},
+        "r|return=s"       => \$options{return},
+        "p|payload=s"      => \$options{payload},
+        "j|json"           => \$options{json},
+        "S|skip-ssl"       => \$options{skipssl},
+        "T|tasks=i"        => \$options{tasks},
+        "t|timeout=i"      => \$options{timeout},
+        "u|url=s@"         => \@targets,
+        "l|length=s"       => \$options{length},
+        "P|proxy=s"        => \$options{proxy},
+        "report-to=s"      => \$options{report_to},
+        "report-format=s"  => \$options{report_format}
     );
 
     return Functions::Helper -> new() unless @targets;
