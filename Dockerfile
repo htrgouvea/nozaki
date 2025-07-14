@@ -1,4 +1,4 @@
-FROM perl:5.40
+FROM perl:5.42
 
 COPY . /usr/src/nozaki
 WORKDIR /usr/src/nozaki
