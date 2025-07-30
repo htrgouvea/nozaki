@@ -88,7 +88,8 @@ package Engine::Orchestrator  {
                 $options{length},
                 $options{content},
                 $options{proxy},
-                \&add_target
+                $options{report_to},
+                $options{report_format}
             );
         }
 

@@ -27,6 +27,8 @@ package Functions::Helper {
             \r\t-l, --length      Filter by the length of content response 
             \r\t-c, --content     Filter by string based on the content response
             \r\t-P, --proxy       Send all requests through a proxy
+            \r\t--report-to       Forward filtered results to a proxy (e.g., http://127.0.0.1:8080)
+            \r\t--report-format   Format for --report-to: 'http' (default, forwards original request) or 'json' (sends request/response as JSON)
             \r\t-h, --help        See this screen\n\n";
 
 		return 0;
