@@ -1,6 +1,3 @@
-
-
-
 ### Proxy traffic through Burp
 
 ```
