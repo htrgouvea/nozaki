@@ -4,7 +4,7 @@ package Engine::Fuzzer {
     use Try::Tiny;
     use Mojo::UserAgent;
 
-    our $VERSION = '0.0.1';
+    our $VERSION = '0.0.3';
 
     sub new {
         my ($self, $timeout, $headers, $skipssl, $proxy) = @_;
@@ -23,13 +23,15 @@ package Engine::Fuzzer {
     }
 
     sub request {
-        my ($self, $method, $agent, $endpoint, $payload, $accept) = @_;
+        my ($self, $method, $agent, $endpoint, $payload) = @_;
 
-        my $request = $self -> {useragent} -> build_tx (
-            $method => $endpoint => {
-                "User-Agent" => $agent,
-                %{$self -> {headers}}
-            } => $payload || ""
+        my $headers = {
+            'User-Agent' => $agent,
+            %{$self -> {headers}}
+        };
+
+        my $request = $self -> {useragent} -> build_tx(
+            $method => $endpoint => $headers => ($payload || q())
         );
 
         try {
