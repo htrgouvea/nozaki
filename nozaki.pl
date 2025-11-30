@@ -48,12 +48,14 @@ sub main {
         "P|proxy=s"    => \$options{proxy}
     );
 
-    return Functions::Helper -> new() unless @targets;
+    if (!@targets) {
+        return Functions::Helper -> new();
+    }
 
     if ($workflow) {
         my $rules = Functions::Parser -> new($workflow);
 
-        for my $rule (@$rules) {
+        for my $rule (@{$rules}) {
             my %new_options = %options;
 
             Engine::Orchestrator::add_target(@targets);
@@ -73,4 +75,6 @@ sub main {
     return Engine::Orchestrator -> run_fuzzer(%options);
 }
 
-exit main() unless caller;
+if (!caller) {
+    exit main();
+}
