@@ -56,7 +56,9 @@ sub main {
 
             Engine::Orchestrator::add_target(@targets);
 
-            map { $new_options{$_} = $rule -> {$_} || 1 } keys %{$rule};
+            for my $key (keys %{$rule}) {
+                $new_options{$key} = $rule -> {$key} || 1;
+            }
 
             Engine::Orchestrator -> run_fuzzer(%new_options);
         }
