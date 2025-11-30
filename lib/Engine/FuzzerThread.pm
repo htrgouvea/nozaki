@@ -14,8 +14,8 @@ package Engine::FuzzerThread {
         ) = @_;
 
         my @verbs         = split (/,/xsm, $methods);
-        my @valid_codes   = split /,/x, $return || "";
-        my @invalid_codes = split /,/x, $exclude || "";
+        my @valid_codes   = split /,/x, $return || '';
+        my @invalid_codes = split /,/x, $exclude || '';
 
         my $fuzzer = Engine::Fuzzer -> new($timeout, $headers, $skipssl, $proxy);
         my $format = JSON -> new() -> allow_nonref();
@@ -25,12 +25,12 @@ package Engine::FuzzerThread {
         if ($length) {
             ($cmp, $length) = $length =~ /([>=<]{0,2})(\d+)/xsm;
 
-            $cmp = sub { $_[0] >= $length } if ($cmp eq ">=");
-            $cmp = sub { $_[0] <= $length } if ($cmp eq "<=");
-            $cmp = sub { $_[0] != $length } if ($cmp eq "<>");
-            $cmp = sub { $_[0]  > $length } if ($cmp eq  ">");
-            $cmp = sub { $_[0]  < $length } if ($cmp eq  "<");
-            $cmp = sub { $_[0] == $length } if (!$cmp or $cmp eq "=");
+            $cmp = sub { $_[0] >= $length } if ($cmp eq '>=');
+            $cmp = sub { $_[0] <= $length } if ($cmp eq '<=');
+            $cmp = sub { $_[0] != $length } if ($cmp eq '<>');
+            $cmp = sub { $_[0]  > $length } if ($cmp eq  '>');
+            $cmp = sub { $_[0]  < $length } if ($cmp eq  '<');
+            $cmp = sub { $_[0] == $length } if (!$cmp or $cmp eq '=');
         }
 
         async {
@@ -50,21 +50,22 @@ package Engine::FuzzerThread {
                     if (grep(/^$status$/xsm, @invalid_codes) || ($return && !grep(/^$status$/xsm, @valid_codes))) {
                         next;
                     }
-                    
+
                     if ($length && !($cmp -> ($result -> {Length}))) {
                         next;
                     }
 
                     my $message = $json ? $format -> encode($result) : sprintf(
                         "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
-                        $status, $result -> {URL}, $result -> {Method}, $result -> {Response} || "?", $result -> {Length}
+                        $status, $result -> {URL}, $result -> {Method}, $result -> {Response} || '?', $result -> {Length}
                     );
 
                     if (!$content || $result -> {Content} =~ m/$content/xsm) {
-                        print $message, "\n"; 
+                        print $message, "\n";
                     }
 
                     sleep($delay);
+
                     $found = 1;
                 }
             }

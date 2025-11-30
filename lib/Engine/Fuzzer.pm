@@ -38,12 +38,12 @@ package Engine::Fuzzer {
             my $response  = $self -> {useragent} -> start($request) -> result();
 
             my $result = {
-                "Method"   => $method,
-                "URL"      => $endpoint,
-                "Code"     => $response -> code(),
-                "Response" => $response -> message(),
-                "Content"  => $response -> body(),
-                "Length"   => $response -> headers() -> content_length() || "0"
+                'Method'   => $method,
+                'URL'      => $endpoint,
+                'Code'     => $response -> code(),
+                'Response' => $response -> message(),
+                'Content'  => $response -> body(),
+                'Length'   => $response -> headers() -> content_length() || '0'
             };
 
             return $result;
