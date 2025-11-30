@@ -11,6 +11,8 @@ use Functions::Parser;
 use Engine::Orchestrator;
 use Getopt::Long qw(:config no_ignore_case);
 
+our $VERSION = '0.0.1';
+
 sub main {
     my ($workflow, @targets);
 

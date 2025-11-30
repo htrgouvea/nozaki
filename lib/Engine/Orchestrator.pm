@@ -4,6 +4,8 @@ package Engine::Orchestrator  {
     use warnings;
     use Engine::FuzzerThread;
 
+    our $VERSION = '0.0.1';
+
     my $wordlist_queue;
     my @targets_queue :shared;
 

@@ -5,13 +5,15 @@ package Engine::FuzzerThread {
     use warnings;
     use Engine::Fuzzer;
 
+    our $VERSION = '0.0.1';
+
     sub new {
         my (
             $self, $queue, $target, $methods, $agent, $headers, $accept, $timeout, $return,
             $payload, $json, $delay, $exclude, $skipssl, $length, $content, $proxy
         ) = @_;
 
-        my @verbs         = split (/,/x, $methods);
+        my @verbs         = split (/,/xsm, $methods);
         my @valid_codes   = split /,/x, $return || "";
         my @invalid_codes = split /,/x, $exclude || "";
 
@@ -21,7 +23,7 @@ package Engine::FuzzerThread {
         my $cmp;
 
         if ($length) {
-            ($cmp, $length) = $length =~ /([>=<]{0,2})(\d+)/x;
+            ($cmp, $length) = $length =~ /([>=<]{0,2})(\d+)/xsm;
 
             $cmp = sub { $_[0] >= $length } if ($cmp eq ">=");
             $cmp = sub { $_[0] <= $length } if ($cmp eq "<=");
@@ -45,7 +47,7 @@ package Engine::FuzzerThread {
 
                     my $status = $result -> {Code};
 
-                    if (grep(/^$status$/x, @invalid_codes) || ($return && !grep(/^$status$/x, @valid_codes))) {
+                    if (grep(/^$status$/xsm, @invalid_codes) || ($return && !grep(/^$status$/xsm, @valid_codes))) {
                         next;
                     }
                     
@@ -58,7 +60,7 @@ package Engine::FuzzerThread {
                         $status, $result -> {URL}, $result -> {Method}, $result -> {Response} || "?", $result -> {Length}
                     );
 
-                    if (!$content || $result -> {Content} =~ m/$content/x) {
+                    if (!$content || $result -> {Content} =~ m/$content/xsm) {
                         print $message, "\n"; 
                     }
 
