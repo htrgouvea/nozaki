@@ -7,11 +7,7 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/htrgouvea/nozaki/releases">
-<<<<<<< HEAD
       <img src="https://img.shields.io/badge/version-0.3.1-blue.svg">
-=======
-      <img src="https://img.shields.io/badge/version-0.3.0-blue.svg">
->>>>>>> cc1b5575bbfe388085b5df76d30f5ccb262607d4
     </a>
     <br/>
     <img src="https://github.com/htrgouvea/nozaki/actions/workflows/linter.yml/badge.svg">
