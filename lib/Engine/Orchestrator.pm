@@ -59,7 +59,7 @@ package Engine::Orchestrator  {
         my ($self, $target, %options) = @_;
 
         my @current = map {
-            open(my $filehandle, "<$_") || die "$0: Can't open $_: $!";
+            open(my $filehandle, '<', $_) || die "$0: Can't open $_: $!";
 
             $filehandle
         } glob($options{wordlist});
