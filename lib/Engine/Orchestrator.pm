@@ -8,6 +8,8 @@ package Engine::Orchestrator  {
 
     my $wordlist_queue;
     my @targets_queue :shared;
+    my @targets_for_cycle :shared;
+    my $cycle_counter :shared = 0;
 
     sub fill_queue {
         my ($list, $number) = @_;
@@ -46,6 +48,14 @@ package Engine::Orchestrator  {
     sub run_fuzzer {
         my ($self, %options) = @_;
         my $target = undef;
+
+        if ($options{domaincycle} && @targets_queue > 1) {
+            lock(@targets_for_cycle);
+            @targets_for_cycle = @targets_queue;
+
+            lock(@targets_queue);
+            @targets_queue = ($targets_for_cycle[0]);
+        }
 
         while (@targets_queue) {
             LOCKED: {
@@ -90,7 +100,9 @@ package Engine::Orchestrator  {
                 $options{length},
                 $options{content},
                 $options{proxy},
-                \&add_target
+                \&add_target,
+                ($options{domaincycle} ? \@targets_for_cycle : undef),
+                ($options{domaincycle} ? \$cycle_counter : undef)
             );
         }
 
