@@ -10,7 +10,7 @@ package Engine::FuzzerThread {
     sub new {
         my (
             $self, $queue, $target, $methods, $agent, $headers, $accept, $timeout, $return,
-            $payload, $json, $delay, $exclude, $skipssl, $length, $content, $proxy
+            $payload, $json, $delay, $exclude, $skipssl, $length, $content, $proxy, $add_target_ref, $targets_cycle, $counter_ref
         ) = @_;
 
         my @verbs         = split (/,/xsm, $methods);
@@ -33,9 +33,27 @@ package Engine::FuzzerThread {
             $cmp = sub { $_[0] == $length } if (!$cmp or $cmp eq '=');
         }
 
+        my $use_cycle = $targets_cycle && @{$targets_cycle} > 0;
+        my $target_count = $use_cycle ? scalar(@{$targets_cycle}) : 0;
+
         async {
             while (defined(my $resource = $queue -> dequeue())) {
-                my $endpoint = $target . $resource;
+                my $endpoint;
+
+                if ($use_cycle) {
+                    my $current_index;
+                    {
+                        lock(${$counter_ref});
+                        $current_index = ${$counter_ref};
+                        ${$counter_ref}++;
+                    }
+                    my $target_index = $current_index % $target_count;
+                    my $cycled_target = $targets_cycle -> [$target_index];
+                    $endpoint = $cycled_target . $resource;
+                } else {
+                    $endpoint = $target . $resource;
+                }
+
                 my $found = 0;
 
                 for my $verb (@verbs) {
