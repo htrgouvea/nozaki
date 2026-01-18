@@ -87,6 +87,7 @@ package Engine::Orchestrator  {
                 $options{skipssl},
                 $options{length},
                 $options{content},
+                $options{content_type},
                 $options{proxy},
                 \&add_target
             );

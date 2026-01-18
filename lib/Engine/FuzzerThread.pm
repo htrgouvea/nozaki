@@ -4,11 +4,12 @@ package Engine::FuzzerThread {
     use threads;
     use warnings;
     use Engine::Fuzzer;
+    use Functions::ContentTypeFilter;
 
     sub new {
         my (
             $self, $queue, $target, $methods, $agent, $headers, $accept, $timeout, $return,
-            $payload, $json, $delay, $exclude, $skipssl, $length, $content, $proxy
+            $payload, $json, $delay, $exclude, $skipssl, $length, $content, $content_type_filter, $proxy
         ) = @_;
 
         my @verbs         = split (/,/x, $methods);
@@ -17,6 +18,12 @@ package Engine::FuzzerThread {
 
         my $fuzzer = Engine::Fuzzer -> new($timeout, $headers, $skipssl, $proxy);
         my $format = JSON -> new() -> allow_nonref();
+
+        my @content_type_filters = ();
+
+        if ($content_type_filter) {
+            @content_type_filters = split /,/x, $content_type_filter;
+        }
 
         my $cmp;
 
@@ -53,12 +60,31 @@ package Engine::FuzzerThread {
                         next;
                     }
 
-                    my $message = $json ? $format -> encode($result) : sprintf(
-                        "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
-                        $status, $result -> {URL}, $result -> {Method}, $result -> {Response} || "?", $result -> {Length}
-                    );
+                    if ($content_type_filter) {
+                        my $matches = Functions::ContentTypeFilter::content_type_matches(
+                            $result -> {ContentType},
+                            \@content_type_filters
+                        );
+
+                        if (!$matches) {
+                            next;
+                        }
+                    }
 
                     if (!$content || $result -> {Content} =~ m/$content/x) {
+                        my $message = "";
+
+                        if ($json) {
+                            $message = $format -> encode($result);
+                        }
+
+                        if (!$json) {
+                            $message = sprintf(
+                                "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
+                                $status, $result -> {URL}, $result -> {Method}, $result -> {Response} || "?", $result -> {Length}
+                            );
+                        }
+
                         print $message, "\n"; 
                     }
 
@@ -70,6 +96,7 @@ package Engine::FuzzerThread {
 
         return 1;
     }
+
 }
 
 1;
