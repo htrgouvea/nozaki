@@ -26,6 +26,7 @@ package Functions::Helper {
             \r\t-S, --skip-ssl    Ignore SSL verification
             \r\t-l, --length      Filter by the length of content response 
             \r\t-c, --content     Filter by string based on the content response
+            \r\t-C, --filter-content-type  Filter by Content-Type header values
             \r\t-P, --proxy       Send all requests through a proxy
             \r\t-h, --help        See this screen\n\n";
 

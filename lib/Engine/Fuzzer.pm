@@ -33,13 +33,20 @@ package Engine::Fuzzer {
         try {
             my $response  = $self -> {useragent} -> start($request) -> result();
 
+            my $content_type = $response -> headers() -> content_type();
+
+            if (!$content_type) {
+                $content_type = "";
+            }
+
             my $result = {
                 "Method"   => $method,
                 "URL"      => $endpoint,
                 "Code"     => $response -> code(),
                 "Response" => $response -> message(),
                 "Content"  => $response -> body(),
-                "Length"   => $response -> headers() -> content_length() || "0"
+                "Length"   => $response -> headers() -> content_length() || "0",
+                "ContentType" => $content_type
             };
 
             return $result;

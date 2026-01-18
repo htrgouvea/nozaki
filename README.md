@@ -65,6 +65,7 @@ Core Commands
     -S, --skip-ssl    Ignore SSL verification
     -l, --length      Filter by the length of content response 
     -c, --content     Filter by string based on the content response
+    -C, --filter-content-type  Filter by Content-Type header values
     -P, --proxy       Send all requests through a proxy
     -h, --help        See this screen
 ```
@@ -96,6 +97,13 @@ Code: 200 | URL: http://lab.nozaki.io:8081/tokens | Method: HEAD | Response: OK 
 Code: 200 | URL: http://lab.nozaki.io:8081/uptime | Method: GET | Response: OK | Length: 129
 Code: 200 | URL: http://lab.nozaki.io:8081/user/6 | Method: HEAD | Response: OK | Length: 72
 Code: 200 | URL: http://lab.nozaki.io:8081/uptime | Method: HEAD | Response: OK | Length: 129
+```
+
+```bash
+# Filter JSON responses when looking for config files
+$ perl nozaki.pl -m GET -u http://lab.nozaki.io:8081 -w wordlists/test.txt -r 200 --content "version" --filter-content-type application/json,application/ld+json
+
+Code: 200 | URL: http://lab.nozaki.io:8081/package.json | Method: GET | Response: OK | Length: 421
 ```
 
 ```yml
