@@ -11,14 +11,18 @@ package Engine::Orchestrator  {
         my ($list, $number) = @_;
 
         for (1 .. $number) {
-            return unless (@{$list} > 0);
+            if (@{$list} <= 0) {
+                return;
+            }
 
             if (eof($list -> [0])) {
                 close shift @{$list};
 
-                (@{$list} > 0) || $wordlist_queue -> end();
+                if (@{$list} <= 0) {
+                    $wordlist_queue -> end();
+                }
 
-                next
+                next;
             }
 
             my $filehandle = $list -> [0];
@@ -33,7 +37,9 @@ package Engine::Orchestrator  {
         my (@targets) = @_;
 
         for my $target (@targets) {
-            $target .= "/" unless $target =~ /\/$/x;
+            if ($target !~ /\/$/x) {
+                $target .= "/";
+            }
 
             lock(@targets_queue);
 

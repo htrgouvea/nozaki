@@ -7,11 +7,11 @@ package Functions::Parser {
         my ($self, $workflow) = @_;
 
         if ($workflow) {
-			my $yamlfile = YAML::Tiny -> read($workflow);
- 	        my $rules = $yamlfile -> [0] -> {rules};
+            my $yaml_file = YAML::Tiny -> read($workflow);
+            my $workflow_rules = $yaml_file -> [0] -> {rules};
 
-			return $rules;
-		}
+            return $workflow_rules;
+        }
 	}
 }
 

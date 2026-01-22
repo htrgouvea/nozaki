@@ -9,7 +9,7 @@ package Engine::FuzzerThread {
     sub new {
         my (
             $self, $queue, $target, $methods, $agent, $headers, $accept, $timeout, $return,
-            $payload, $json, $delay, $exclude, $skipssl, $length, $content, $content_type_filter, $proxy
+            $payload, $json, $delay, $exclude, $skipssl, $length_filter, $content, $content_type_filter, $proxy
         ) = @_;
 
         my @verbs         = split (/,/x, $methods);
@@ -17,7 +17,7 @@ package Engine::FuzzerThread {
         my @invalid_codes = split /,/x, $exclude || "";
 
         my $fuzzer = Engine::Fuzzer -> new($timeout, $headers, $skipssl, $proxy);
-        my $format = JSON -> new() -> allow_nonref();
+        my $json_encoder = JSON -> new() -> allow_nonref();
 
         my @content_type_filters = ();
 
@@ -25,23 +25,42 @@ package Engine::FuzzerThread {
             @content_type_filters = split /,/x, $content_type_filter;
         }
 
-        my $cmp;
+        my $length_comparator;
 
-        if ($length) {
-            ($cmp, $length) = $length =~ /([>=<]{0,2})(\d+)/x;
+        if ($length_filter) {
+            my $comparator_symbol;
 
-            $cmp = sub { $_[0] >= $length } if ($cmp eq ">=");
-            $cmp = sub { $_[0] <= $length } if ($cmp eq "<=");
-            $cmp = sub { $_[0] != $length } if ($cmp eq "<>");
-            $cmp = sub { $_[0]  > $length } if ($cmp eq  ">");
-            $cmp = sub { $_[0]  < $length } if ($cmp eq  "<");
-            $cmp = sub { $_[0] == $length } if (!$cmp or $cmp eq "=");
+            ($comparator_symbol, $length_filter) = $length_filter =~ /([>=<]{0,2})(\d+)/x;
+
+            if ($comparator_symbol eq ">=") {
+                $length_comparator = sub { $_[0] >= $length_filter };
+            }
+
+            if ($comparator_symbol eq "<=") {
+                $length_comparator = sub { $_[0] <= $length_filter };
+            }
+
+            if ($comparator_symbol eq "<>") {
+                $length_comparator = sub { $_[0] != $length_filter };
+            }
+
+            if ($comparator_symbol eq ">") {
+                $length_comparator = sub { $_[0] > $length_filter };
+            }
+
+            if ($comparator_symbol eq "<") {
+                $length_comparator = sub { $_[0] < $length_filter };
+            }
+
+            if (!$comparator_symbol || $comparator_symbol eq "=") {
+                $length_comparator = sub { $_[0] == $length_filter };
+            }
         }
 
         async {
             while (defined(my $resource = $queue -> dequeue())) {
                 my $endpoint = $target . $resource;
-                my $found = 0;
+                my $was_found = 0;
 
                 for my $verb (@verbs) {
                     my $result = $fuzzer -> request($verb, $agent, $endpoint, $payload, $accept);
@@ -55,8 +74,8 @@ package Engine::FuzzerThread {
                     if (grep(/^$status$/x, @invalid_codes) || ($return && !grep(/^$status$/x, @valid_codes))) {
                         next;
                     }
-                    
-                    if ($length && !($cmp -> ($result -> {Length}))) {
+
+                    if ($length_filter && !($length_comparator -> ($result -> {Length}))) {
                         next;
                     }
 
@@ -75,7 +94,7 @@ package Engine::FuzzerThread {
                         my $message = "";
 
                         if ($json) {
-                            $message = $format -> encode($result);
+                            $message = $json_encoder -> encode($result);
                         }
 
                         if (!$json) {
@@ -85,11 +104,11 @@ package Engine::FuzzerThread {
                             );
                         }
 
-                        print $message, "\n"; 
+                        print $message, "\n";
                     }
 
                     sleep($delay);
-                    $found = 1;
+                    $was_found = 1;
                 }
             }
         };
