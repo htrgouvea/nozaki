@@ -7,23 +7,23 @@ package Engine::Fuzzer {
     sub new {
         my ($self, $timeout, $headers, $skipssl, $proxy) = @_;
 
-        my $userAgent = Mojo::UserAgent -> new() -> request_timeout($timeout) -> insecure($skipssl);
+        my $user_agent = Mojo::UserAgent -> new() -> request_timeout($timeout) -> insecure($skipssl);
 
         if ($proxy) {
-            $userAgent -> proxy -> http($proxy);
-            $userAgent -> proxy -> https($proxy);
+            $user_agent -> proxy -> http($proxy);
+            $user_agent -> proxy -> https($proxy);
         }
 
         bless {
-            useragent => $userAgent,
-            headers   => $headers
+            user_agent => $user_agent,
+            headers    => $headers
         }, $self;
     }
 
     sub request {
         my ($self, $method, $agent, $endpoint, $payload, $accept) = @_;
 
-        my $request = $self -> {useragent} -> build_tx (
+        my $request = $self -> {user_agent} -> build_tx (
             $method => $endpoint => {
                 "User-Agent" => $agent,
                 %{$self -> {headers}}
@@ -31,7 +31,7 @@ package Engine::Fuzzer {
         );
 
         try {
-            my $response  = $self -> {useragent} -> start($request) -> result();
+            my $response = $self -> {user_agent} -> start($request) -> result();
 
             my $content_type = $response -> headers() -> content_type();
 
