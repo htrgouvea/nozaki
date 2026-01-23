@@ -5,6 +5,8 @@ use warnings;
 use Test::More tests => 6;
 use Functions::ContentTypeFilter;
 
+our $VERSION = "0.3.1";
+
 my @filters = ("application/json", "text/html");
 
 ok(
