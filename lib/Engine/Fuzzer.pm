@@ -5,31 +5,41 @@ package Engine::Fuzzer {
     use Mojo::UserAgent;
 
     sub new {
-        my ($self, $timeout, $headers, $skipssl, $proxy) = @_;
+        my ($self, %options) = @_;
 
-        my $user_agent = Mojo::UserAgent -> new() -> request_timeout($timeout) -> insecure($skipssl);
+        my $user_agent = Mojo::UserAgent -> new()
+            -> request_timeout($options{timeout})
+            -> insecure($options{skipssl});
 
-        if ($proxy) {
-            $user_agent -> proxy -> http($proxy);
-            $user_agent -> proxy -> https($proxy);
+        if ($options{proxy}) {
+            $user_agent -> proxy -> http($options{proxy});
+            $user_agent -> proxy -> https($options{proxy});
         }
 
         my $instance = bless {
             user_agent => $user_agent,
-            headers    => $headers
+            headers    => $options{headers} || {}
         }, $self;
 
         return $instance;
     }
 
     sub request {
-        my ($self, $method, $agent, $endpoint, $payload, $accept) = @_;
+        my ($self, %options) = @_;
 
-        my $request = $self -> {user_agent} -> build_tx (
-            $method => $endpoint => {
-                "User-Agent" => $agent,
-                %{$self -> {headers}}
-            } => $payload || ""
+        my %headers = (
+            "User-Agent" => $options{agent},
+            %{$self -> {headers}}
+        );
+
+        if ($options{accept}) {
+            $headers{Accept} = $options{accept};
+        }
+
+        my $request = $self -> {user_agent} -> build_tx(
+            $options{method} => $options{endpoint} => {
+                %headers
+            } => $options{payload} || ""
         );
 
         my $result = try {
@@ -42,8 +52,8 @@ package Engine::Fuzzer {
             }
 
             my $response_data = {
-                "Method"   => $method,
-                "URL"      => $endpoint,
+                "Method"   => $options{method},
+                "URL"      => $options{endpoint},
                 "Code"     => $response -> code(),
                 "Response" => $response -> message(),
                 "Content"  => $response -> body(),

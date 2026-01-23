@@ -2,6 +2,7 @@ package Engine::Orchestrator  {
     use strict;
     use threads;
     use warnings;
+    use Carp qw(croak);
     use Engine::FuzzerThread;
 
     my $wordlist_queue;
@@ -59,13 +60,17 @@ package Engine::Orchestrator  {
     sub threaded_fuzz {
         my ($self, $target, %options) = @_;
 
-        my @current = map {
-            open(my $filehandle, "<", $_) || die "$0: Can't open $_: $!";
+        my @current;
+        my @wordlists = split /,/x, $options{wordlist};
 
+        for my $wordlist (@wordlists) {
+            open(my $filehandle, "<", $wordlist)
+                || croak "$0: Can't open $wordlist: $!";
+
+            my @lines = <$filehandle>;
             close $filehandle;
 
             chomp @lines;
-
             push @current, @lines;
         }
 
@@ -76,25 +81,24 @@ package Engine::Orchestrator  {
         fill_queue(\@current, $concurrent_tasks * $options{tasks});
 
         for (1 .. $options{tasks}) {
-            Engine::FuzzerThread -> new (
-                $wordlist_queue,
-                $target,
-                $options{method},
-                $options{agent},
-                $options{headers},
-                $options{accept},
-                $options{timeout},
-                $options{return},
-                $options{payload},
-                $options{json},
-                $options{delay},
-                $options{exclude},
-                $options{skipssl},
-                $options{length},
-                $options{content},
-                $options{content_type},
-                $options{proxy},
-                \&add_target
+            Engine::FuzzerThread -> new(
+                queue               => $wordlist_queue,
+                target              => $target,
+                methods             => $options{method},
+                agent               => $options{agent},
+                headers             => $options{headers},
+                accept              => $options{accept},
+                timeout             => $options{timeout},
+                return              => $options{return},
+                payload             => $options{payload},
+                json                => $options{json},
+                delay               => $options{delay},
+                exclude             => $options{exclude},
+                skipssl             => $options{skipssl},
+                length_filter       => $options{length},
+                content             => $options{content},
+                content_type_filter => $options{content_type},
+                proxy               => $options{proxy}
             );
         }
 
@@ -102,7 +106,9 @@ package Engine::Orchestrator  {
             fill_queue(\@current, $options{tasks});
         }
 
-        map { $_ -> join() } threads -> list(threads::all);
+        for my $thread (threads -> list(threads::all)) {
+            $thread -> join();
+        }
 
         return 0;
     }

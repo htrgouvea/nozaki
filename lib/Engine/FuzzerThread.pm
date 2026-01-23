@@ -7,14 +7,11 @@ package Engine::FuzzerThread {
     use Functions::ContentTypeFilter;
 
     sub new {
-        my (
-            $self, $queue, $target, $methods, $agent, $headers, $accept, $timeout, $return,
-            $payload, $json, $delay, $exclude, $skipssl, $length_filter, $content, $content_type_filter, $proxy
-        ) = @_;
+        my ($self, %options) = @_;
 
-        my @verbs         = split /,/x, $methods;
-        my @valid_codes   = split /,/x, $return || "";
-        my @invalid_codes = split /,/x, $exclude || "";
+        my @verbs         = split /,/x, $options{methods};
+        my @valid_codes   = split /,/x, $options{return} || "";
+        my @invalid_codes = split /,/x, $options{exclude} || "";
 
         my %valid_code_lookup = ();
         my %invalid_code_lookup = ();
@@ -31,54 +28,66 @@ package Engine::FuzzerThread {
             }
         }
 
-        my $fuzzer = Engine::Fuzzer -> new($timeout, $headers, $skipssl, $proxy);
+        my $fuzzer = Engine::Fuzzer -> new(
+            timeout => $options{timeout},
+            headers => $options{headers},
+            skipssl => $options{skipssl},
+            proxy   => $options{proxy}
+        );
         my $json_encoder = JSON -> new() -> allow_nonref();
 
         my @content_type_filters = ();
 
-        if ($content_type_filter) {
-            @content_type_filters = split /,/x, $content_type_filter;
+        if ($options{content_type_filter}) {
+            @content_type_filters = split /,/x, $options{content_type_filter};
         }
 
         my $length_comparator;
 
-        if ($length_filter) {
+        if ($options{length_filter}) {
             my $comparator_symbol;
 
-            ($comparator_symbol, $length_filter) = $length_filter =~ /([>=<]{0,2})(\d+)/x;
+            ($comparator_symbol, $options{length_filter})
+                = $options{length_filter} =~ /([>=<]{0,2})(\d+)/x;
 
             if ($comparator_symbol eq ">=") {
-                $length_comparator = sub { $_[0] >= $length_filter };
+                $length_comparator = sub { $_[0] >= $options{length_filter} };
             }
 
             if ($comparator_symbol eq "<=") {
-                $length_comparator = sub { $_[0] <= $length_filter };
+                $length_comparator = sub { $_[0] <= $options{length_filter} };
             }
 
             if ($comparator_symbol eq "<>") {
-                $length_comparator = sub { $_[0] != $length_filter };
+                $length_comparator = sub { $_[0] != $options{length_filter} };
             }
 
             if ($comparator_symbol eq ">") {
-                $length_comparator = sub { $_[0] > $length_filter };
+                $length_comparator = sub { $_[0] > $options{length_filter} };
             }
 
             if ($comparator_symbol eq "<") {
-                $length_comparator = sub { $_[0] < $length_filter };
+                $length_comparator = sub { $_[0] < $options{length_filter} };
             }
 
             if (!$comparator_symbol || $comparator_symbol eq "=") {
-                $length_comparator = sub { $_[0] == $length_filter };
+                $length_comparator = sub { $_[0] == $options{length_filter} };
             }
         }
 
         async {
-            while (defined(my $resource = $queue -> dequeue())) {
-                my $endpoint = $target . $resource;
+            while (defined(my $resource = $options{queue} -> dequeue())) {
+                my $endpoint = $options{target} . $resource;
                 my $was_found = 0;
 
                 for my $verb (@verbs) {
-                    my $result = $fuzzer -> request($verb, $agent, $endpoint, $payload, $accept);
+                    my $result = $fuzzer -> request(
+                        method   => $verb,
+                        agent    => $options{agent},
+                        endpoint => $endpoint,
+                        payload  => $options{payload},
+                        accept   => $options{accept}
+                    );
 
                     unless ($result) {
                         next;
@@ -92,7 +101,7 @@ package Engine::FuzzerThread {
                         $is_invalid = 1;
                     }
 
-                    if ($return && !$valid_code_lookup{$status}) {
+                    if ($options{return} && !$valid_code_lookup{$status}) {
                         $is_invalid = 1;
                     }
 
@@ -100,11 +109,12 @@ package Engine::FuzzerThread {
                         next;
                     }
 
-                    if ($length_filter && !($length_comparator -> ($result -> {Length}))) {
+                    if ($options{length_filter}
+                        && !($length_comparator -> ($result -> {Length}))) {
                         next;
                     }
 
-                    if ($content_type_filter) {
+                    if ($options{content_type_filter}) {
                         my $matches = Functions::ContentTypeFilter::content_type_matches(
                             $result -> {ContentType},
                             \@content_type_filters
@@ -115,24 +125,29 @@ package Engine::FuzzerThread {
                         }
                     }
 
-                    if (!$content || $result -> {Content} =~ m/$content/x) {
+                    if (!$options{content}
+                        || $result -> {Content} =~ m/$options{content}/x) {
                         my $message = "";
 
-                        if ($json) {
+                        if ($options{json}) {
                             $message = $json_encoder -> encode($result);
                         }
 
-                        if (!$json) {
+                        if (!$options{json}) {
                             $message = sprintf(
                                 "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
-                                $status, $result -> {URL}, $result -> {Method}, $result -> {Response} || "?", $result -> {Length}
+                                $status,
+                                $result -> {URL},
+                                $result -> {Method},
+                                $result -> {Response} || "?",
+                                $result -> {Length}
                             );
                         }
 
                         print $message, "\n";
                     }
 
-                    sleep($delay);
+                    sleep($options{delay});
                     $was_found = 1;
                 }
             }
