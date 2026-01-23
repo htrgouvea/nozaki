@@ -32,7 +32,7 @@ package Engine::Orchestrator  {
 
         for my $target (@targets) {
             if ($target !~ /\/$/xms) {
-                $target .= '/';
+                $target .= q{/};
             }
 
             lock(@targets_queue);

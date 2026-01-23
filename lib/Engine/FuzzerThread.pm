@@ -72,7 +72,7 @@ package Engine::FuzzerThread {
                 $length_comparator = sub { $_[0] < $options{length_filter} };
             }
 
-            if (!$comparator_symbol || $comparator_symbol eq '=') {
+            if (!$comparator_symbol || $comparator_symbol eq q{=}) {
                 $length_comparator = sub { $_[0] == $options{length_filter} };
             }
         }
@@ -141,7 +141,7 @@ package Engine::FuzzerThread {
                                 $status,
                                 $result -> {URL},
                                 $result -> {Method},
-                                $result -> {Response} || '?',
+                                $result -> {Response} || q{?},
                                 $result -> {Length}
                             );
                         }
