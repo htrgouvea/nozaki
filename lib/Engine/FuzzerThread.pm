@@ -1,9 +1,12 @@
 package Engine::FuzzerThread {
-    use JSON;
     use strict;
     use threads;
     use warnings;
     use Engine::Fuzzer;
+    use Engine::FuzzerThread::ContentTypeFilters;
+    use Engine::FuzzerThread::LengthComparator;
+    use Engine::FuzzerThread::MessageBuilder;
+    use Engine::FuzzerThread::StatusFilters;
     use Functions::ContentTypeFilter;
 
     our $VERSION = '0.3.1';
@@ -11,24 +14,7 @@ package Engine::FuzzerThread {
     sub new {
         my ($self, %options) = @_;
 
-        my @verbs         = split /,/xms, $options{methods};
-        my @valid_codes   = split /,/xms, $options{return} || q{};
-        my @invalid_codes = split /,/xms, $options{exclude} || q{};
-
-        my %valid_code_lookup = ();
-        my %invalid_code_lookup = ();
-
-        for my $code (@valid_codes) {
-            if (length $code) {
-                $valid_code_lookup{$code} = 1;
-            }
-        }
-
-        for my $code (@invalid_codes) {
-            if (length $code) {
-                $invalid_code_lookup{$code} = 1;
-            }
-        }
+        my @verbs = split /,/xms, $options{methods};
 
         my $fuzzer = Engine::Fuzzer -> new(
             timeout => $options{timeout},
@@ -36,46 +22,25 @@ package Engine::FuzzerThread {
             skipssl => $options{skipssl},
             proxy   => $options{proxy}
         );
-        my $json_encoder = JSON -> new() -> allow_nonref();
-
-        my @content_type_filters = ();
-
-        if ($options{content_type_filter}) {
-            @content_type_filters = split /,/x, $options{content_type_filter};
-        }
-
-        my $length_comparator;
-
-        if ($options{length_filter}) {
-            my $comparator_symbol;
-
-            ($comparator_symbol, $options{length_filter})
-                = $options{length_filter} =~ /([>=<]{0,2})(\d+)/xms;
-
-            if ($comparator_symbol eq '>=') {
-                $length_comparator = sub { $_[0] >= $options{length_filter} };
-            }
-
-            if ($comparator_symbol eq '<=') {
-                $length_comparator = sub { $_[0] <= $options{length_filter} };
-            }
-
-            if ($comparator_symbol eq '<>') {
-                $length_comparator = sub { $_[0] != $options{length_filter} };
-            }
-
-            if ($comparator_symbol eq '>') {
-                $length_comparator = sub { $_[0] > $options{length_filter} };
-            }
-
-            if ($comparator_symbol eq '<') {
-                $length_comparator = sub { $_[0] < $options{length_filter} };
-            }
-
-            if (!$comparator_symbol || $comparator_symbol eq q{=}) {
-                $length_comparator = sub { $_[0] == $options{length_filter} };
-            }
-        }
+        my $status_filters = Engine::FuzzerThread::StatusFilters -> new(
+            %options
+        );
+        my $length_comparator_config
+            = Engine::FuzzerThread::LengthComparator -> new(%options);
+        my $content_type_filters_config
+            = Engine::FuzzerThread::ContentTypeFilters -> new(%options);
+        my $message_builder_config
+            = Engine::FuzzerThread::MessageBuilder -> new(%options);
+        my $valid_code_lookup
+            = $status_filters -> {valid_code_lookup};
+        my $invalid_code_lookup
+            = $status_filters -> {invalid_code_lookup};
+        my $has_valid_codes = $status_filters -> {has_valid_codes};
+        my $length_comparator
+            = $length_comparator_config -> {comparator};
+        my $content_type_filters
+            = $content_type_filters_config -> {content_type_filters};
+        my $message_builder = $message_builder_config -> {builder};
 
         async {
             while (defined(my $resource = $options{queue} -> dequeue())) {
@@ -99,11 +64,11 @@ package Engine::FuzzerThread {
 
                     my $is_invalid = 0;
 
-                    if ($invalid_code_lookup{$status}) {
+                    if ($invalid_code_lookup -> {$status}) {
                         $is_invalid = 1;
                     }
 
-                    if ($options{return} && !$valid_code_lookup{$status}) {
+                    if ($has_valid_codes && !$valid_code_lookup -> {$status}) {
                         $is_invalid = 1;
                     }
 
@@ -111,15 +76,16 @@ package Engine::FuzzerThread {
                         next;
                     }
 
-                    if ($options{length_filter}
-                        && !($length_comparator -> ($result -> {Length}))) {
-                        next;
+                    if ($options{length_filter}) {
+                        if (!($length_comparator -> ($result -> {Length}))) {
+                            next;
+                        }
                     }
 
                     if ($options{content_type_filter}) {
                         my $matches = Functions::ContentTypeFilter::content_type_matches(
                             $result -> {ContentType},
-                            \@content_type_filters
+                            $content_type_filters
                         );
 
                         if (!$matches) {
@@ -129,22 +95,7 @@ package Engine::FuzzerThread {
 
                     if (!$options{content}
                         || $result -> {Content} =~ m/$options{content}/xms) {
-                        my $message = q{};
-
-                        if ($options{json}) {
-                            $message = $json_encoder -> encode($result);
-                        }
-
-                        if (!$options{json}) {
-                            $message = sprintf(
-                                'Code: %d | URL: %s | Method: %s | Response: %s | Length: %s',
-                                $status,
-                                $result -> {URL},
-                                $result -> {Method},
-                                $result -> {Response} || q{?},
-                                $result -> {Length}
-                            );
-                        }
+                        my $message = $message_builder -> ($result);
 
                         print $message, "\n";
                     }
