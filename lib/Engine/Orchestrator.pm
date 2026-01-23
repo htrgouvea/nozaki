@@ -31,7 +31,7 @@ package Engine::Orchestrator  {
         my (@targets) = @_;
 
         for my $target (@targets) {
-            if ($target !~ /\/$/x) {
+            if ($target !~ /\/$/xms) {
                 $target .= "/";
             }
 
@@ -63,7 +63,7 @@ package Engine::Orchestrator  {
         my ($self, $target, %options) = @_;
 
         my @current;
-        my @wordlists = split /,/x, $options{wordlist};
+        my @wordlists = split /,/xms, $options{wordlist};
 
         for my $wordlist (@wordlists) {
             open(my $filehandle, "<", $wordlist)
