@@ -59,13 +59,8 @@ package Engine::Orchestrator  {
     sub threaded_fuzz {
         my ($self, $target, %options) = @_;
 
-        my @current = ();
-        my @wordlists = glob($options{wordlist});
-
-        for my $wordlist (@wordlists) {
-            open(my $filehandle, "<", $wordlist) or die "$0: Can't open $wordlist: $!";
-
-            my @lines = <$filehandle>;
+        my @current = map {
+            open(my $filehandle, "<", $_) || die "$0: Can't open $_: $!";
 
             close $filehandle;
 
