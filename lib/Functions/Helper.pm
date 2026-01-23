@@ -30,7 +30,7 @@ package Functions::Helper {
             "\r\t-c, --content     Filter by string based on the content response",
             "\r\t-C, --filter-content-type  Filter by Content-Type header values",
             "\r\t-P, --proxy       Send all requests through a proxy",
-            "\r\t-h, --help        See this screen"
+            "\r\t-h, --help        See this screen",
         );
 
         print join("\n", @help_lines) . "\n\n";

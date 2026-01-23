@@ -20,14 +20,13 @@ package Engine::FuzzerThread::MessageBuilder {
         if (!$options{json}) {
             $builder = sub {
                 my ($result) = @_;
-                return sprintf(
+                return sprintf
                     'Code: %d | URL: %s | Method: %s | Response: %s | Length: %s',
                     $result -> {Code},
                     $result -> {URL},
                     $result -> {Method},
                     $result -> {Response} || q{?},
-                    $result -> {Length}
-                );
+                    $result -> {Length};
             };
         }
 
