@@ -25,7 +25,7 @@ ok(
 );
 
 ok(
-    !Functions::ContentTypeFilter::content_type_matches("", \@filters),
+    !Functions::ContentTypeFilter::content_type_matches(q{}, \@filters),
     "does not match empty content type"
 );
 
@@ -34,7 +34,7 @@ ok(
     "does not match when filters are missing"
 );
 
-my @filters_with_empty = ("", "application/xml");
+my @filters_with_empty = (q{}, "application/xml");
 
 ok(
     Functions::ContentTypeFilter::content_type_matches("application/xml; charset=UTF-8", \@filters_with_empty),

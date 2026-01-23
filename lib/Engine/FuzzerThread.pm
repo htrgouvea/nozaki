@@ -12,8 +12,8 @@ package Engine::FuzzerThread {
         my ($self, %options) = @_;
 
         my @verbs         = split /,/x, $options{methods};
-        my @valid_codes   = split /,/x, $options{return} || "";
-        my @invalid_codes = split /,/x, $options{exclude} || "";
+        my @valid_codes   = split /,/x, $options{return} || q{};
+        my @invalid_codes = split /,/x, $options{exclude} || q{};
 
         my %valid_code_lookup = ();
         my %invalid_code_lookup = ();
@@ -129,7 +129,7 @@ package Engine::FuzzerThread {
 
                     if (!$options{content}
                         || $result -> {Content} =~ m/$options{content}/x) {
-                        my $message = "";
+                        my $message = q{};
 
                         if ($options{json}) {
                             $message = $json_encoder -> encode($result);
