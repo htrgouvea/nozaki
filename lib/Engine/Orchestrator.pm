@@ -3,6 +3,7 @@ package Engine::Orchestrator  {
     use threads;
     use warnings;
     use Carp qw(croak);
+    use English qw(-no_match_vars);
     use Engine::FuzzerThread;
 
     our $VERSION = '0.3.1';
@@ -67,10 +68,13 @@ package Engine::Orchestrator  {
 
         for my $wordlist (@wordlists) {
             open(my $filehandle, '<', $wordlist)
-                || croak "$0: Can't open $wordlist: $!";
+                || croak "$PROGRAM_NAME: Can't open $wordlist: $!";
 
             my @lines = <$filehandle>;
-            close $filehandle;
+            my $close_ok = close $filehandle;
+            if (!$close_ok) {
+                croak "$PROGRAM_NAME: Can't close $wordlist: $!";
+            }
 
             chomp @lines;
             push @current, @lines;

@@ -56,7 +56,7 @@ package Engine::FuzzerThread {
                         accept   => $options{accept}
                     );
 
-                    unless ($result) {
+                    if (!$result) {
                         next;
                     }
 
@@ -100,7 +100,7 @@ package Engine::FuzzerThread {
                         print $message, "\n";
                     }
 
-                    sleep($options{delay});
+                    sleep $options{delay};
                     $was_found = 1;
                 }
             }
