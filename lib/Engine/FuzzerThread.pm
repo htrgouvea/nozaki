@@ -11,9 +11,9 @@ package Engine::FuzzerThread {
     sub new {
         my ($self, %options) = @_;
 
-        my @verbs         = split /,/x, $options{methods};
-        my @valid_codes   = split /,/x, $options{return} || q{};
-        my @invalid_codes = split /,/x, $options{exclude} || q{};
+        my @verbs         = split /,/xms, $options{methods};
+        my @valid_codes   = split /,/xms, $options{return} || q{};
+        my @invalid_codes = split /,/xms, $options{exclude} || q{};
 
         my %valid_code_lookup = ();
         my %invalid_code_lookup = ();
@@ -50,7 +50,7 @@ package Engine::FuzzerThread {
             my $comparator_symbol;
 
             ($comparator_symbol, $options{length_filter})
-                = $options{length_filter} =~ /([>=<]{0,2})(\d+)/x;
+                = $options{length_filter} =~ /([>=<]{0,2})(\d+)/xms;
 
             if ($comparator_symbol eq ">=") {
                 $length_comparator = sub { $_[0] >= $options{length_filter} };
@@ -128,7 +128,7 @@ package Engine::FuzzerThread {
                     }
 
                     if (!$options{content}
-                        || $result -> {Content} =~ m/$options{content}/x) {
+                        || $result -> {Content} =~ m/$options{content}/xms) {
                         my $message = q{};
 
                         if ($options{json}) {
