@@ -27,7 +27,7 @@ package Functions::ContentTypeFilter {
                 next;
             }
 
-            if ($filter eq "") {
+            if ($filter eq q{}) {
                 next;
             }
 

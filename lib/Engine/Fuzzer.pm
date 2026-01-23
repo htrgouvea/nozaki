@@ -41,7 +41,7 @@ package Engine::Fuzzer {
         my $request = $self -> {user_agent} -> build_tx(
             $options{method} => $options{endpoint} => {
                 %headers
-            } => $options{payload} || ""
+            } => $options{payload} || q{}
         );
 
         my $result = try {
@@ -50,7 +50,7 @@ package Engine::Fuzzer {
             my $content_type = $response -> headers() -> content_type();
 
             if (!$content_type) {
-                $content_type = "";
+                $content_type = q{};
             }
 
             my $response_data = {
