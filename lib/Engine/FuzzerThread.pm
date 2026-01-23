@@ -6,7 +6,7 @@ package Engine::FuzzerThread {
     use Engine::Fuzzer;
     use Functions::ContentTypeFilter;
 
-    our $VERSION = "0.3.1";
+    our $VERSION = '0.3.1';
 
     sub new {
         my ($self, %options) = @_;
@@ -52,27 +52,27 @@ package Engine::FuzzerThread {
             ($comparator_symbol, $options{length_filter})
                 = $options{length_filter} =~ /([>=<]{0,2})(\d+)/xms;
 
-            if ($comparator_symbol eq ">=") {
+            if ($comparator_symbol eq '>=') {
                 $length_comparator = sub { $_[0] >= $options{length_filter} };
             }
 
-            if ($comparator_symbol eq "<=") {
+            if ($comparator_symbol eq '<=') {
                 $length_comparator = sub { $_[0] <= $options{length_filter} };
             }
 
-            if ($comparator_symbol eq "<>") {
+            if ($comparator_symbol eq '<>') {
                 $length_comparator = sub { $_[0] != $options{length_filter} };
             }
 
-            if ($comparator_symbol eq ">") {
+            if ($comparator_symbol eq '>') {
                 $length_comparator = sub { $_[0] > $options{length_filter} };
             }
 
-            if ($comparator_symbol eq "<") {
+            if ($comparator_symbol eq '<') {
                 $length_comparator = sub { $_[0] < $options{length_filter} };
             }
 
-            if (!$comparator_symbol || $comparator_symbol eq "=") {
+            if (!$comparator_symbol || $comparator_symbol eq '=') {
                 $length_comparator = sub { $_[0] == $options{length_filter} };
             }
         }
@@ -137,11 +137,11 @@ package Engine::FuzzerThread {
 
                         if (!$options{json}) {
                             $message = sprintf(
-                                "Code: %d | URL: %s | Method: %s | Response: %s | Length: %s",
+                                'Code: %d | URL: %s | Method: %s | Response: %s | Length: %s',
                                 $status,
                                 $result -> {URL},
                                 $result -> {Method},
-                                $result -> {Response} || "?",
+                                $result -> {Response} || '?',
                                 $result -> {Length}
                             );
                         }

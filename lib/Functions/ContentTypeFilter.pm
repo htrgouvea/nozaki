@@ -2,7 +2,7 @@ package Functions::ContentTypeFilter {
     use strict;
     use warnings;
 
-    our $VERSION = "0.3.1";
+    our $VERSION = '0.3.1';
 
     sub content_type_matches {
         my ($content_type, $filters) = @_;
