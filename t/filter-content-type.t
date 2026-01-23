@@ -1,3 +1,5 @@
+package main;
+
 use strict;
 use warnings;
 use Test::More tests => 6;
@@ -36,3 +38,5 @@ ok(
     Functions::ContentTypeFilter::content_type_matches("application/xml; charset=UTF-8", \@filters_with_empty),
     "matches when one valid filter is present"
 );
+
+1;

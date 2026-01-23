@@ -12,25 +12,16 @@ package Engine::Orchestrator  {
 
         for (1 .. $number) {
             if (@{$list} <= 0) {
-                return;
+                $wordlist_queue -> end();
+                return 0;
             }
 
-            if (eof($list -> [0])) {
-                close shift @{$list};
-
-                if (@{$list} <= 0) {
-                    $wordlist_queue -> end();
-                }
-
-                next;
-            }
-
-            my $filehandle = $list -> [0];
-
-            chomp(my $line = <$filehandle>);
+            my $line = shift @{$list};
 
             $wordlist_queue -> enqueue($line);
         }
+
+        return 1;
     }
 
     sub add_target {
@@ -45,6 +36,8 @@ package Engine::Orchestrator  {
 
             push @targets_queue, $target;
         }
+
+        return 1;
     }
 
     sub run_fuzzer {
@@ -59,22 +52,33 @@ package Engine::Orchestrator  {
 
             $self -> threaded_fuzz($target, %options);
         }
+
+        return 0;
     }
 
     sub threaded_fuzz {
         my ($self, $target, %options) = @_;
 
-        my @current = map {
-            open(my $filehandle, "<$_") || die "$0: Can't open $_: $!";
+        my @current = ();
+        my @wordlists = glob($options{wordlist});
 
-            $filehandle
-        } glob($options{wordlist});
+        for my $wordlist (@wordlists) {
+            open(my $filehandle, "<", $wordlist) or die "$0: Can't open $wordlist: $!";
+
+            my @lines = <$filehandle>;
+
+            close $filehandle;
+
+            chomp @lines;
+
+            push @current, @lines;
+        }
 
         $wordlist_queue = Thread::Queue -> new();
 
-        use constant CONCURRENT_TASKS => 10;
+        my $concurrent_tasks = 10;
 
-        fill_queue(\@current, CONCURRENT_TASKS * $options{tasks});
+        fill_queue(\@current, $concurrent_tasks * $options{tasks});
 
         for (1 .. $options{tasks}) {
             Engine::FuzzerThread -> new (

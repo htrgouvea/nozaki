@@ -14,10 +14,12 @@ package Engine::Fuzzer {
             $user_agent -> proxy -> https($proxy);
         }
 
-        bless {
+        my $instance = bless {
             user_agent => $user_agent,
             headers    => $headers
         }, $self;
+
+        return $instance;
     }
 
     sub request {
@@ -55,6 +57,8 @@ package Engine::Fuzzer {
         catch {
             return 0;
         }
+
+        return 0;
     }
 }
 
