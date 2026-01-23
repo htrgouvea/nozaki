@@ -12,9 +12,24 @@ package Engine::FuzzerThread {
             $payload, $json, $delay, $exclude, $skipssl, $length_filter, $content, $content_type_filter, $proxy
         ) = @_;
 
-        my @verbs         = split (/,/x, $methods);
+        my @verbs         = split /,/x, $methods;
         my @valid_codes   = split /,/x, $return || "";
         my @invalid_codes = split /,/x, $exclude || "";
+
+        my %valid_code_lookup = ();
+        my %invalid_code_lookup = ();
+
+        for my $code (@valid_codes) {
+            if (length $code) {
+                $valid_code_lookup{$code} = 1;
+            }
+        }
+
+        for my $code (@invalid_codes) {
+            if (length $code) {
+                $invalid_code_lookup{$code} = 1;
+            }
+        }
 
         my $fuzzer = Engine::Fuzzer -> new($timeout, $headers, $skipssl, $proxy);
         my $json_encoder = JSON -> new() -> allow_nonref();
@@ -71,7 +86,17 @@ package Engine::FuzzerThread {
 
                     my $status = $result -> {Code};
 
-                    if (grep(/^$status$/x, @invalid_codes) || ($return && !grep(/^$status$/x, @valid_codes))) {
+                    my $is_invalid = 0;
+
+                    if ($invalid_code_lookup{$status}) {
+                        $is_invalid = 1;
+                    }
+
+                    if ($return && !$valid_code_lookup{$status}) {
+                        $is_invalid = 1;
+                    }
+
+                    if ($is_invalid) {
                         next;
                     }
 
