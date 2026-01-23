@@ -4,48 +4,48 @@ use strict;
 use threads;
 use warnings;
 use Thread::Queue;
-use Find::Lib "./lib";
+use Find::Lib './lib';
 use Functions::Helper;
 use Functions::Parser;
 use Engine::Orchestrator;
 use Getopt::Long qw(:config no_ignore_case);
 
-our $VERSION = "0.3.1";
+our $VERSION = '0.3.1';
 
 sub main {
     my ($workflow_path, @targets);
 
     my %fuzzer_options = (
-        accept   => "*/*",
-        wordlist => "wordlists/default.txt",
-        method   => "GET,POST,PUT,DELETE,HEAD,OPTIONS,PATCH,PUSH",
+        accept   => '*/*',
+        wordlist => 'wordlists/default.txt',
+        method   => 'GET,POST,PUT,DELETE,HEAD,OPTIONS,PATCH,PUSH',
         headers  => {},
         timeout  => 10,
-        agent    => "Nozaki / 0.3.1",
+        agent    => 'Nozaki / 0.3.1',
         tasks    => 35,
         delay    => 0
     );
 
     Getopt::Long::GetOptions (
-        "A|accept=s"              => \$fuzzer_options{accept},
-        "a|agent=s"               => \$fuzzer_options{agent},
-        "c|content=s"             => \$fuzzer_options{content},
-        "d|delay=i"               => \$fuzzer_options{delay},
-        "e|exclude=s"             => \$fuzzer_options{exclude},
-        "H|header=s%"             => \$fuzzer_options{headers},
-        "w|wordlist=s"            => \$fuzzer_options{wordlist},
-        "W|workflow=s"            => \$workflow_path,
-        "m|method=s"              => \$fuzzer_options{method},
-        "r|return=s"              => \$fuzzer_options{return},
-        "p|payload=s"             => \$fuzzer_options{payload},
-        "j|json"                  => \$fuzzer_options{json},
-        "S|skip-ssl"              => \$fuzzer_options{skipssl},
-        "T|tasks=i"               => \$fuzzer_options{tasks},
-        "t|timeout=i"             => \$fuzzer_options{timeout},
-        "u|url=s@"                => \@targets,
-        "l|length=s"              => \$fuzzer_options{length},
-        "C|filter-content-type=s" => \$fuzzer_options{content_type},
-        "P|proxy=s"               => \$fuzzer_options{proxy}
+        'A|accept=s'              => \$fuzzer_options{accept},
+        'a|agent=s'               => \$fuzzer_options{agent},
+        'c|content=s'             => \$fuzzer_options{content},
+        'd|delay=i'               => \$fuzzer_options{delay},
+        'e|exclude=s'             => \$fuzzer_options{exclude},
+        'H|header=s%'             => \$fuzzer_options{headers},
+        'w|wordlist=s'            => \$fuzzer_options{wordlist},
+        'W|workflow=s'            => \$workflow_path,
+        'm|method=s'              => \$fuzzer_options{method},
+        'r|return=s'              => \$fuzzer_options{return},
+        'p|payload=s'             => \$fuzzer_options{payload},
+        'j|json'                  => \$fuzzer_options{json},
+        'S|skip-ssl'              => \$fuzzer_options{skipssl},
+        'T|tasks=i'               => \$fuzzer_options{tasks},
+        't|timeout=i'             => \$fuzzer_options{timeout},
+        'u|url=s@'                => \@targets,
+        'l|length=s'              => \$fuzzer_options{length},
+        'C|filter-content-type=s' => \$fuzzer_options{content_type},
+        'P|proxy=s'               => \$fuzzer_options{proxy}
     );
 
     if (!@targets) {

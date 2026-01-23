@@ -4,7 +4,7 @@ package Engine::Fuzzer {
     use Try::Tiny;
     use Mojo::UserAgent;
 
-    our $VERSION = "0.3.1";
+    our $VERSION = '0.3.1';
 
     sub new {
         my ($self, %options) = @_;
@@ -30,7 +30,7 @@ package Engine::Fuzzer {
         my ($self, %options) = @_;
 
         my %headers = (
-            "User-Agent" => $options{agent},
+            'User-Agent' => $options{agent},
             %{$self -> {headers}}
         );
 
@@ -54,13 +54,13 @@ package Engine::Fuzzer {
             }
 
             my $response_data = {
-                "Method"   => $options{method},
-                "URL"      => $options{endpoint},
-                "Code"     => $response -> code(),
-                "Response" => $response -> message(),
-                "Content"  => $response -> body(),
-                "Length"   => $response -> headers() -> content_length() || "0",
-                "ContentType" => $content_type
+                'Method'      => $options{method},
+                'URL'         => $options{endpoint},
+                'Code'        => $response -> code(),
+                'Response'    => $response -> message(),
+                'Content'     => $response -> body(),
+                'Length'      => $response -> headers() -> content_length() || '0',
+                'ContentType' => $content_type
             };
 
             return $response_data;

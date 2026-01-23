@@ -5,7 +5,7 @@ package Engine::Orchestrator  {
     use Carp qw(croak);
     use Engine::FuzzerThread;
 
-    our $VERSION = "0.3.1";
+    our $VERSION = '0.3.1';
 
     my $wordlist_queue;
     my @targets_queue :shared;
@@ -32,7 +32,7 @@ package Engine::Orchestrator  {
 
         for my $target (@targets) {
             if ($target !~ /\/$/xms) {
-                $target .= "/";
+                $target .= '/';
             }
 
             lock(@targets_queue);
@@ -66,7 +66,7 @@ package Engine::Orchestrator  {
         my @wordlists = split /,/xms, $options{wordlist};
 
         for my $wordlist (@wordlists) {
-            open(my $filehandle, "<", $wordlist)
+            open(my $filehandle, '<', $wordlist)
                 || croak "$0: Can't open $wordlist: $!";
 
             my @lines = <$filehandle>;

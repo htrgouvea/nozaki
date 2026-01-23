@@ -2,7 +2,7 @@ package Functions::Helper {
 	use strict;
 	use warnings;
 
-	our $VERSION = "0.3.1";
+	our $VERSION = '0.3.1';
 
 	sub new {
         print "
