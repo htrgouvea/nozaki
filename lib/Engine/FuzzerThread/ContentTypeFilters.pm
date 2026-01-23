@@ -2,6 +2,8 @@ package Engine::FuzzerThread::ContentTypeFilters {
     use strict;
     use warnings;
 
+    our $VERSION = '0.0.0';
+
     sub new {
         my ($class, %options) = @_;
         my @content_type_filters = ();
