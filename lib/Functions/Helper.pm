@@ -2,6 +2,8 @@ package Functions::Helper {
 	use strict;
 	use warnings;
 
+	our $VERSION = "0.3.1";
+
 	sub new {
         print "
             \rNozaki v0.3.1

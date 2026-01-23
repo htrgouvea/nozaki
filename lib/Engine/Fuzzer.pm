@@ -4,6 +4,8 @@ package Engine::Fuzzer {
     use Try::Tiny;
     use Mojo::UserAgent;
 
+    our $VERSION = "0.3.1";
+
     sub new {
         my ($self, %options) = @_;
 

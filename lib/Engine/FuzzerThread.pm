@@ -6,6 +6,8 @@ package Engine::FuzzerThread {
     use Engine::Fuzzer;
     use Functions::ContentTypeFilter;
 
+    our $VERSION = "0.3.1";
+
     sub new {
         my ($self, %options) = @_;
 

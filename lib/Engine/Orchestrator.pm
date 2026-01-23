@@ -5,6 +5,8 @@ package Engine::Orchestrator  {
     use Carp qw(croak);
     use Engine::FuzzerThread;
 
+    our $VERSION = "0.3.1";
+
     my $wordlist_queue;
     my @targets_queue :shared;
 

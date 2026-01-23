@@ -2,6 +2,8 @@ package Plugins::Seeds::Sitemap {
     use strict;
     use warnings;
 
+    our $VERSION = "0.3.1";
+
     sub new {
         my ($self, @params) = @_;
 
