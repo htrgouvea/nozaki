@@ -5,6 +5,7 @@ package Engine::Orchestrator  {
     use Carp qw(croak);
     use English qw(-no_match_vars);
     use Engine::FuzzerThread;
+    use constant CONCURRENT_TASKS => 10;
 
     our $VERSION = '0.3.1';
 
@@ -82,7 +83,7 @@ package Engine::Orchestrator  {
 
         $wordlist_queue = Thread::Queue -> new();
 
-        my $concurrent_tasks = 10;
+        my $concurrent_tasks = CONCURRENT_TASKS;
 
         fill_queue(\@current, $concurrent_tasks * $options{tasks});
 
