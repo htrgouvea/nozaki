@@ -55,7 +55,7 @@ sub main {
     if ($workflow_path) {
         my $rules = Functions::Parser -> new($workflow_path);
 
-        for my $rule (@$rules) {
+        for my $rule (@{$rules}) {
             my %workflow_options = %fuzzer_options;
 
             Engine::Orchestrator::add_target(@targets);

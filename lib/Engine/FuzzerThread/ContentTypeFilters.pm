@@ -9,7 +9,7 @@ package Engine::FuzzerThread::ContentTypeFilters {
         my @content_type_filters = ();
 
         if ($options{content_type_filter}) {
-            @content_type_filters = split /,/x, $options{content_type_filter};
+            @content_type_filters = split /,/xsm, $options{content_type_filter};
         }
 
         my $self = {
