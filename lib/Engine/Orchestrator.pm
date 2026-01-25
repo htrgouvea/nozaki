@@ -68,12 +68,12 @@ package Engine::Orchestrator  {
 
         for my $wordlist (@wordlists) {
             open(my $filehandle, '<', $wordlist)
-                || croak "$PROGRAM_NAME: Can't open $wordlist: $!";
+                || croak "$PROGRAM_NAME: Can't open $wordlist: $OS_ERROR";
 
             my @lines = <$filehandle>;
             my $close_ok = close $filehandle;
             if (!$close_ok) {
-                croak "$PROGRAM_NAME: Can't close $wordlist: $!";
+                croak "$PROGRAM_NAME: Can't close $wordlist: $OS_ERROR";
             }
 
             chomp @lines;
