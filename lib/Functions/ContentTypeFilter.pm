@@ -19,6 +19,10 @@ package Functions::ContentTypeFilter {
             return 0;
         }
 
+        if (ref $filters ne 'ARRAY') {
+            return 0;
+        }
+
         my $normalized_content_type = lc $content_type;
         my $match = 0;
 
