@@ -100,6 +100,8 @@ package Engine::Orchestrator  {
                 $options{length},
                 $options{content},
                 $options{proxy},
+                $options{report_to},
+                $options{report_format},
                 \&add_target,
                 ($options{domaincycle} ? \@targets_for_cycle : undef),
                 ($options{domaincycle} ? \$cycle_counter : undef)
