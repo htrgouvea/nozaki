@@ -1,3 +1,5 @@
+package main;
+
 use strict;
 use warnings;
 use threads;
@@ -5,6 +7,7 @@ use threads::shared;
 use Test::More;
 use Test::MockModule;
 use Thread::Queue;
+use Time::HiRes qw(sleep);
 
 use lib '../lib/';
 use Engine::FuzzerThread;
@@ -23,7 +26,7 @@ $mock_ua->redefine(
             },
             proxy => sub {
                 return bless {
-                    http => sub { return shift },
+                    http  => sub { return shift },
                     https => sub { return shift },
                 }, 'Mojo::UserAgent::Proxy';
             },
@@ -59,7 +62,7 @@ sub wait_for_report_sent {
     my $elapsed = 0;
     while ($elapsed < $timeout * 10) {
         return 1 if $report_sent > 0;
-        select(undef, undef, undef, 0.1);
+        sleep 0.1;
         $elapsed++;
     }
     return 0;
@@ -67,12 +70,24 @@ sub wait_for_report_sent {
 
 $report_sent = 0;
 Engine::FuzzerThread->new(
-    $queue,
-    'http://target',
-    'GET',
-    'Agent',
-    {}, '*/*', 5, '200', undef, 0, 0, undef, 0, undef, undef,
-    undef, 'http://proxy', 'json'
+    queue         => $queue,
+    target        => 'http://target',
+    methods       => 'GET',
+    agent         => 'Agent',
+    headers       => {},
+    accept        => '*/*',
+    timeout       => 5,
+    return        => '200',
+    payload       => undef,
+    json          => 0,
+    delay         => 0,
+    exclude       => undef,
+    skipssl       => 0,
+    length        => undef,
+    content       => undef,
+    proxy         => undef,
+    report_to     => 'http://proxy',
+    report_format => 'json',
 );
 ok(wait_for_report_sent(), 'Report was sent when return code matched');
 
@@ -91,13 +106,27 @@ $mock_fuzzer->redefine(
 $queue = Thread::Queue->new('/404');
 $report_sent = 0;
 Engine::FuzzerThread->new(
-    $queue,
-    'http://target',
-    'GET',
-    'Agent',
-    {}, '*/*', 5, '200', undef, 0, 0, undef, 0, undef, undef,
-    undef, 'http://proxy', 'json'
+    queue         => $queue,
+    target        => 'http://target',
+    methods       => 'GET',
+    agent         => 'Agent',
+    headers       => {},
+    accept        => '*/*',
+    timeout       => 5,
+    return        => '200',
+    payload       => undef,
+    json          => 0,
+    delay         => 0,
+    exclude       => undef,
+    skipssl       => 0,
+    length        => undef,
+    content       => undef,
+    proxy         => undef,
+    report_to     => 'http://proxy',
+    report_format => 'json',
 );
 ok(!wait_for_report_sent(2), 'Report was not sent when return code mismatched');
 
 done_testing();
+
+1;

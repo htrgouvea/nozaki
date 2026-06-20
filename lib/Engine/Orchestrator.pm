@@ -2,47 +2,44 @@ package Engine::Orchestrator  {
     use strict;
     use threads;
     use warnings;
+    use Carp qw(croak);
     use Engine::FuzzerThread;
 
     our $VERSION = '0.0.1';
 
+    my $CONCURRENT_TASKS = 10;
     my $wordlist_queue;
-    my @targets_queue :shared;
+    my @targets_queue    :shared;
     my @targets_for_cycle :shared;
-    my $cycle_counter :shared = 0;
+    my $cycle_counter    :shared = 0;
 
     sub fill_queue {
-        my ($list, $number) = @_;
+        my ($lines, $number) = @_;
 
         for (1 .. $number) {
-            return unless (@{$list} > 0);
-
-            if (eof($list -> [0])) {
-                close shift @{$list};
-
-                (@{$list} > 0) || $wordlist_queue -> end();
-
-                next
+            if (@{$lines} == 0) {
+                $wordlist_queue -> end();
+                return;
             }
 
-            my $filehandle = $list -> [0];
-
-            chomp(my $line = <$filehandle>);
-
-            $wordlist_queue -> enqueue($line);
+            $wordlist_queue -> enqueue(shift @{$lines});
         }
+
+        return;
     }
 
     sub add_target {
         my (@targets) = @_;
 
         for my $target (@targets) {
-            $target .= '/' unless $target =~ /\/$/x;
+            $target .= '/' if $target !~ /\/$/x;
 
             lock(@targets_queue);
 
             push @targets_queue, $target;
         }
+
+        return 1;
     }
 
     sub run_fuzzer {
@@ -65,54 +62,58 @@ package Engine::Orchestrator  {
 
             $self -> threaded_fuzz($target, %options);
         }
+
+        return 0;
     }
 
     sub threaded_fuzz {
         my ($self, $target, %options) = @_;
 
-        my @current = map {
-            open(my $filehandle, '<', $_) || die "$0: Can't open $_: $!";
-
-            $filehandle
-        } glob($options{wordlist});
+        my @lines;
+        for my $filename (glob($options{wordlist})) {
+            open(my $filehandle, '<', $filename)
+                or croak "$0: Can't open $filename: $!";
+            push @lines, <$filehandle>;
+            close $filehandle;
+        }
+        chomp @lines;
 
         $wordlist_queue = Thread::Queue -> new();
 
-        use constant CONCURRENT_TASKS => 10;
-
-        fill_queue(\@current, CONCURRENT_TASKS * $options{tasks});
+        fill_queue(\@lines, $CONCURRENT_TASKS * $options{tasks});
 
         for (1 .. $options{tasks}) {
-            Engine::FuzzerThread -> new (
-                $wordlist_queue,
-                $target,
-                $options{method},
-                $options{agent},
-                $options{headers},
-                $options{accept},
-                $options{timeout},
-                $options{return},
-                $options{payload},
-                $options{json},
-                $options{delay},
-                $options{exclude},
-                $options{skipssl},
-                $options{length},
-                $options{content},
-                $options{proxy},
-                $options{report_to},
-                $options{report_format},
-                \&add_target,
-                ($options{domaincycle} ? \@targets_for_cycle : undef),
-                ($options{domaincycle} ? \$cycle_counter : undef)
+            Engine::FuzzerThread -> new(
+                queue         => $wordlist_queue,
+                target        => $target,
+                methods       => $options{method},
+                agent         => $options{agent},
+                headers       => $options{headers},
+                accept        => $options{accept},
+                timeout       => $options{timeout},
+                return        => $options{return},
+                payload       => $options{payload},
+                json          => $options{json},
+                delay         => $options{delay},
+                exclude       => $options{exclude},
+                skipssl       => $options{skipssl},
+                length        => $options{length},
+                content       => $options{content},
+                proxy         => $options{proxy},
+                report_to     => $options{report_to},
+                report_format => $options{report_format},
+                targets_cycle => ($options{domaincycle} ? \@targets_for_cycle : undef),
+                counter       => ($options{domaincycle} ? \$cycle_counter : undef),
             );
         }
 
         while (threads -> list(threads::running) > 0) {
-            fill_queue(\@current, $options{tasks});
+            fill_queue(\@lines, $options{tasks});
         }
 
-        map { $_ -> join() } threads -> list(threads::all);
+        for my $thread (threads -> list(threads::all)) {
+            $thread -> join();
+        }
 
         return 0;
     }
