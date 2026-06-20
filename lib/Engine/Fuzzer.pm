@@ -16,7 +16,7 @@ package Engine::Fuzzer {
             $userAgent -> proxy -> https($proxy);
         }
 
-        bless {
+        return bless {
             useragent => $userAgent,
             headers   => $headers
         }, $self;
@@ -34,10 +34,10 @@ package Engine::Fuzzer {
             $method => $endpoint => $headers => ($payload || q())
         );
 
-        try {
-            my $response  = $self -> {useragent} -> start($request) -> result();
+        my $result = try {
+            my $response = $self -> {useragent} -> start($request) -> result();
 
-            my $result = {
+            return {
                 'Method'   => $method,
                 'URL'      => $endpoint,
                 'Code'     => $response -> code(),
@@ -45,13 +45,12 @@ package Engine::Fuzzer {
                 'Content'  => $response -> body(),
                 'Length'   => $response -> headers() -> content_length() || '0'
             };
-
-            return $result;
         }
-
         catch {
             return 0;
-        }
+        };
+
+        return $result;
     }
 }
 
